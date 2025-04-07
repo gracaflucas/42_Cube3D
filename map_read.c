@@ -1,0 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_read.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 12:26:54 by lufiguei          #+#    #+#             */
+/*   Updated: 2025/04/07 12:28:59 by lufiguei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+
+static int	is_double_newline(char *buffer)
+{
+	int	i;
+
+	i = -1;
+	while (buffer[++i])
+		if (buffer[i] == '\n')
+			if (buffer[i + 1] != '\0' && buffer[i + 1] == '\n')
+				return (2);
+	return (0);
+}
+
+static int	loadmap(int fd, char **buffer)
+{
+	char	*line;
+	char	*tmp;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		tmp = *buffer;
+		*buffer = ft_strjoin(*buffer, line);
+		free(tmp);
+		free(line);
+		if (*buffer == NULL)
+		{
+			close (fd);
+			return (ft_printf("Error\nMemory allocation failed.\n"));
+		}
+	}
+	return (0);
+}
+
+int	readmap(char *argv, t_data *game)
+{
+	int		fd;
+	char	*buffer;
+
+	buffer = ft_strdup("");
+	if (buffer == NULL)
+		return (ft_printf("Error\nMemory allocation failed.\n"));
+	fd = open(argv, O_RDONLY);
+	if (fd == -1)
+	{
+		free(buffer);
+		return (ft_printf("Error\nCouldnt open file.\n"));
+	}
+	if (loadmap(fd, &buffer))
+	{
+		close(fd);
+		return (ft_printf("Error\nLoading map failed.\n"));
+	}
+	close(fd);
+	if (is_double_newline(buffer) == 2)
+		return (free(buffer), ft_printf("Error\nmap contains empty line.\n"));
+	game->map = ft_split(buffer, '\n');
+	free(buffer);
+	if (game->map == NULL)
+		return (ft_printf("Error\nMap Split failed.\n"));
+	return (0);
+}
