@@ -6,11 +6,11 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:26:54 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/07 12:28:59 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/07 13:12:08 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 static int	is_double_newline(char *buffer)
 {
@@ -41,7 +41,7 @@ static int	loadmap(int fd, char **buffer)
 		if (*buffer == NULL)
 		{
 			close (fd);
-			return (ft_printf("Error\nMemory allocation failed.\n"));
+			return (printf("Error\nMemory allocation failed.\n"));
 		}
 	}
 	return (0);
@@ -54,24 +54,24 @@ int	readmap(char *argv, t_data *game)
 
 	buffer = ft_strdup("");
 	if (buffer == NULL)
-		return (ft_printf("Error\nMemory allocation failed.\n"));
+		return (printf("Error\nMemory allocation failed.\n"));
 	fd = open(argv, O_RDONLY);
 	if (fd == -1)
 	{
 		free(buffer);
-		return (ft_printf("Error\nCouldnt open file.\n"));
+		return (printf("Error\nCouldnt open file.\n"));
 	}
 	if (loadmap(fd, &buffer))
 	{
 		close(fd);
-		return (ft_printf("Error\nLoading map failed.\n"));
+		return (printf("Error\nLoading map failed.\n"));
 	}
 	close(fd);
 	if (is_double_newline(buffer) == 2)
-		return (free(buffer), ft_printf("Error\nmap contains empty line.\n"));
+		return (free(buffer), printf("Error\nmap contains empty line.\n"));
 	game->map = ft_split(buffer, '\n');
 	free(buffer);
 	if (game->map == NULL)
-		return (ft_printf("Error\nMap Split failed.\n"));
+		return (printf("Error\nMap Split failed.\n"));
 	return (0);
 }
