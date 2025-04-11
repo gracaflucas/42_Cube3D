@@ -6,11 +6,33 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/07 13:11:22 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/11 12:20:51 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+// this functions populates the height and width of the game map, but it considers it as always a rectangle ( same case as valid walls )
+// using it just for testing.
+static int	llen_calc(t_data *game)
+{
+	int	i;
+	int	line_len;
+
+	if (game->map == NULL || game->map[0] == NULL)
+		return (2);
+	i = 0;
+	line_len = ft_strlen(game->map[i]);
+	while (game->map[i] != NULL)
+	{
+		if ((int)ft_strlen(game->map[i]) != line_len)
+			return (2);
+		i++;
+	}
+	game->height = i;
+	game->width = line_len;
+	return (0);
+}
 
 static int	extention(char *str)
 {
@@ -27,28 +49,29 @@ static int	extention(char *str)
 	return (0);
 }
 
-// static int	valid_walls(t_data *game)
-// {
-// 	int	i;
+// problem, it considers the map as always being a rectangle
+static int	valid_walls(t_data *game)
+{
+	int	i;
 
-// 	i = -1;
-// 	while (++i < game->height - 1)
-// 		if (game->map[i][0] == '0')
-// 			return (2);
-// 	i = -1;
-// 	while (++i < game->height - 1)
-// 		if (game->map[i][game->width - 1] == '0')
-// 			return (2);
-// 	i = -1;
-// 	while (++i < game->width - 1)
-// 		if (game->map[0][i] == '0')
-// 			return (2);
-// 	i = -1;
-// 	while (++i < game->width)
-// 		if (game->map[game->height - 1][i] == '0')
-// 			return (2);
-// 	return (0);
-// }
+	i = -1;
+	while (++i < game->height - 1)
+		if (game->map[i][0] == '0')
+			return (2);
+	i = -1;
+	while (++i < game->height - 1)
+		if (game->map[i][game->width - 1] == '0')
+			return (2);
+	i = -1;
+	while (++i < game->width - 1)
+		if (game->map[0][i] == '0')
+			return (2);
+	i = -1;
+	while (++i < game->width)
+		if (game->map[game->height - 1][i] == '0')
+			return (2);
+	return (0);
+}
 
 static int	has_player(t_data *game)
 {
@@ -95,10 +118,12 @@ static int	char_cmp(t_data *game)
 
 int	valid_map(char *str, t_data *game)
 {
+	if (llen_calc(game) == 2)
+		return (printf("Error\nnot a valid extension.\n"));
 	if (extention(str) == 2)
 		return (printf("Error\nnot a valid extension.\n"));
-	// if (valid_walls(game) == 2)
-	// 	return (printf("Error\ninvalid walls.\n"));
+	if (valid_walls(game) == 2)
+		return (printf("Error\ninvalid walls.\n"));
 	if (has_player(game) == 2)
 		return (printf("Error\nmissing Player.\n"));
 	if (char_cmp(game) == 2)
