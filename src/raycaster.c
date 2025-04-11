@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/09 10:45:13 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/11 10:41:58 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,10 @@
  *	planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
  *
  * for arrow left, its the same, but instead use positive rot speed.
+ * 
+ * 
+ * 
+ * IMPORTANT CASES:
+ * 	max ray distance to avoid infinite loops(although this could possibly be renegated by hitting wall, and ensuring the map has a wall)
+ * 	shading?
  * */

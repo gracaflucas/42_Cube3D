@@ -32,7 +32,7 @@ LIBFT = $(LIBFTDIR)/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(MINILIBX) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(MLX) $(LDFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFTDIR) -lft $(MLX) $(LDFLAGS) -o $(NAME)
 	@printf "\r \e[1;32mcub3D\e[0m compiled successfully\n"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c ./includes/cub3D.h
