@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/04/07 13:13:45 by lufiguei         ###   ########.fr        #
+#    Updated: 2025/04/13 17:03:30 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS = $(SRCDIR)/main.c\
 	$(SRCDIR)/init.c\
 	$(SRCDIR)/map_read.c\
 	$(SRCDIR)/parsing.c\
+	$(SRCDIR)/minimap_bonus.c\
 
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 MINILIBX = minilibx-linux/libmlx_Linux.a

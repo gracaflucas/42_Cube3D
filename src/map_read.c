@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_read.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:26:54 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/11 12:37:14 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:03:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,37 +74,6 @@ int	readmap(char *argv, t_data *game)
 	if (game->map == NULL)
 		return (printf("Error\nMap Split failed.\n"));
 	return (0);
-}
-
-// a simple render for testing the ray in 2D
-// how to fix the size of player in comparison with the whole map?
-// how to walk in the map only slighly, not the whole block?
-void	render_map(t_data *game)
-{
-	int *img_data;
-	int x_offset, y_offset, bpp, size_line, endian, color, i, j;
-
-	if (!game->map_img)
-		game->map_img = mlx_new_image(game->init, game->width * 139, game->height * 139);
-	img_data = (int*)mlx_get_data_addr(game->map_img, &bpp, &size_line, &endian);
-	for (i = 0; i < game->height; i++)
-	{
-		for (j = 0; j < game->width; j++)
-		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || game->map[i][j] == 'W' || game->map[i][j] == 'E')
-				color = 0xFFFF00;
-			else if (game->map[i][j] == '0')
-				color = 0x000000;
-			else if (game->map[i][j] == '1')
-				color = 0xFFFFFF;
-			x_offset = j * 139;
-			y_offset = i * 139;
-			for (int y = 0; y < 135; y++)
-				for (int x = 0; x < 135; x++)
-					img_data[(y_offset + y) * (size_line / 4) + (x_offset + x)] = color;
-		}
-	}
-	mlx_put_image_to_window(game->init, game->window, game->map_img, 0, 0);
 }
 
 int	update_map(t_data *game, int x, int y)
