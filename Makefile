@@ -6,73 +6,71 @@
 #    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/04/18 15:25:55 by ana-lda-         ###   ########.fr        #
+#    Updated: 2025/04/18 16:25:17 by ana-lda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME     = cub3D
-CC       = cc
-CFLAGS   = -Wall -Wextra -Werror -g
-LDFLAGS  =
+GREEN = \e[0;32m
+BLUE = \e[1;034m
+RED = \e[0;31m
+MAGENTA = \033[1;35m
+ORANGE = \033[1;38;5;208m
+GREY = \033[0;37m
+CYAN = \e[1;36m
+RESET = \e[0m
 
-# ========== Directories ==========
-SRCDIR     = src
-OBJDIR     = obj
-INCLUDES   = -Iincludes -Ilib/libft -Ilib/get_next_line
-LIBFTDIR   = lib/libft
-GNTLDIR    = lib/get_next_line
-MLXDIR     = includes/minilibx-linux
+LIBFT_LIB = lib/libft/libft.a
+LIBFT_DIR = lib/libft
+MLX_FLAGS = -Lincludes/minilibx-linux -lmlx -L/usr/lib -Iincludes/minilibx-linux -lXext -lX11 -lm -lz
+MLX_DIR = includes/minilibx-linux/
+MLX = $(MLX_DIR)libmlx.a
+SRC_DIR = ./src/
+OBJ_DIR = ./objs/
+SRCS = $(SRC_DIR)/main.c \
+       $(SRC_DIR)/init.c \
+       $(SRC_DIR)/map_read.c \
+       $(SRC_DIR)/parsing.c \
+       $(SRC_DIR)/minimap_bonus.c
+OBJ = $(SRCS:.c=.o)
+OBJ := $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%, $(OBJ))
+CC = cc
+C_FLAGS = -Wall -Werror -Wextra -g -Iincludes -Ilib/libft
+NAME = cub3D
+NAME_BONUS = cub3D_bonus
 
-# ========== Libraries ==========
-LIBFT      = $(LIBFTDIR)/libft.a
-MLX_LIB    = $(MLXDIR)/libmlx.a
-MLX_FLAGS  = -L$(MLXDIR) -lmlx -lX11 -lXext -lm
+all : $(NAME)
 
-# ========== Source Files ==========
-SRCS = $(SRCDIR)/main.c \
-       $(SRCDIR)/init.c \
-       $(SRCDIR)/map_read.c \
-       $(SRCDIR)/parsing.c \
-       $(SRCDIR)/minimap_bonus.c
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(C_FLAGS) -c $< -o $@
 
-OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+$(NAME) : $(MLX) $(OBJ) $(LIBFT_LIB)
+	@echo "$(CYAN)[!]$(RESET) Working on project ... "
+	@$(CC) $(C_FLAGS) $(OBJ) $(LIBFT_LIB) $(MLX_FLAGS) -o $(NAME) > /dev/null 2>&1
+	@echo "$(GREEN)[✔] CUB3D compiled!$(RESET)"
 
-# ========== Build Targets ==========
-all: $(NAME)
+$(LIBFT_LIB) : $(LIBFT_DIR)
+	@echo "$(CYAN)[!]$(RESET) Working on LIBFT_LIB ..."
+	@make -C $(LIBFT_DIR) > /dev/null 2>&1
+	@echo "$(GREEN)[✔] LIBFT compiled!$(RESET)"
 
-$(NAME): $(LIBFT) $(MLX_LIB) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFTDIR) -lft $(MLX_FLAGS) $(LDFLAGS) -o $(NAME)
-	@printf "\e[1;32m✔ cub3D compiled successfully!\e[0m\n"
+$(MLX): $(MLX_DIR)
+	@rm -rf includes/minilibx-linux/.git
+	@make -C $(MLX_DIR) >/dev/null 2>&1
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c includes/cub3D.h
-	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(MLX_DIR):
+	@echo "$(CYAN)[!]$(RESET) Preparing minilibx ..."
+	@cd includes && git clone https://github.com/42Paris/minilibx-linux.git > /dev/null 2>&1
 
-$(LIBFT):
-	@$(MAKE) -C $(LIBFTDIR)
-
-$(MLX_LIB):
-	@if [ ! -d "$(MLXDIR)" ]; then \
-		echo "\e[1;36m[!] Cloning MiniLibX into includes...\e[0m"; \
-		cd includes && git clone https://github.com/42Paris/minilibx-linux.git > /dev/null 2>&1; \
-	fi
-	@rm -rf $(MLXDIR)/.git
-	@$(MAKE) -C $(MLXDIR)
-
-# ========== Cleaning ==========
 clean:
-	@rm -rf $(OBJDIR)
-	@$(MAKE) -C $(LIBFTDIR) clean
-	@$(MAKE) -C $(MLXDIR) clean
-	@printf "\e[1;33m* Object files removed.\e[0m\n"
+	@echo "$(CYAN)[!]$(RESET) Executing cleaning ..."
+	@make clean -C $(LIBFT_DIR) > /dev/null 2>&1
+	@echo "$(ORANGE)[✔] Cleaned!$(RESET) "
 
 fclean: clean
-	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFTDIR) fclean
-	@rm -rf $(MLXDIR)
-	@printf "\e[1;31m* Executable and MiniLibX removed.\e[0m\n"
+	@echo "$(CYAN)[!]$(RESET) Executing full cleaning..."
+	@make fclean -C $(LIBFT_DIR) > /dev/null 2>&1
+	@rm -rf $(NAME) $(MLX_DIR)
+	@echo "$(RED)[✔] Full cleaning done!$(RESET) "
 
 re: fclean all
-	@printf "\e[1;32m* Project rebuilt successfully.\e[0m\n"
-
-.PHONY: all clean fclean re
