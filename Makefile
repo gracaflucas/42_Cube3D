@@ -6,7 +6,7 @@
 #    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/04/18 16:25:17 by ana-lda-         ###   ########.fr        #
+#    Updated: 2025/04/18 20:35:23 by ana-lda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,13 @@ MLX = $(MLX_DIR)libmlx.a
 SRC_DIR = ./src/
 OBJ_DIR = ./objs/
 SRCS = $(SRC_DIR)/main.c \
-       $(SRC_DIR)/init.c \
-       $(SRC_DIR)/map_read.c \
-       $(SRC_DIR)/parsing.c \
-       $(SRC_DIR)/minimap_bonus.c
+		$(SRC_DIR)/init.c \
+		$(SRC_DIR)/map_read.c \
+		$(SRC_DIR)parsing/parsing.c \
+		$(SRC_DIR)parsing/texture.c \
+		$(SRC_DIR)parsing/map_utils.c \
+		$(SRC_DIR)free.c \
+		$(SRC_DIR)/minimap_bonus.c
 OBJ = $(SRCS:.c=.o)
 OBJ := $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%, $(OBJ))
 CC = cc
@@ -50,7 +53,6 @@ $(NAME) : $(MLX) $(OBJ) $(LIBFT_LIB)
 	@echo "$(GREEN)[✔] CUB3D compiled!$(RESET)"
 
 $(LIBFT_LIB) : $(LIBFT_DIR)
-	@echo "$(CYAN)[!]$(RESET) Working on LIBFT_LIB ..."
 	@make -C $(LIBFT_DIR) > /dev/null 2>&1
 	@echo "$(GREEN)[✔] LIBFT compiled!$(RESET)"
 
@@ -63,9 +65,9 @@ $(MLX_DIR):
 	@cd includes && git clone https://github.com/42Paris/minilibx-linux.git > /dev/null 2>&1
 
 clean:
-	@echo "$(CYAN)[!]$(RESET) Executing cleaning ..."
+	@echo "$(CYAN)[!]$(RESET) Cleaning Objects ..."
 	@make clean -C $(LIBFT_DIR) > /dev/null 2>&1
-	@echo "$(ORANGE)[✔] Cleaned!$(RESET) "
+	@echo "$(ORANGE)[✔] Objects Removed!$(RESET) "
 
 fclean: clean
 	@echo "$(CYAN)[!]$(RESET) Executing full cleaning..."
