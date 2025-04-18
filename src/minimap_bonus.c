@@ -48,22 +48,20 @@ static int	get_color(t_data *game, int i, int j)
 static void	draw_player(t_data *game, int *img_data)
 {
 	int	player_size;
-	int	center_x;
-	int	center_y;
 	int	x;
 	int y;
+	int draw_x;
+	int	draw_y;
 
 	player_size = 10;
-	center_x = (int)(game->px * 24);
-	center_y = (int)(game->py * 24);
 	y = (-player_size / 2) - 1;
 	while (++y < player_size / 2)
 	{
 		x = (-player_size / 2) - 1;
 		while (++x < player_size / 2)
 		{
-			int draw_x = center_x + x;
-			int draw_y = center_y + y;
+			draw_x = (int)(game->px * 24) + x;
+			draw_y = (int)(game->py * 24) + y;
 			if (draw_x >= 0 && draw_x < game->width * 24
 				&& draw_y >= 0 && draw_y < game->height * 24)
 				img_data[draw_y * (game->minimap.size_line / 4) + draw_x] = 0xFFFF00;
