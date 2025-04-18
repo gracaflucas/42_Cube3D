@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/13 17:20:32 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/16 23:56:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # include "libft.h"
 # include "../minilibx-linux/mlx.h"
 
-# define MOV_SPD 0.25
+# define MOVE_SPEED 0.2
+# define ROT_SPEED 0.4
 
 typedef struct s_map
 {
@@ -40,8 +41,8 @@ typedef struct s_data
 	void		*window;
 	void		*init;
 	char		**map;
-	int			px;
-	int			py;
+	double			px;
+	double			py;
 	int			player;
 	double		player_angle;
 	int			height;
@@ -56,6 +57,5 @@ void	init_struct_game(t_data *game);
 int		close_window(t_data *game);
 int		free_map(char **map);
 void	render_map(t_data *game);
-int		update_map(t_data *game, int x, int y);
 
 # endif

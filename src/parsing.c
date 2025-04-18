@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/11 12:20:51 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/16 23:38:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,18 @@ static int	valid_walls(t_data *game)
 	return (0);
 }
 
+static void get_player_angle(t_data *game, char c)
+{
+	if (c == 'N')
+		game->player_angle = -M_PI_2;
+	else if (c == 'S')
+		game->player_angle = M_PI_2;
+	else if (c == 'E')
+		game->player_angle = 0;
+	else if (c == 'W')
+		game->player_angle = M_PI;
+}
+
 static int	has_player(t_data *game)
 {
 	int	i;
@@ -87,8 +99,9 @@ static int	has_player(t_data *game)
 			if (game->map[i][j] == 'W' || game->map[i][j] == 'S'
 				|| game->map[i][j] == 'E' || game->map[i][j] == 'N')
 			{
-				game->px = i;
-				game->py = j;
+				game->px = j + 0.5;
+				game->py = i + 0.5;
+				get_player_angle(game, game->map[i][j]);
 				game->player += 1;
 			}
 		}

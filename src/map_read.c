@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:26:54 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/13 17:03:49 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/16 23:49:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,4 @@ int	readmap(char *argv, t_data *game)
 	if (game->map == NULL)
 		return (printf("Error\nMap Split failed.\n"));
 	return (0);
-}
-
-int	update_map(t_data *game, int x, int y)
-{
-	int			old_x;
-	int			old_y;
-
-	old_x = game->px;
-	old_y = game->py;
-	game->px = x;
-	game->py = y;
-	game->map[x][y] = game->player_angle;
-	game->map[old_x][old_y] = '0';
-	render_map(game);
-	return (1);
 }
