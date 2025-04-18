@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/16 23:56:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/18 15:15:25 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -21,7 +20,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include "libft.h"
-# include "../minilibx-linux/mlx.h"
+# include "minilibx-linux/mlx.h"
 
 # define MOVE_SPEED 0.2
 # define ROT_SPEED 0.4

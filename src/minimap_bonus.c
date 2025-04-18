@@ -32,6 +32,7 @@ static int	get_color(t_data *game, int i, int j)
 	int		color;
 	char	c;
 
+	color = 0xFFFFFF; // TDRL
 	c = game->map[i][j];
 	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
 	{
