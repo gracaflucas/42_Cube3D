@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/18 19:40:03 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/04/19 11:55:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+static void	init_sub_structs(t_data *game)
+{
+	game->minimap.map = NULL;
+	game->minimap.minimap = NULL;
+	game->minimap.pixel_color = 0;
+	game->minimap.size_line = 0;
+	game->minimap.x_offset = 0;
+	game->minimap.y_offset = 0;
+	game->ray.angle = 0;
+	game->ray.hit = 2;
+	game->ray.perp_dist = 0;
+	game->ray.ray_dist = 0;
+	game->ray.x = 0;
+	game->ray.y = 0;
+	game->ray.pixel_x = 0;
+	game->ray.pixel_y = 0;
+}
 
 void	init_struct_game(t_data *game)
 {
@@ -25,12 +43,7 @@ void	init_struct_game(t_data *game)
 	game->player_angle = 0;
 	game->height = 0;
 	game->width = 0;
-	game->minimap.map = NULL;
-	game->minimap.minimap = NULL;
-	game->minimap.pixel_color = 0;
-	game->minimap.size_line = 0;
-	game->minimap.x_offset = 0;
-	game->minimap.y_offset = 0;
+	init_sub_structs(game);
 }
 
 static void	destroy_images(t_data *game)

@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/19 12:39:11 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/19 12:56:20 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@
 
 // Define constants for game configuration
 # define MOVE_SPEED 0.2
-# define ROT_SPEED 0.4
-
+# define ROT_SPEED 0.1
+# define FOV (M_PI / 4)
 # define WIDTH 1240
 # define HEIGHT 840
-
-// KEY DEFINES
-//TODO
 
 // Map defines
 # define WALL '1'
@@ -38,14 +35,11 @@
 # define O_DOOR 'd'
 # define C_DOOR 'D'
 
-
 // Pi constants for angle calculations
 # define PI 3.14159265358979323846
 # define PI_2 1.57079632679489661923
 
-// Structs for handling different game elements
-
-// Map-related structs for minimap and map rendering
+// Map-related structs
 typedef struct s_map
 {
 	void	*minimap;
@@ -56,14 +50,14 @@ typedef struct s_map
 	int		pixel_color;
 }	t_map;
 
-// Coordinates struct for position tracking
+// Coordinates struct
 typedef struct s_coordinate
 {
 	double	x;
 	double	y;
 }	t_coordinate;
 
-// Image struct for storing image properties
+// Image struct
 typedef struct s_image
 {
 	void	*img;
@@ -75,43 +69,57 @@ typedef struct s_image
 	int		height;
 }	t_image;
 
-// Texture struct to store paths and image data
+// Texture struct
 typedef struct s_texture
 {
-	char	*files[4];		// Paths to textures (e.g. North, South, East, West)
-	t_image	images[5];		// Image structures for each texture
+	char	*files[4];
+	t_image	images[5];
 }	t_texture;
 
-// Color struct for storing the floor and ceiling colors and their RGB values
+// Color struct
 typedef struct s_color
 {
-	char	*floor;			// Floor color (as a string)
-	char	*ceiling;		// Ceiling color (as a string)
-	int		f_rgb[3];		// RGB values for floor
-	int		c_rgb[3];		// RGB values for ceiling
-	int		f_hex;			// Floor color in hex
-	int		c_hex;			// Ceiling color in hex
+	char	*floor;
+	char	*ceiling;
+	int		f_rgb[3];
+	int		c_rgb[3];
+	int		f_hex;
+	int		c_hex;
 }	t_color;
 
-// Main data struct for holding all game-related data
+// Ray struct
+typedef struct s_ray
+{
+	double	x;
+	double	y;
+	double	angle;
+	double	ray_dist;
+	double	perp_dist;
+	int		hit;
+	int		pixel_x;
+	int		pixel_y;
+	int		*img_data;
+}	t_ray;
+
+// Main data struct
 typedef struct s_data
 {
-	void		*window;		// Window pointer
-	void		*init;			// Init pointer for MLX
-	char		**map;			// The game map
-	char		**file;			// Full .cub file (for parsing)
-	double		px;				// Player X coordinate
-	double		py;				// Player Y coordinate
-	int			player;			// Player presence flag (used for error checking)
-	double		player_angle;	// Player's initial angle
-	int			height;			// Map height
-	int			width;			// Map width
-	t_map		minimap;		// Minimaps for display
-	t_texture	textures;		// Holds texture paths + image structs
-	t_color		colors;			// For F / C
+	void		*window;
+	void		*init;
+	char		**map;
+	char		**file;
+	double		px;
+	double		py;
+	int			player;
+	double		player_angle;
+	int			height;
+	int			width;
+	t_map		minimap;
+	t_ray		ray;
+	t_texture	textures;
+	t_color		colors;
 }	t_data;
 
-//int		readmap(char *argv, t_data *game);// Function prototypes
 /********************* INIT *********************/
 void			init_struct_game(t_data *game);
 int				close_window(t_data *game);
