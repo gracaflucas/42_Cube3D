@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/16 23:48:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/18 12:33:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static int	is_valid_move(t_data *game, double x, double y)
 
 	mx = (int)x;
 	my = (int)y;
-	if (mx < 0 || mx >= game->width || my < 0 || my >= game->height)
-		return (0);
 	if (game->map[my][mx] == '1')
 		return (0);
 	game->px = x;

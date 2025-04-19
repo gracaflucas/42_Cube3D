@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/16 23:56:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/19 11:16:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 # include "../minilibx-linux/mlx.h"
 
 # define MOVE_SPEED 0.2
-# define ROT_SPEED 0.4
+# define ROT_SPEED 0.1
+# define FOV (M_PI / 4)
 
-typedef struct s_map
+typedef struct	s_map
 {
 	void	*minimap;
 	void	*map;
@@ -36,7 +37,20 @@ typedef struct s_map
 	int		pixel_color;
 }	t_map;
 
-typedef struct s_data
+typedef struct	s_ray
+{
+	double	x;
+	double	y;
+	double	angle;
+	double	ray_dist;
+	double	perp_dist;
+	int		hit;
+	int		pixel_x;
+	int		pixel_y;
+	int		*img_data;
+}	t_ray;
+
+typedef struct	s_data
 {
 	void		*window;
 	void		*init;
@@ -48,6 +62,7 @@ typedef struct s_data
 	int			height;
 	int			width;
 	t_map		minimap;
+	t_ray		ray;
 }	t_data;
 
 int		readmap(char *argv, t_data *game);
