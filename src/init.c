@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/18 12:21:23 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/19 11:55:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,4 @@ int	close_window(t_data *game)
 	free(game->init);
 	game->init = NULL;
 	exit(0);
-}
-
-int	free_map(char **map)
-{
-	int	i;
-
-	if (map == NULL)
-		return (1);
-	i = -1;
-	while (map[++i] != NULL)
-		free(map[i]);
-	free(map);
-	return (0);
 }
