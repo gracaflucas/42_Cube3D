@@ -12,13 +12,16 @@
 
 #include "cub3D.h"
 
-
-/* Draws a single tile of the minimap based on the map character at the given coordinates.
+/* Draws a single tile of the minimap based on the map character at the given 
+	coordinates.
  * Description:
  *  The function checks the character at position (i, j) in the map.
- *  - If it is a direction character ('N', 'S', 'W', 'E'), it's treated as an empty tile ('0').
- *  - Depending on whether the tile is empty ('0') or a wall ('1'), a corresponding color is chosen.
- *  - Then, the function calculates the pixel offset on the image and draws a 23x23 pixel square
+ *  - If it is a direction character ('N', 'S', 'W', 'E'), it's treated as 
+ * 	an empty tile ('0').
+ *  - Depending on whether the tile is empty ('0') or a wall ('1'), 
+ * 	a corresponding color is chosen.
+ *  - Then, the function calculates the pixel offset on the image and draws a
+ * 	 23x23 pixel square
  *    representing that tile in the minimap.
  *
  * Tile color codes:
@@ -48,18 +51,23 @@ static void	draw_tile(t_data *game, int i, int j, int *img_data)
 	{
 		x = -1;
 		while (++x < 23)
-			img_data[(game->minimap.y_offset + y) * (game->minimap.size_line / 4)
-				+ (game->minimap.x_offset + x)] = game->minimap.pixel_color;
+			img_data[(game->minimap.y_offset + y)
+				* (game->minimap.size_line / 4) + (game->minimap.x_offset + x)]
+				= game->minimap.pixel_color;
 	}
 }
 
 /*
  * Draws the player as a small square on the minimap.
  * Description:
- *  The function draws a square (10x10 pixels) centered around the player's position on the minimap.
- *  - The player's position (game->px, game->py) is scaled to match the minimap tile size (24 pixels).
- *  - For each pixel in the square, it checks if it's within the bounds of the minimap.
- *  - If within bounds, the pixel is colored yellow (0xFFFF00) to represent the player's location.
+ *  The function draws a square (10x10 pixels) centered around the 
+ * 	player's position on the minimap.
+ *  - The player's position (game->px, game->py) is scaled to match
+ * 	 the minimap tile size (24 pixels).
+ *  - For each pixel in the square, it checks if it's within the bounds 
+ * 	of the minimap.
+ *  - If within bounds, the pixel is colored yellow (0xFFFF00) to represent 
+ * 	the player's location.
  *
  * Notes:
  *  - The player is always drawn on top of the map tiles.
@@ -68,8 +76,8 @@ static void	draw_player(t_data *game, int *img_data)
 {
 	int	player_size;
 	int	x;
-	int y;
-	int draw_x;
+	int	y;
+	int	draw_x;
 	int	draw_y;
 
 	player_size = 10;
@@ -83,20 +91,25 @@ static void	draw_player(t_data *game, int *img_data)
 			draw_y = (int)(game->py * 24) + y;
 			if (draw_x >= 0 && draw_x < game->width * 24
 				&& draw_y >= 0 && draw_y < game->height * 24)
-				img_data[draw_y * (game->minimap.size_line / 4) + draw_x] = 0xFFFF00;
+				img_data[draw_y * (game->minimap.size_line / 4) + draw_x]
+					= 0xFFFF00;
 		}
 	}
 }
 
 /*
- *	Casts a single ray from the player's position at a given angle, and draws it on the minimap.
+ *	Casts a single ray from the player's position at a given angle, 
+ 	and draws it on the minimap.
  *	Description:
- *  This function simulates raycasting from the player's position to detect walls on the map.
- *  - The ray advances in small steps (0.05 units) along the specified angle.
- *  - At each step, the ray's current map tile is checked.
- *     - If the ray hits a wall ('1'), the loop breaks.
- *  - For each step, the ray's position is converted to pixel coordinates (scaled by tile size: 24).
- *  - A green pixel (0x00FF00) is drawn at each step on the minimap to visualize the ray path.
+ * This function simulates raycasting from the player's position 
+ * to detect walls on the map.
+ * - The ray advances in small steps (0.05 units) along the specified angle.
+ * - At each step, the ray's current map tile is checked.
+ *    - If the ray hits a wall ('1'), the loop breaks.
+ * - For each step, the ray's position is converted to pixel coordinates 
+ *   (scaled by tile size: 24).
+ * - A green pixel (0x00FF00) is drawn at each step on the minimap 
+ *   to visualize the ray path.
  */
 static void	cast_ray(t_data *game, double angle)
 {
@@ -111,11 +124,11 @@ static void	cast_ray(t_data *game, double angle)
 		map_x = (int)game->ray.x;
 		map_y = (int)game->ray.y;
 		if (game->map[map_y][map_x] == '1')
-			break;
+			break ;
 		game->ray.pixel_x = game->ray.x * 24;
 		game->ray.pixel_y = game->ray.y * 24;
 		game->ray.img_data = (int *)mlx_get_data_addr(game->minimap.minimap,
-			&(int){0}, &game->minimap.size_line, &(int){0});
+				&(int){0}, &game->minimap.size_line, &(int){0});
 		game->ray.img_data[game->ray.pixel_y * (game->minimap.size_line / 4)
 			+ game->ray.pixel_x] = 0x00FF00;
 		game->ray.x += cos(game->ray.angle) * 0.05;
@@ -124,13 +137,16 @@ static void	cast_ray(t_data *game, double angle)
 }
 
 /*
- * Casts multiple rays across the player's field of view (FOV) to simulate vision.
+ * Casts multiple rays across the player's field of view (FOV)
+   to simulate vision.
  * Description:
- *  This function sweeps a series of rays across the player's current field of view.
- *  - It starts from an angle slightly to the left of the player’s direction 
+ *  This function sweeps a series of rays across the player's
+ *  current field of view.
+ *  - It starts from an angle slightly to the left of the player’s direction
  *    (player_angle - FOV / 2) and ends slightly to the right.
  *  - A total of 1080 rays are cast (1 per pixel of screen width).
- *  - Each ray is cast at a small increment of angle (step), and handled by `cast_ray()`.
+ *  - Each ray is cast at a small increment of angle (step),
+ *    and handled by `cast_ray()`.
  *
  * Notes:
  *  - This creates the visual effect of a cone-shaped field of vision.
@@ -154,15 +170,21 @@ static void	cast_fov(t_data *game)
 }
 
 /*
- * Renders the full minimap, including the map tiles, player, and field of view (FOV).
+ * Renders the full minimap, including the map tiles, player, 
+   and field of view (FOV).
  * Description:
  *  This function handles the rendering of the entire minimap each frame.
- *  - First, it destroys the previous minimap image if it exists to prevent memory leaks.
- *  - Then, it creates a new image buffer sized to the map dimensions (scaled by 24 pixels per tile).
- *  - For each map tile, `draw_tile()` is called to draw the appropriate square on the minimap.
- *  - After the tiles, `draw_player()` draws the player at their current position.
+ *  - First, it destroys the previous minimap image if it exists 
+ *    to prevent memory leaks.
+ *  - Then, it creates a new image buffer sized to the map dimensions 
+ *    (scaled by 24 pixels per tile).
+ *  - For each map tile, `draw_tile()` is called to draw the appropriate 
+ *    square on the minimap.
+ *  - After the tiles, `draw_player()` draws the player 
+ *    at their current position.
  *  - Then, `cast_fov()` draws rays from the player across their field of view.
- *  - Finally, the completed minimap image is pushed to the game window using `mlx_put_image_to_window()`.
+ *  - Finally, the completed minimap image is pushed to the game window 
+ *    using `mlx_put_image_to_window()`.
  *
  * Notes:
  *  - Tile size is fixed at 24x24 pixels.
@@ -176,8 +198,10 @@ void	render_map(t_data *game)
 	i = -1;
 	if (game->minimap.minimap)
 		mlx_destroy_image(game->init, game->minimap.minimap);
-	game->minimap.minimap = mlx_new_image(game->init, game->width * 24, game->height * 24);
-	img_data = (int*)mlx_get_data_addr(game->minimap.minimap, &j, &game->minimap.size_line, &j);
+	game->minimap.minimap = mlx_new_image(game->init, game->width * 24,
+			game->height * 24);
+	img_data = (int *)mlx_get_data_addr(game->minimap.minimap, &j,
+			&game->minimap.size_line, &j);
 	while (++i < game->height)
 	{
 		j = -1;
@@ -186,5 +210,6 @@ void	render_map(t_data *game)
 	}
 	draw_player(game, img_data);
 	cast_fov(game);
-	mlx_put_image_to_window(game->init, game->window, game->minimap.minimap, 0, 0);
+	mlx_put_image_to_window(game->init, game->window,
+		game->minimap.minimap, 0, 0);
 }
