@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/19 12:02:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/19 12:05:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void			init_struct_game(t_data *game);
 int				close_window(t_data *game);
 
 /********************* ERROR HANDLING *********************/
-void			error_handler(t_data *data, const char *msg);
+void			error_handler(t_data *data, char *msg);
 
 /********************* TEXTURE AND COLOR *********************/
 int				init_texture_color_names(t_data *data);
