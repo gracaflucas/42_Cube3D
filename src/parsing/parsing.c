@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/18 20:07:15 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:59:57 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,10 +235,10 @@ int	count_file_lines(char *file)
 
 void	fill_recursive(char **map, int y, int x)
 {
-    if (!map || y < 0 || x < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
-    return ;
+	if (!map || y < 0 || x < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
+	return ;
 	if (map[y][x] == '1' || map[y][x] == 'F' || map[y][x] == ' ')
-    return ;
+	return ;
 	map[y][x] = 'F';
 	fill_recursive(map, y + 1, x);
 	fill_recursive(map, y - 1, x);
@@ -248,42 +248,42 @@ void	fill_recursive(char **map, int y, int x)
 
 char	**duplicate_map(char **src, int height)
 {
-    char	**copy;
+	char	**copy;
 	int		i;
-    
+
 	copy = ft_calloc(height + 1, sizeof(char *));
 	if (!copy)
-    return (NULL);
+	return (NULL);
 	i = -1;
 	while (++i < height)
 	{
-        copy[i] = ft_strdup(src[i]);
+		copy[i] = ft_strdup(src[i]);
 		if (!copy[i])
-        return (free_matrix(copy), NULL);
+		return (free_matrix(copy), NULL);
 	}
 	return (copy);
 }
 
 int	flood_fill(t_data *game, int y, int x)
 {
-    char	**copy;
-    int		i;
+	char	**copy;
+	int		i;
 
-    copy = duplicate_map(game->map, game->height);
-    if (!copy)
-        return (0);
-    fill_recursive(copy, y, x);
-    i = -1;
-    while (++i < game->height)
-    {
-        if (ft_strchr(copy[i], '0') || ft_strchr(copy[i], 'N')
-            || ft_strchr(copy[i], 'S') || ft_strchr(copy[i], 'E')
-            || ft_strchr(copy[i], 'W'))
-        {
-            free_matrix(copy);
-            return (0);
-        }
-    }
-    free_matrix(copy);
-    return (1);
+	copy = duplicate_map(game->map, game->height);
+	if (!copy)
+		return (0);
+	fill_recursive(copy, y, x);
+	i = -1;
+	while (++i < game->height)
+	{
+		if (ft_strchr(copy[i], '0') || ft_strchr(copy[i], 'N')
+			|| ft_strchr(copy[i], 'S') || ft_strchr(copy[i], 'E')	
+			|| ft_strchr(copy[i], 'W'))
+		{
+			free_matrix(copy);
+			return (0);
+		}
+	}
+	free_matrix(copy);
+	return (1);
 }
