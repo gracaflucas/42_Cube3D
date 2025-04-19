@@ -6,7 +6,7 @@
 #    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/04/18 20:35:23 by ana-lda-         ###   ########.fr        #
+#    Updated: 2025/04/19 15:16:12 by ana-lda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,13 +66,15 @@ $(MLX_DIR):
 
 clean:
 	@echo "$(CYAN)[!]$(RESET) Cleaning Objects ..."
+	@rm -rf $(OBJ_DIR)
 	@make clean -C $(LIBFT_DIR) > /dev/null 2>&1
-	@echo "$(ORANGE)[✔] Objects Removed!$(RESET) "
+	@echo "$(ORANGE)[✔] Objects Removed!$(RESET)"
 
 fclean: clean
 	@echo "$(CYAN)[!]$(RESET) Executing full cleaning..."
+	@rm -rf $(NAME) $(NAME_BONUS)
+	@rm -rf $(MLX_DIR)
 	@make fclean -C $(LIBFT_DIR) > /dev/null 2>&1
-	@rm -rf $(NAME) $(MLX_DIR)
-	@echo "$(RED)[✔] Full cleaning done!$(RESET) "
+	@echo "$(RED)[✔] Full cleaning done!$(RESET)"
 
 re: fclean all
