@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/18 20:31:56 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/04/19 12:39:11 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void			init_struct_game(t_data *game);
 int				close_window(t_data *game);
 
 /********************* ERROR HANDLING *********************/
-void			error_handler(t_data *data, const char *msg);
+void			error_handler(t_data *data, char *msg);
 
 /********************* TEXTURE AND COLOR *********************/
 int				init_texture_color_names(t_data *data);
