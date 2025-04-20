@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/19 16:09:36 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/04/21 00:40:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	*get_info(char *file, int flag)
 
 int file_exists(char *filename)
 {
+	if (!filename)
+		return (0);
 	FILE *file = fopen(filename, "r");
 	if (file)
 	{
@@ -67,20 +69,20 @@ int file_exists(char *filename)
 
 int	init_texture_color_names(t_data *data)
 {
-	if (!file_exists(data->textures.files[0]))
+	if (data->textures.files[0] && !file_exists(data->textures.files[0]))
 	{
 		printf("Warning: North texture file not found, using default.\n");
 		data->textures.files[0] = NULL;
 	}
-	if (!file_exists(data->textures.files[1])) {
+	if (data->textures.files[1] && !file_exists(data->textures.files[1])) {
 		printf("Warning: South texture file not found, using default.\n");
 		data->textures.files[1] = NULL;
 	}
-	if (!file_exists(data->textures.files[2])) {
+	if (data->textures.files[2] && !file_exists(data->textures.files[2])) {
 		printf("Warning: East texture file not found, using default.\n");
 		data->textures.files[2] = NULL;
 	}
-	if (!file_exists(data->textures.files[3])) {
+	if (data->textures.files[3] && !file_exists(data->textures.files[3])) {
 		printf("Warning: West texture file not found, using default.\n");
 		data->textures.files[3] = NULL;
 	}

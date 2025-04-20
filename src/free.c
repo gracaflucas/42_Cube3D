@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/19 16:11:38 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/04/21 00:55:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void error_handler(t_data *data, char *msg)
 		mlx_destroy_display(data->init);
 		free(data->init);
 	}
-	free(data);
+	//free(data); //double free
 	exit(EXIT_FAILURE);
 }
 

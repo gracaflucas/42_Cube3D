@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/19 11:55:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/21 00:53:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ static void	init_sub_structs(t_data *game)
 
 void	init_struct_game(t_data *game)
 {
+	int	i;
+
+	i = -1;
 	if (game == NULL)
 		return ;
 	game->window = NULL;
@@ -43,6 +46,15 @@ void	init_struct_game(t_data *game)
 	game->player_angle = 0;
 	game->height = 0;
 	game->width = 0;
+	while (++i < 4)
+		game->textures.files[i] = NULL;
+	i = -1;
+	while (++i < 5)
+		game->textures.images[i].img = NULL;
+	game->colors.c_hex = 0;
+	game->colors.ceiling = NULL;
+	game->colors.f_hex = 0;
+	game->colors.floor = NULL;
 	init_sub_structs(game);
 }
 
