@@ -1,3 +1,10 @@
+NO ./textures/brick/yellow_brick.xpm
+SO ./textures/brick/blue_brick.xpm
+WE ./textures/brick/grey_brick.xpm
+EA ./textures/brick/purple_brick.xpm
+F 220,100,0
+C 225,30,0
+
 11111111111111
 10000100000001
 10000100000001

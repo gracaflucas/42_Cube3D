@@ -3,27 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/11 10:41:58 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:48:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-/* ray starts at player position, the looking direction matters
- * when it hits a wall, calculate the distance of this point to the player
- * and use this distance to calculate wall height
- * 
- * DDA checks every wall the ray reaches, if Y or X, and checks if its a wall
- * when rendering a wall, use perpendicular vision, so, the shortest ray defines
- * perpWallDist
- * Use FOV to cast all rays in the vision of player?
- * if player rotates, camera rotates, so both direction vector and plane vector
- * to rotate a vector -> cos(a) - sin(a), sin(a) cos(a) ( IS IT *?)
- * estudar vetores e matrizes
- * FOV is 2 * atan(0.66/1) or 66 graus.
+/* 
  * time for each frame? so it fixes the movement independent of machine
  * raycasting is a for loop on the X, so it doesnt calc every pixel
  * for (int x = 0; x < w; x++)
@@ -35,53 +24,6 @@
  * deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
  * deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
  * or can also use the deltaDistX = abs(1 / rayDirX) && deltaDistY = abs(1 / RayDirY)
- * caution if delta distances are 0 in case of this division
- * use a flag for hit a wall or not
- * a flag for what side was hit? stepX and stepY?
- * To calculate the initial sideDistX and sideDistY
- * if (rayDirX < 0)
- * 	stepX = -1;
- * 	sideDistX = (posX - mapX) * deltaDistX;
- * else
- * 	setX = 1;
- * 	sideDistX = (mapX + 1 - posX) * deltaDistX;
- * the same for Y, but x is -1 for left, 1 for right, and Y is -1 for bottom, 1 for top
- * now for DDA
- * while (!hit)
- * 	if (sideDistX < sideDistY)
- * 		sideDistX += deltaDistX
- * 		mapX += stepX
- * 		side = 0;
- * 	else
- * 		sideDistY += deltaDistY
- * 		mapY += stepY
- * 		side = 1;
- * 	if (map[x][y] > 0)
- * 		hit = 1;
- * to calc perpWallDist
- * if (!side)
- * 	perpWallDist = (sideDistX - deltaDistX)
- * else
- * 	perpWallDist = (sideDistY - deltaDistY)
- * THis is easier to visualize when the player is directly in front of a wall
- * What if its not like this? so a player is diagonaly to a wall?
- *
- * check the graph for more detailed info
- *
- * the height of wall is inverse of perpWallDist and multiplied by the height of pixels on screen
- * the center of the wall should be in the center of the screen
- * if these points lie outside the screen, theyre capped to 0 or h - 1
- * 
- * lineHeight = h / perpWallDist
- * drawStart = -lineHeight / 2 + h / 2
- * if (drawStart < 0) 
- * 	drawStart = 0;
- * drawEnd = lineHeight / 2 + h / 2
- * if (drawEnd >= h)
- * 	drawEnd = h - 1;
- *
- * finally, if any side is hit, add texture/color to it depending on which side
- * verLine(x, drawStart, drawEnd, color);
  *
  * after raycasting is done looping, get time of current and previous frame 
  * oldTime = time;
@@ -90,14 +32,6 @@
  * double moveSpeed = frameTime * 5;
  * double rotSpeed = frameTime * 3;
  * 
- * keyhook()
- * if (key arrow up)
- * 	if (map[posX + dirX * moveSpeed)][posY] == false
- * 		posX += dirX * moveSpeed;
- * 	if (map[posX][posY + dirY * moveSpeed] == false)
- * 		posY += dirY * moveSpeed
- * in case of key arrow down, the same but -= instead of +=;
- *
  * now to rotate
  * if (key arrow right)
  * 	double oldDirX = dirX;
@@ -109,9 +43,170 @@
  *
  * for arrow left, its the same, but instead use positive rot speed.
  * 
- * 
- * 
- * IMPORTANT CASES:
- * 	max ray distance to avoid infinite loops(although this could possibly be renegated by hitting wall, and ensuring the map has a wall)
- * 	shading?
  * */
+
+/*
+ * Initializes the DDA algorithm by setting up ray direction, step, and initial distances.
+ * Description:
+ *  This function prepares values needed for the DDA loop:
+ *  - Computes ray direction components from the input angle using cosine and sine.
+ *  - Calculates `delta_x` and `delta_y`, which represent the distance the ray must travel 
+ *    along X or Y to cross into the next map cell.
+ *  - Determines the `step_x` and `step_y` directions (either -1 or +1),
+ *    based on whether the ray is pointing left/right or up/down.
+ *  - Computes `side_dist_x` and `side_dist_y`, the initial distances to the first 
+ *    x-side and y-side grid intersection.
+ *
+ * Notes:
+ *  These values are reused by `perform_dda()` to incrementally traverse the grid.
+ */
+static void	prepare_dda(t_data *game, double ray_angle)
+{
+	game->ray.x = cos(ray_angle);
+	game->ray.y = sin(ray_angle);
+	game->ray.delta_x = fabs(1 / game->ray.x);
+	game->ray.delta_y = fabs(1 / game->ray.y);
+	if (game->ray.x < 0)
+	{
+		game->ray.step_x = -1;
+		game->ray.side_dist_x = (game->px - game->ray.map_x) * game->ray.delta_x;
+	}
+	else
+	{
+		game->ray.step_x = 1;
+		game->ray.side_dist_x = (game->ray.map_x + 1.0 - game->px) * game->ray.delta_x;
+	}
+	if (game->ray.y < 0)
+	{
+		game->ray.step_y = -1;
+		game->ray.side_dist_y = (game->py - game->ray.map_y) * game->ray.delta_y;
+	}
+	else
+	{
+		game->ray.step_y = 1;
+		game->ray.side_dist_y = (game->ray.map_y + 1.0 - game->py) * game->ray.delta_y;
+	}
+}
+
+/*
+ * Performs DDA (Digital Differential Analyzer) algorithm to detect wall collisions.
+ * Description:
+ *  - Initializes the map grid position from the player's coordinates.
+ *  - Calls `prepare_dda()` to set ray direction, step, and initial distances.
+ *  - Iteratively steps through the grid by comparing side distances:
+ *    - If `side_dist_x < side_dist_y`, the ray steps in X direction.
+ *    - Otherwise, it steps in Y direction.
+ *  - Stops when a wall ('1') is hit on the map.
+ *  - Calculates the perpendicular distance from the player to the wall,
+ *    used for perspective correction in the rendering step.
+ *
+ * Notes:
+ *  The result of this function is used to determine wall height on screen.
+ */
+void    perform_dda(t_data *game, double ray_angle)
+{
+	game->ray.map_x = (int)game->px;
+	game->ray.map_y = (int)game->py;
+	prepare_dda(game, ray_angle);
+	while (1)
+	{
+		if (game->ray.side_dist_x < game->ray.side_dist_y)
+		{
+			game->ray.side_dist_x += game->ray.delta_x;
+			game->ray.map_x += game->ray.step_x;
+			game->ray.hit = 0;
+		}
+		else
+		{
+			game->ray.side_dist_y += game->ray.delta_y;
+			game->ray.map_y += game->ray.step_y;
+			game->ray.hit = 1;
+		}
+		if (game->map[game->ray.map_y][game->ray.map_x] == '1')
+			break;
+	}
+	if (game->ray.hit == 0)
+		game->ray.perp_dist = (game->ray.side_dist_x - game->ray.delta_x) * cos(game->ray.angle - game->player_angle);
+	else
+		game->ray.perp_dist = (game->ray.side_dist_y - game->ray.delta_y) * cos(game->ray.angle - game->player_angle);
+}
+
+/*
+ * Colors a vertical stripe of the screen corresponding to a wall hit by a ray.
+ * Description:
+ *  This function colors three vertical regions for each ray column:
+ *  - Ceiling: pixels from the top of the screen to `draw_start`, filled with blue (0x0000FF).
+ *  - Wall: pixels from `draw_start` to `draw_end`, filled with wall color based on hit direction:
+ *      - Y-axis wall hit: Green (0x00FF00)
+ *      - X-axis wall hit: Magenta (0xFF00FF)
+ *  - Floor: pixels from `draw_end` to bottom of screen, filled with gray (0x777777).
+ *
+ * Parameters:
+ *  - `draw_start`, `draw_end`: vertical boundaries of the wall strip on the screen.
+ *  - `x`: the column index on the screen to render.
+ */
+static void	get_wall_color(t_data *game, int draw_start, int draw_end, int x)
+{
+	int	y;
+	int	screen_width;
+
+	screen_width = game->minimap.size_line / 4;
+	if (game->ray.hit == 1)
+		game->minimap.wall_color = 0x00FF00;
+	else
+		game->minimap.wall_color = 0xFF00FF;
+	y = -1;
+	while (++y < draw_start)
+		game->ray.img_data[y * screen_width + x] = 0x0000FF;
+	y = draw_start - 1;
+	while (++y < draw_end)
+		game->ray.img_data[y * screen_width + x] = game->minimap.wall_color;
+	y = draw_end - 1;
+	while (++y < HEIGHT)
+		game->ray.img_data[y * screen_width + x] = 0x777777;
+}
+
+/*
+ * Renders the full 3D view by casting rays and drawing wall columns on screen.
+ * Description:
+ *  - Destroys the previous frame image to avoid memory leaks.
+ *  - Creates a new image buffer for the current frame.
+ *  - Loops through each screen column (x = 0 to WIDTH):
+ *      - Calculates the angle of the ray corresponding to that column.
+ *      - Calls `perform_dda()` to detect the wall and get the perpendicular distance.
+ *      - Uses the distance to compute the height of the wall to draw.
+ *      - Calculates the vertical range (`draw_start` to `draw_end`) for the wall slice.
+ *      - Calls `get_wall_color()` to draw the ceiling, wall, and floor.
+ *  - Displays the rendered frame on the game window using `mlx_put_image_to_window()`.
+ *
+ * Notes:
+ *  - The number of rays is equal to the screen width (one ray per vertical column).
+ *  - The field of view is evenly divided across all rays.
+ */
+void	render_map(t_data *game)
+{
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
+	int	x;
+
+	if (game->minimap.map)
+		mlx_destroy_image(game->init, game->minimap.map);
+	game->minimap.map = mlx_new_image(game->init, WIDTH, HEIGHT);
+	game->ray.img_data = (int *)mlx_get_data_addr(game->minimap.map,
+			&(int){0}, &game->minimap.size_line, &(int){0});
+	x = -1;
+	while (++x < WIDTH)
+	{
+		game->ray.angle = game->player_angle - (FOV / 2) + x * (FOV / WIDTH);
+		perform_dda(game, game->ray.angle);
+		line_height = (int)(HEIGHT / game->ray.perp_dist);
+		draw_start = -line_height / 2 + HEIGHT / 2;
+		if (draw_start < 0) draw_start = 0;
+			draw_end = line_height / 2 + HEIGHT / 2;
+		if (draw_end >= HEIGHT)
+			draw_end = HEIGHT - 1;
+		get_wall_color(game, draw_start, draw_end, x);
+	}
+	mlx_put_image_to_window(game->init, game->window, game->minimap.map, 0, 0);
+}

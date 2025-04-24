@@ -113,17 +113,14 @@ static void	draw_player(t_data *game, int *img_data)
  */
 static void	cast_ray(t_data *game, double angle)
 {
-	int		map_x;
-	int		map_y;
-
 	game->ray.x = game->px;
 	game->ray.y = game->py;
 	game->ray.angle = angle;
 	while (1)
 	{
-		map_x = (int)game->ray.x;
-		map_y = (int)game->ray.y;
-		if (game->map[map_y][map_x] == '1')
+		game->ray.map_x = (int)game->ray.x;
+		game->ray.map_y = (int)game->ray.y;
+		if (game->map[game->ray.map_y][game->ray.map_x] == '1')
 			break ;
 		game->ray.pixel_x = game->ray.x * 24;
 		game->ray.pixel_y = game->ray.y * 24;
@@ -160,9 +157,9 @@ static void	cast_fov(t_data *game)
 	int		i;
 
 	start_angle = game->player_angle - (FOV / 2);
-	step = FOV / 1080;
+	step = FOV / 1920;
 	i = -1;
-	while (++i < 1080)
+	while (++i < 1920)
 	{
 		updated_angle = start_angle + i * step;
 		cast_ray(game, updated_angle);
@@ -189,7 +186,7 @@ static void	cast_fov(t_data *game)
  * Notes:
  *  - Tile size is fixed at 24x24 pixels.
  */
-void	render_map(t_data *game)
+void	render_minimap(t_data *game)
 {
 	int	*img_data;
 	int	i;

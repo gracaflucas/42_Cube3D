@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/19 12:56:05 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:41:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,9 @@ static int	key_hook(int keysym, t_data *game)
 		is_valid_move(game, new_px, new_py);
 	}
 	render_map(game);
+	render_minimap(game);
 	return (0);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	t_data	game;
-
-// 	if (argc != 2)
-// 		return (printf("Usage: ./cub3d <map.cub>\n"));
-// 	init_struct_game(&game);
-// 	if (!valid_map(argv[1], &game))
-// 	{
-// 		game.init = mlx_init();
-// 		if (game.init == NULL)
-// 			return (printf("Error\nInitialization failed.\n"));
-// 		game.window = mlx_new_window(game.init, 1920, 1080, "cub3D");
-// 		if (game.window == NULL)
-// 			return (mlx_destroy_display(game.init), free(game.init),
-// 				printf("Error\nWindow creation failed.\n"));
-// 		render_map(&game);
-// 		mlx_key_hook(game.window, &key_hook, &game);
-// 		mlx_hook(game.window, DestroyNotify, 0, close_window, &game);
-// 		mlx_loop(game.init);
-// 	}
-// 	return (free_map(game.map));
-// }
 
 int	main(int argc, char **argv)
 {
@@ -84,21 +61,19 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (printf("Usage: ./cub3d <map.cub>\n"));
 	init_struct_game(&game);
-	if (valid_map(argv[1], &game)) // returns 1 on error
-		return (free_map(game.map), 1);
+	if (valid_map(argv[1], &game))
+		return (free_matrix(game.map), 1);
 	game.init = mlx_init();
 	if (!game.init)
-		return (printf("Error\nInitialization failed.\n"));
+		return (printf("Error\nInitialization failed.\n"), 1);
 	game.window = mlx_new_window(game.init, 1920, 1080, "cub3D");
 	if (!game.window)
-	{
-		mlx_destroy_display(game.init);
-		free(game.init);
-		return (printf("Error\nWindow creation failed.\n"));
-	}
+		return (mlx_destroy_display(game.init), free(game.init),
+			printf("Error\nWindow creation failed.\n"), 1);
+	render_minimap(&game);
 	render_map(&game);
 	mlx_key_hook(game.window, &key_hook, &game);
 	mlx_hook(game.window, DestroyNotify, 0, close_window, &game);
 	mlx_loop(game.init);
-	return (free_map(game.map), 0);
+	return (free_matrix(game.map), 0);
 }

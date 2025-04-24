@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/04/19 15:16:12 by ana-lda-         ###   ########.fr        #
+#    Updated: 2025/04/23 01:34:37 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRCS = $(SRC_DIR)/main.c \
 		$(SRC_DIR)parsing/texture.c \
 		$(SRC_DIR)parsing/map_utils.c \
 		$(SRC_DIR)free.c \
-		$(SRC_DIR)/minimap_bonus.c
+		$(SRC_DIR)/minimap_bonus.c \
+		$(SRC_DIR)/raycaster.c
 OBJ = $(SRCS:.c=.o)
 OBJ := $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%, $(OBJ))
 CC = cc

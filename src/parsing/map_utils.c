@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/18 19:16:38 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:08:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,19 @@ char	**extract_map(t_data *game, char **file, int start_y)
 
 	map_height = map_size_valid_char(file, start_y);
 	if (map_height <= 0)
-	{
-		printf("Error\nInvalid character or empty map.\n");
-		return (NULL);
-	}
+		return (printf("Error\nInvalid character or empty map.\n"), NULL);
 	game->height = map_height;
 	max_len = find_biggest_line(&file[start_y]);
 	game->width = max_len;
 	map = ft_calloc(sizeof(char *), map_height + 1);
 	if (!map)
-	{
-		printf("Error\nMemory allocation failed for map.\n");
-		return (NULL);
-	}
-	i = 0;
-	while (i < map_height)
+		return (printf("Error\nMemory allocation failed for map.\n"), NULL);
+	i = -1;
+	while (++i < map_height)
 	{
 		map[i] = get_map_line(file[start_y + i], max_len);
 		if (!map[i])
 			return (free_matrix(map), printf("Error\nLine allocation failed.\n"), NULL);
-		i++;
 	}
 	return (map);
 }

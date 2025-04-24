@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/19 15:59:57 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:17:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,25 @@
 //     Extract and validate the player position (just one allowed).
 // this functions populates the height and width of the game map, but it considers it as always a rectangle ( same case as valid walls )
 // using it just for testing.
-static int	llen_calc(t_data *game)
-{
-	int	i;
-	int	len;
+// static int	llen_calc(t_data *game)
+// {
+// 	int	i;
+// 	int	len;
 
-	if (game->map == NULL || game->map[0] == NULL)
-		return (2);
-	i = 0;
-	len = ft_strlen(game->map[i]);
-	while (game->map[i] != NULL)
-	{
-		if ((int)ft_strlen(game->map[i]) != len)
-			return (2);
-		i++;
-	}
-	game->height = i;
-	game->width = len;
-	return (0);
-}
+// 	if (game->map == NULL || game->map[0] == NULL)
+// 		return (2);
+// 	i = 0;
+// 	len = ft_strlen(game->map[i]);
+// 	while (game->map[i] != NULL)
+// 	{
+// 		if ((int)ft_strlen(game->map[i]) != len)
+// 			return (2);
+// 		i++;
+// 	}
+// 	game->height = i;
+// 	game->width = len;
+// 	return (0);
+// }
 
 static int	extention(char *str)
 {
@@ -66,28 +66,28 @@ static int	extention(char *str)
 }
 
 // problem, it considers the map as always being a rectangle
-static int	valid_walls(t_data *game)
-{
-	int	i;
+// static int	valid_walls(t_data *game)
+// {
+// 	int	i;
 
-	i = -1;
-	while (++i < game->height - 1)
-		if (game->map[i][0] == '0')
-			return (2);
-	i = -1;
-	while (++i < game->height - 1)
-		if (game->map[i][game->width - 1] == '0')
-			return (2);
-	i = -1;
-	while (++i < game->width - 1)
-		if (game->map[0][i] == '0')
-			return (2);
-	i = -1;
-	while (++i < game->width)
-		if (game->map[game->height - 1][i] == '0')
-			return (2);
-	return (0);
-}
+// 	i = -1;
+// 	while (++i < game->height - 1)
+// 		if (game->map[i][0] == '0')
+// 			return (2);
+// 	i = -1;
+// 	while (++i < game->height - 1)
+// 		if (game->map[i][game->width - 1] == '0')
+// 			return (2);
+// 	i = -1;
+// 	while (++i < game->width - 1)
+// 		if (game->map[0][i] == '0')
+// 			return (2);
+// 	i = -1;
+// 	while (++i < game->width)
+// 		if (game->map[game->height - 1][i] == '0')
+// 			return (2);
+// 	return (0);
+// }
 
 static void get_player_angle(t_data *game, char c)
 {
@@ -127,23 +127,23 @@ static int	has_player(t_data *game)
 	return (0);
 }
 
-static int	char_cmp(t_data *game)
-{
-	int		i;
-	int		j;
+// static int	char_cmp(t_data *game)
+// {
+// 	int		i;
+// 	int		j;
 
-	i = -1;
-	while (game->map[++i])
-	{
-		j = -1;
-		while (game->map[i][++j])
-			if (game->map[i][j] != 'W' && game->map[i][j] != 'E'
-				&& game->map[i][j] != 'N' && game->map[i][j] != '0'
-				&& game->map[i][j] != '1' && game->map[i][j] != 'S')
-				return (2);
-	}
-	return (0);
-}
+// 	i = -1;
+// 	while (game->map[++i])
+// 	{
+// 		j = -1;
+// 		while (game->map[i][++j])
+// 			if (game->map[i][j] != 'W' && game->map[i][j] != 'E'
+// 				&& game->map[i][j] != 'N' && game->map[i][j] != '0'
+// 				&& game->map[i][j] != '1' && game->map[i][j] != 'S')
+// 				return (2);
+// 	}
+// 	return (0);
+// }
 
 // reads a file line by line into a matrix (array of strings)
 char	**read_file_to_matrix(char *file)
@@ -175,6 +175,39 @@ char	**read_file_to_matrix(char *file)
 	return (matrix);
 }
 
+// int	valid_map(char *str, t_data *game)
+// {
+// 	char	**file;
+// 	int		start_y;
+
+// 	file = read_file_to_matrix(str);
+// 	if (!file)
+// 		return (printf("Error\nmap file could not be read.\n"), 1);
+// 	game->file = file;
+// 	if (extention(str) == 2)
+// 		return (printf("Error\nnot a valid extension.\n"), 1);
+// 	start_y = init_texture_color_names(game);
+// 	if (!start_y)
+// 		return (printf("Error\nmissing texture or color.\n"), 1);
+// 	duplicate_texture_or_color(game);
+// 	is_valid_textures(game);
+// 	is_valid_colors(game);
+// 	game->map = extract_map(game, file, start_y);
+// 	if (!game->map)
+// 		return (printf("Error\ninvalid map layout.\n"), 1);
+// 	if (llen_calc(game) == 2)
+// 		return (printf("Error\nmap is not rectangular.\n"), 1);
+// 	if (valid_walls(game) == 2)
+// 		return (printf("Error\ninvalid walls.\n"), 1);
+// 	if (has_player(game) == 2)
+// 		return (printf("Error\nmissing or duplicate player.\n"), 1);
+// 	if (char_cmp(game) == 2)
+// 		return (printf("Error\nunknown character inside map.\n"), 1);
+// 	if (!flood_fill(game, (int)game->px, (int)game->py))
+// 		return (printf("Error\nmap is not enclosed.\n"), 1);
+// 	return (0);
+// }
+
 int	valid_map(char *str, t_data *game)
 {
 	char	**file;
@@ -189,22 +222,11 @@ int	valid_map(char *str, t_data *game)
 	start_y = init_texture_color_names(game);
 	if (!start_y)
 		return (printf("Error\nmissing texture or color.\n"), 1);
-	duplicate_texture_or_color(game);
-	is_valid_textures(game);
-	is_valid_colors(game);
 	game->map = extract_map(game, file, start_y);
 	if (!game->map)
 		return (printf("Error\ninvalid map layout.\n"), 1);
-	if (llen_calc(game) == 2)
-		return (printf("Error\nmap is not rectangular.\n"), 1);
-	if (valid_walls(game) == 2)
-		return (printf("Error\ninvalid walls.\n"), 1);
 	if (has_player(game) == 2)
 		return (printf("Error\nmissing or duplicate player.\n"), 1);
-	if (char_cmp(game) == 2)
-		return (printf("Error\nunknown character inside map.\n"), 1);
-	if (!flood_fill(game, (int)game->px, (int)game->py))
-		return (printf("Error\nmap is not enclosed.\n"), 1);
 	return (0);
 }
 

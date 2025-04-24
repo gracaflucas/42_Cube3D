@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/21 00:40:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/24 14:56:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_info(char *file, int flag)
 	return (result);
 }
 
-/* GET BACK TO THIS ONCE WE HAVE THE TEXTURES
+//GET BACK TO THIS ONCE WE HAVE THE TEXTURES
  int	init_texture_color_names(t_data *data)
 {
 	int		i = -1;
@@ -52,7 +52,7 @@ char	*get_info(char *file, int flag)
 			return (++i);
 	}
 	return (0);
-} */
+}
 
 int file_exists(char *filename)
 {
@@ -67,27 +67,27 @@ int file_exists(char *filename)
 	return (0);
 }
 
-int	init_texture_color_names(t_data *data)
-{
-	if (data->textures.files[0] && !file_exists(data->textures.files[0]))
-	{
-		printf("Warning: North texture file not found, using default.\n");
-		data->textures.files[0] = NULL;
-	}
-	if (data->textures.files[1] && !file_exists(data->textures.files[1])) {
-		printf("Warning: South texture file not found, using default.\n");
-		data->textures.files[1] = NULL;
-	}
-	if (data->textures.files[2] && !file_exists(data->textures.files[2])) {
-		printf("Warning: East texture file not found, using default.\n");
-		data->textures.files[2] = NULL;
-	}
-	if (data->textures.files[3] && !file_exists(data->textures.files[3])) {
-		printf("Warning: West texture file not found, using default.\n");
-		data->textures.files[3] = NULL;
-	}
-	return (1);
-}
+// int	init_texture_color_names(t_data *data)
+// {
+// 	if (data->textures.files[0] && !file_exists(data->textures.files[0]))
+// 	{
+// 		printf("Warning: North texture file not found, using default.\n");
+// 		data->textures.files[0] = NULL;
+// 	}
+// 	if (data->textures.files[1] && !file_exists(data->textures.files[1])) {
+// 		printf("Warning: South texture file not found, using default.\n");
+// 		data->textures.files[1] = NULL;
+// 	}
+// 	if (data->textures.files[2] && !file_exists(data->textures.files[2])) {
+// 		printf("Warning: East texture file not found, using default.\n");
+// 		data->textures.files[2] = NULL;
+// 	}
+// 	if (data->textures.files[3] && !file_exists(data->textures.files[3])) {
+// 		printf("Warning: West texture file not found, using default.\n");
+// 		data->textures.files[3] = NULL;
+// 	}
+// 	return (1);
+// }
 
 void	duplicate_texture_or_color(t_data *data)
 {
@@ -139,13 +139,16 @@ void is_valid_textures(t_data *data)
 
 void	is_valid_colors(t_data *data)
 {
+	int	i;
+
+	i = -1;
 	if (!data->colors.ceiling || !data->colors.floor)
 		error_handler(data, "Missing color");
 	if (!has_three_numbers(data->colors.ceiling)
 		|| !has_three_numbers(data->colors.floor))
 		error_handler(data, "Invalid color format");
 	save_rgb(data); // fills f_rgb/c_rgb arrays
-	for (int i = 0; i < 3; i++)
+	while (++i < 3)
 		if (data->colors.f_rgb[i] > 255 || data->colors.c_rgb[i] > 255)
 			error_handler(data, "Color component > 255");
 	data->colors.f_hex = rgb_to_hex(data->colors.f_rgb);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/21 00:55:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/24 14:55:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void error_handler(t_data *data, char *msg)
 		write(STDERR_FILENO, "\n", 1);
 	}
 	if (data->map)
-		free_map(data->map);
+		free_matrix(data->map);
 	free_textures(&data->textures, data->init);
 	if (data->minimap.minimap)
 		mlx_destroy_image(data->init, data->minimap.minimap);
@@ -34,7 +34,6 @@ void error_handler(t_data *data, char *msg)
 		mlx_destroy_display(data->init);
 		free(data->init);
 	}
-	//free(data); //double free
 	exit(EXIT_FAILURE);
 }
 
@@ -69,18 +68,24 @@ void	free_matrix(char **matrix)
 	free(matrix);
 }
 
-int free_map(char **map)
+static void	destroy_images(t_data *game)
 {
-	int i;
+	if (game->minimap.minimap)
+		mlx_destroy_image(game->init, game->minimap.minimap);
+	if (game->minimap.map)
+		mlx_destroy_image(game->init, game->minimap.map);
+	game->minimap.minimap = NULL;
+	game->minimap.map = NULL;
+}
 
-	if (map == NULL)
-		return (1);
-	i = 0;
-	while (map[i] != NULL)
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
-	return (0);
+int	close_window(t_data *game)
+{
+	destroy_images(game);
+	free_textures(&game->textures, game->init);
+	mlx_destroy_window(game->init, game->window);
+	mlx_destroy_display(game->init);
+	free_matrix(game->map);
+	free(game->init);
+	game->init = NULL;
+	exit(0);
 }

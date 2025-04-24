@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/19 12:56:20 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:55:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 // Define constants for game configuration
 # define MOVE_SPEED 0.2
 # define ROT_SPEED 0.1
-# define FOV (M_PI / 4)
-# define WIDTH 1240
-# define HEIGHT 840
+# define FOV (M_PI / 2)
+# define WIDTH 1920 //1240
+# define HEIGHT 1080 //840
 
 // Map defines
 # define WALL '1'
@@ -48,6 +48,7 @@ typedef struct s_map
 	int		y_offset;
 	int		x_offset;
 	int		pixel_color;
+	int		wall_color;
 }	t_map;
 
 // Coordinates struct
@@ -93,8 +94,15 @@ typedef struct s_ray
 	double	x;
 	double	y;
 	double	angle;
-	double	ray_dist;
+	double	side_dist_y;
+	double	side_dist_x;
+	double	delta_x;
+	double	delta_y;
 	double	perp_dist;
+	int		step_x;
+	int		step_y;
+	int		map_x;
+	int		map_y;
 	int		hit;
 	int		pixel_x;
 	int		pixel_y;
@@ -139,6 +147,7 @@ void			is_valid_colors(t_data *data);
 
 /********************* MAP HANDLING *********************/
 int				flood_fill(t_data *game, int y, int x);
+void			render_minimap(t_data *game);
 void			render_map(t_data *game);
 int				valid_map(char *str, t_data *game);
 int				is_flood_valid(char **map, t_data *g, int x, int y);
@@ -147,9 +156,9 @@ int				find_biggest_line(char **file);
 int				map_size_valid_char(char **file, int start_y);
 char			*get_map_line(char *file_line, int size);
 int				count_file_lines(char *file);
+void			perform_dda(t_data *game, double ray_angle);
 
 /********************* MEMORY HANDLING *********************/
-int				free_map(char **map);
 void			free_matrix(char **matrix);
 void			free_textures(t_texture *textures, void *mlx_ptr);
 
