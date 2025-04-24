@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/24 14:48:54 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:57:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,35 +132,62 @@ void    perform_dda(t_data *game, double ray_angle)
 }
 
 /*
- * Colors a vertical stripe of the screen corresponding to a wall hit by a ray.
+ * Determines the wall color based on the ray's hit orientation.
  * Description:
- *  This function colors three vertical regions for each ray column:
- *  - Ceiling: pixels from the top of the screen to `draw_start`, filled with blue (0x0000FF).
- *  - Wall: pixels from `draw_start` to `draw_end`, filled with wall color based on hit direction:
- *      - Y-axis wall hit: Green (0x00FF00)
- *      - X-axis wall hit: Magenta (0xFF00FF)
- *  - Floor: pixels from `draw_end` to bottom of screen, filled with gray (0x777777).
- *
- * Parameters:
- *  - `draw_start`, `draw_end`: vertical boundaries of the wall strip on the screen.
- *  - `x`: the column index on the screen to render.
+ *  - Assigns a specific color to each wall slice based on which side of the wall
+ *    the ray hit, relative to the player's view.
+ *  - The `hit` flag identifies the type of wall hit:
+ *      - `hit == 1` → horizontal wall (facing North or South).
+ *      - `hit == 0` → vertical wall (facing East or West).
+ *  - The direction the ray came from is inferred via `step_x` and `step_y`:
+ *      - Horizontal hits:
+ *          - `step_y > 0` → Ray hit a **North-facing** wall
+ *          - `step_y < 0` → Ray hit a **South-facing** wall
+ *      - Vertical hits:
+ *          - `step_x > 0` → Ray hit a **West-facing** wall 
+ *          - `step_x < 0` → Ray hit an **East-facing** wall
  */
-static void	get_wall_color(t_data *game, int draw_start, int draw_end, int x)
+static void	get_wall_color(t_data *game)
+{
+	if (game->ray.hit == 1)
+	{
+		if (game->ray.step_y > 0)
+			game->minimap.wall_color = 0x00FF00; // SO
+		else
+			game->minimap.wall_color = 0xFF00FF; // NO
+	}
+	else if (game->ray.hit == 0)
+	{
+		if (game->ray.step_x > 0)
+			game->minimap.wall_color = 0xFFaa00; // EA
+		else
+			game->minimap.wall_color = 0x00CCFF; // WE
+	}
+}
+
+/*
+ * Draws a vertical wall slice on the screen at a given column.
+ * Description:
+ *  - This function fills one vertical column (`x`) of the screen image buffer
+ *    with ceiling, wall, and floor colors, based on the calculated wall height.
+ *  - Calls `get_wall_color()` to determine the wall color based on the ray's hit direction.
+ *  - Fills pixels from top to `draw_start` with ceiling color (blue).
+ *  - Fills pixels from `draw_start` to `draw_end` with the appropriate wall color.
+ *  - Fills pixels from `draw_end` to bottom of the screen with floor color (gray).
+ */
+static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 {
 	int	y;
-	int	screen_width;
+	int screen_width;
 
+	get_wall_color(game);
 	screen_width = game->minimap.size_line / 4;
-	if (game->ray.hit == 1)
-		game->minimap.wall_color = 0x00FF00;
-	else
-		game->minimap.wall_color = 0xFF00FF;
 	y = -1;
 	while (++y < draw_start)
 		game->ray.img_data[y * screen_width + x] = 0x0000FF;
 	y = draw_start - 1;
 	while (++y < draw_end)
-		game->ray.img_data[y * screen_width + x] = game->minimap.wall_color;
+		game->ray.img_data[y * (screen_width) + x] = game->minimap.wall_color;
 	y = draw_end - 1;
 	while (++y < HEIGHT)
 		game->ray.img_data[y * screen_width + x] = 0x777777;
@@ -206,7 +233,7 @@ void	render_map(t_data *game)
 			draw_end = line_height / 2 + HEIGHT / 2;
 		if (draw_end >= HEIGHT)
 			draw_end = HEIGHT - 1;
-		get_wall_color(game, draw_start, draw_end, x);
+		draw_wall(game, draw_start, draw_end, x);
 	}
 	mlx_put_image_to_window(game->init, game->window, game->minimap.map, 0, 0);
 }
