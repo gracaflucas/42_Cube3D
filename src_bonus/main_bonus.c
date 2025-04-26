@@ -25,7 +25,7 @@ static int mouse_move_hook(int x, int y, t_data *game)
 	if (x == center_x && y == center_y)
 		return (0);
 	delta_x = x - center_x;
-	game->player_angle += delta_x * 0.00009;
+	game->player_angle += delta_x * ROT_SPEED / 1500;
 	render_map(game);
 	render_minimap(game);
 	return (0);
@@ -40,10 +40,10 @@ static void interact_door(t_data *game)
     interact_distance = 0.5;
     mx = (int)(game->px + cos(game->player_angle) * interact_distance);
     my = (int)(game->py + sin(game->player_angle) * interact_distance);
-    if (game->map[mx][my] == 'D')
-        game->map[mx][my] = 'd';
-    else if (game->map[mx][my] == 'd')
-        game->map[mx][my] = 'D';
+    if (game->map[my][mx] == 'D')
+        game->map[my][mx] = 'd';
+    else if (game->map[my][mx] == 'd')
+        game->map[my][mx] = 'D';
 }
 
 static int	key_hook(int keysym, t_data *game)
