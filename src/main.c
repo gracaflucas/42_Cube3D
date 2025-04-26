@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/26 13:55:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:26:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	key_hook(int keysym, t_data *game)
 		new_py = game->py - sin(game->player_angle) * MOVE_SPEED;
 		is_valid_move(game, new_px, new_py);
 	}
-	return (render_minimap(game),render_map(game), 0);
+	return (render_map(game), 0);
 }
 
 int	main(int argc, char **argv)
@@ -68,7 +68,6 @@ int	main(int argc, char **argv)
 	if (!game.window)
 		return (mlx_destroy_display(game.init), free(game.init),
 			printf("Error\nWindow creation failed.\n"), 1);
-	render_minimap(&game);
 	render_map(&game);
 	mlx_key_hook(game.window, &key_hook, &game);
 	mlx_hook(game.window, DestroyNotify, 0, close_window, &game);

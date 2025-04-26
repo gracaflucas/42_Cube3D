@@ -41,15 +41,15 @@ static void interact_door(t_data *game)
     mx = (int)(game->px + cos(game->player_angle) * interact_distance);
     my = (int)(game->py + sin(game->player_angle) * interact_distance);
     if (game->map[mx][my] == 'D')
-        game->map[mx][my] == 'd';
+        game->map[mx][my] = 'd';
     else if (game->map[mx][my] == 'd')
-        game->map[mx][my] == 'D';
+        game->map[mx][my] = 'D';
 }
 
 static int	key_hook(int keysym, t_data *game)
 {
-	double new_px;
-	double new_py;
+	double	new_px;
+	double	new_py;
 
 	if (keysym == XK_Escape)
 		close_window(game);
@@ -69,9 +69,9 @@ static int	key_hook(int keysym, t_data *game)
 		new_py = game->py - sin(game->player_angle) * MOVE_SPEED;
 		is_valid_move(game, new_px, new_py);
 	}
-    if (keysym == XK_E || keysym == XK_e || keysym == XK_space)
-        interact_door(game);
-	return (render_minimap(game), render_map(game), 0);
+	if (keysym == XK_E || keysym == XK_e || keysym == XK_space)
+		interact_door(game);
+	return (render_map(game), render_minimap(game), 0);
 }
 
 int	main(int argc, char **argv)

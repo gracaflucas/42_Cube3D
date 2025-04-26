@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/23 14:55:34 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:25:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ void			is_valid_colors(t_data *data);
 
 /********************* MAP HANDLING *********************/
 int				flood_fill(t_data *game, int y, int x);
-void			render_minimap(t_data *game);
 void			render_map(t_data *game);
 int				valid_map(char *str, t_data *game);
 int				is_flood_valid(char **map, t_data *g, int x, int y);
