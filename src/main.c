@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/23 20:41:18 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/26 13:55:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ static int	key_hook(int keysym, t_data *game)
 		new_py = game->py - sin(game->player_angle) * MOVE_SPEED;
 		is_valid_move(game, new_px, new_py);
 	}
-	render_map(game);
-	render_minimap(game);
-	return (0);
+	return (render_minimap(game),render_map(game), 0);
 }
 
 int	main(int argc, char **argv)
