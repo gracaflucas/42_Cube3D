@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/22 16:08:23 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/27 15:58:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,3 @@ int	is_flood_valid(char **map, t_data *g, int x, int y)
 			is_flood_valid(map, g, x, y + 1) &&
 			is_flood_valid(map, g, x, y - 1));
 }
-

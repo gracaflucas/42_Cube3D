@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/27 15:07:50 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/27 15:55:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_info(char *file, int flag)
 		i++;
 	i += flag;
 	result = ft_strtrim(&file[i], " \n\t");
-	return (result);
+	return (free(file), result);
 }
 
 //GET BACK TO THIS ONCE WE HAVE THE TEXTURES
@@ -45,7 +45,6 @@ char	*get_info(char *file, int flag)
 			data->colors.floor = get_info(file[i], 1);
 		else if (ft_strstr(file[i], "C ") && !data->colors.ceiling)
 			data->colors.ceiling = get_info(file[i], 1);
-
 		if (data->textures.files[0] && data->textures.files[1]
 			&& data->textures.files[2] && data->textures.files[3]
 			&& data->colors.floor && data->colors.ceiling)
