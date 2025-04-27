@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/26 16:30:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/27 15:24:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,29 +157,33 @@ void	is_valid_colors(t_data *data)
 
 int has_three_numbers(char *str)
 {
-	int i;
-	int comma_count;
-	int num_count;
+	int 	i;
+	int 	comma_count;
+	int 	num_count;
+	char	*trimmed;
 
 	i = 0;
 	comma_count = 0;
 	num_count = 0;
-	str = ft_strtrim(str, " \n\t");
-	while (str[i] != '\0')
+	trimmed = ft_strtrim(str, " \n\t");
+	while (trimmed[i] != '\0')
 	{
-		if (str[i] == ',')
+		if (trimmed[i] == ',')
 			comma_count++;
-		else if (ft_isdigit(str[i]))
+		else if (ft_isdigit(trimmed[i]))
 		{
-			while (ft_isdigit(str[i]))
+			while (ft_isdigit(trimmed[i]))
 				i++;
 			num_count++;
+			continue ;
 		}
+		else if (trimmed[i] == ' ' || trimmed[i] == '\t')
+			i++;
 		else
-			return (0);
+			return (free(trimmed), 0);
 		i++;
 	}
-	return (comma_count == 2 && num_count == 3);
+	return (free(trimmed), comma_count == 2 && num_count == 3);
 }
 
 void save_rgb(t_data *data)

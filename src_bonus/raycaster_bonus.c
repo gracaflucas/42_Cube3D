@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/26 16:30:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/27 15:35:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,13 +184,13 @@ static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 	screen_width = game->minimap.size_line / 4;
 	y = -1;
 	while (++y < draw_start)
-		game->ray.img_data[y * screen_width + x] = 0x0000FF;
+		game->ray.img_data[y * screen_width + x] = game->colors.c_hex;
 	y = draw_start - 1;
 	while (++y < draw_end)
 		game->ray.img_data[y * (screen_width) + x] = game->minimap.wall_color;
 	y = draw_end - 1;
 	while (++y < HEIGHT)
-		game->ray.img_data[y * screen_width + x] = 0x777777;
+		game->ray.img_data[y * screen_width + x] = game->colors.f_hex;
 }
 
 /*
