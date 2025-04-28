@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/27 15:57:09 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/28 01:52:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_info(char *file, int flag)
 		i++;
 	i += flag;
 	result = ft_strtrim(&file[i], " \n\t");
-	return (free(file), result);
+	return (result);
 }
 
 //GET BACK TO THIS ONCE WE HAVE THE TEXTURES

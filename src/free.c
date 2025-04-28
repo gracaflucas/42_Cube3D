@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/27 15:55:52 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/28 01:51:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	close_window(t_data *game)
 	free_textures(&game->textures, game->init);
 	free(game->colors.ceiling);
 	free(game->colors.floor);
+	if (game->file)
+		free_matrix(game->file);
 	mlx_destroy_window(game->init, game->window);
 	mlx_destroy_display(game->init);
 	free_matrix(game->map);
