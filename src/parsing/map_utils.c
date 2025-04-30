@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/27 15:58:21 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 12:09:55 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ char	**extract_map(t_data *game, char **file, int start_y)
 	{
 		map[i] = get_map_line(file[start_y + i], max_len);
 		if (!map[i])
-			return (free_matrix(map), printf("Error\nLine allocation failed.\n"), NULL);
+			return (free_matrix(map),
+				printf("Error\nLine allocation failed.\n"), NULL);
 	}
 	return (map);
 }
-
 
 // 	Finds the widest line to pad other lines
 int	find_biggest_line(char **file)
@@ -72,7 +72,6 @@ int	map_size_valid_char(char **file, int start_y)
 
 	lines = 0;
 	i = start_y;
-
 	while (file[i])
 	{
 		j = 0;
@@ -82,8 +81,8 @@ int	map_size_valid_char(char **file, int start_y)
 				&& file[i][j] != 'N' && file[i][j] != 'S'
 				&& file[i][j] != 'E' && file[i][j] != 'W'
 				&& file[i][j] != '\t' && file[i][j] != '\n'
-				&& file[i][j] != 'D') // if you use doors (D) bonus
-				return (0); // Invalid character
+				&& file[i][j] != 'D')
+				return (0);
 			j++;
 		}
 		lines++;
@@ -101,7 +100,6 @@ char	*get_map_line(char *file_line, int size)
 	line = ft_calloc(sizeof(char), size + 1);
 	if (!line)
 		return (NULL);
-
 	i = 0;
 	while (file_line[i] && file_line[i] != '\n')
 	{
@@ -116,19 +114,4 @@ char	*get_map_line(char *file_line, int size)
 int	is_in_bounds(t_data *g, int x, int y)
 {
 	return (x >= 0 && y >= 0 && y < g->height && x < g->width);
-}
-
-int	is_flood_valid(char **map, t_data *g, int x, int y)
-{
-	if (!is_in_bounds(g, x, y))
-		return (0);
-	if (map[y][x] == ' ' || map[y][x] == '\0')
-		return (0);
-	if (map[y][x] == '1' || map[y][x] == 'X')
-		return (1);
-	map[y][x] = 'X';
-	return (is_flood_valid(map, g, x + 1, y) &&
-			is_flood_valid(map, g, x - 1, y) &&
-			is_flood_valid(map, g, x, y + 1) &&
-			is_flood_valid(map, g, x, y - 1));
 }

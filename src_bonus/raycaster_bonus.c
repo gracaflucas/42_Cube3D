@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/30 11:30:09 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:33:21 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	prepare_dda(t_data *game, double ray_angle)
  * Notes:
  *  The result of this function is used to determine wall height on screen.
  */
-void    perform_dda(t_data *game, double ray_angle)
+void	perform_dda(t_data *game, double ray_angle)
 {
 	game->ray.map_x = (int)game->px;
 	game->ray.map_y = (int)game->py;
@@ -123,7 +123,7 @@ void    perform_dda(t_data *game, double ray_angle)
 			game->ray.hit = 1;
 		}
 		if (game->map[game->ray.map_y][game->ray.map_x] == '1')
-			break;
+			break ;
 	}
 	if (game->ray.hit == 0)
 		game->ray.perp_dist = (game->ray.side_dist_x - game->ray.delta_x) * cos(game->ray.angle - game->player_angle);
@@ -134,7 +134,8 @@ void    perform_dda(t_data *game, double ray_angle)
 /*
  * Determines the wall texture based on the ray's hit orientation.
  * Description:
- *  - Assigns a specific texture to each wall slice based on which side of the wall
+ *  - Assigns a specific texture to each wall slice based on which 
+ *    side of the wall
  *    the ray hit, relative to the player's view.
  *  - The `hit` flag identifies the type of wall hit:
  *      - `hit == 1` → horizontal wall (facing North or South).
@@ -152,67 +153,34 @@ static t_image	*get_wall_texture(t_data *game)
 	if (game->ray.hit == 1)
 	{
 		if (game->ray.step_y > 0)
-			return (&game->textures.images[2]); // SO
+			return (&game->textures.images[2]);
 		else
-			return (&game->textures.images[0]); // NO
+			return (&game->textures.images[0]);
 	}
 	else if (game->ray.hit == 0)
 	{
 		if (game->ray.step_x > 0)
-			return (&game->textures.images[1]); // EA
+			return (&game->textures.images[1]);
 		else
-			return (&game->textures.images[3]); // WE
+			return (&game->textures.images[3]);
 	}
 	return (NULL);
-}
-
-static int	flip_textures(t_image *texture, t_data *game)
-{
-	int		tex_x;
-	double	wall_x;
-
-	if (game->ray.hit == 0)
-		wall_x = game->py + game->ray.perp_dist * game->ray.y;
-	else
-		wall_x = game->px + game->ray.perp_dist * game->ray.x;
-	wall_x -= floor(wall_x);
-	tex_x = (int)(wall_x * (double)texture->width);
-	if (game->ray.hit == 0)
-	{
-		if (game->ray.x < 0)
-			tex_x = texture->width - tex_x - 1;
-	}
-	else if (game->ray.hit == 1)
-	{
-		if (game->ray.y > 0)
-			tex_x = texture->width - tex_x - 1;
-	}
-	return (tex_x);
-}
-
-static void	draw_ceiling_floor(t_data *game, int draw_start, int draw_end, int x)
-{
-	int	y;
-
-	y = -1;
-	while (++y < draw_start)
-		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.c_hex;
-	y = draw_end - 1;
-	while (++y < HEIGHT)
-		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.f_hex;
 }
 
 /*
  * Draws a vertical wall slice on the screen at a given column.
  * Description:
  *  - This function fills one vertical column (`x`) of the screen image buffer
- *    with ceiling, wall, and floor colors, based on the calculated wall height.
- *  - Calls `get_wall_color()` to determine the wall color based on the ray's hit direction.
+ *    with ceiling, wall, and floor colors, based on the calculated wall height
+ *  - Calls `get_wall_color()` to determine the wall color based on 
+ *    the ray's hit direction.
  *  - Fills pixels from top to `draw_start` with ceiling color (blue).
- *  - Fills pixels from `draw_start` to `draw_end` with the appropriate wall color.
- *  - Fills pixels from `draw_end` to bottom of the screen with floor color (gray).
+ *  - Fills pixels from `draw_start` to `draw_end` with the appropriate 
+ *    wall color.
+ *  - Fills pixels from `draw_end` to bottom of the screen with 
+ *    floor color (gray).
  */
-static void draw_wall(t_data *game, int draw_start, int draw_end, int x)
+static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 {
 	t_image	*texture;
 	char	*pixel;
@@ -248,14 +216,16 @@ static void draw_wall(t_data *game, int draw_start, int draw_end, int x)
  *  - Creates a new image buffer for the current frame.
  *  - Loops through each screen column (x = 0 to WIDTH):
  *      - Calculates the angle of the ray corresponding to that column.
- *      - Calls `perform_dda()` to detect the wall and get the perpendicular distance.
+ *      - Calls `perform_dda()` to detect the wall and get the perpendicular
+ * 		  distance.
  *      - Uses the distance to compute the height of the wall to draw.
- *      - Calculates the vertical range (`draw_start` to `draw_end`) for the wall slice.
+ *      - Calculates the vertical range (`draw_start` to `draw_end`) for the 
+ *        wall slice.
  *      - Calls `get_wall_color()` to draw the ceiling, wall, and floor.
- *  - Displays the rendered frame on the game window using `mlx_put_image_to_window()`.
  *
  * Notes:
- *  - The number of rays is equal to the screen width (one ray per vertical column).
+ *  - The number of rays is equal to the screen width 
+ * 	  (one ray per vertical column).
  *  - The field of view is evenly divided across all rays.
  */
 void	render_map(t_data *game)
@@ -277,8 +247,9 @@ void	render_map(t_data *game)
 		perform_dda(game, game->ray.angle);
 		line_height = (int)(HEIGHT / game->ray.perp_dist);
 		draw_start = -line_height / 2 + HEIGHT / 2;
-		if (draw_start < 0) draw_start = 0;
-			draw_end = line_height / 2 + HEIGHT / 2;
+		if (draw_start < 0)
+			draw_start = 0;
+		draw_end = line_height / 2 + HEIGHT / 2;
 		if (draw_end >= HEIGHT)
 			draw_end = HEIGHT - 1;
 		draw_wall(game, draw_start, draw_end, x);

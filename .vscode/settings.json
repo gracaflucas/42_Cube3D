@@ -2,6 +2,7 @@
     "files.associations": {
         "stdio.h": "c",
         "mlx.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "cub3d.h": "c"
     }
 }

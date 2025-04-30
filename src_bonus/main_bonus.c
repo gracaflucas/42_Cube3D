@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 12:30:55 by lufiguei          #+#    #+#             */
+/*   Updated: 2025/04/30 12:30:55 by lufiguei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D_bonus.h"
 
 static int	is_valid_move(t_data *game, double x, double y)
 {
-	int mx;
-	int my;
+	int	mx;
+	int	my;
 
 	mx = (int)x;
 	my = (int)y;
@@ -14,7 +26,7 @@ static int	is_valid_move(t_data *game, double x, double y)
 	return (1);
 }
 
-static int mouse_move_hook(int x, int y, t_data *game)
+static int	mouse_move_hook(int x, int y, t_data *game)
 {
 	int	center_x;
 	int	center_y;
@@ -31,19 +43,19 @@ static int mouse_move_hook(int x, int y, t_data *game)
 	return (0);
 }
 
-static void interact_door(t_data *game)
+static void	interact_door(t_data *game)
 {
-    double  interact_distance;
-    int  mx;
-    int  my;
+	double	interact_distance;
+	int		mx;
+	int		my;
 
-    interact_distance = 0.5;
-    mx = (int)(game->px + cos(game->player_angle) * interact_distance);
-    my = (int)(game->py + sin(game->player_angle) * interact_distance);
-    if (game->map[my][mx] == 'D')
-        game->map[my][mx] = 'd';
-    else if (game->map[my][mx] == 'd')
-        game->map[my][mx] = 'D';
+	interact_distance = 0.5;
+	mx = (int)(game->px + cos(game->player_angle) * interact_distance);
+	my = (int)(game->py + sin(game->player_angle) * interact_distance);
+	if (game->map[my][mx] == 'D')
+		game->map[my][mx] = 'd';
+	else if (game->map[my][mx] == 'd')
+		game->map[my][mx] = 'D';
 }
 
 static int	key_hook(int keysym, t_data *game)
@@ -95,7 +107,8 @@ int	main(int argc, char **argv)
 	render_map(&game);
 	mlx_key_hook(game.window, &key_hook, &game);
 	mlx_hook(game.window, DestroyNotify, 0, close_window, &game);
-    mlx_hook(game.window, MotionNotify, PointerMotionMask, mouse_move_hook, &game);
+	mlx_hook(game.window, MotionNotify, PointerMotionMask,
+		mouse_move_hook, &game);
 	mlx_loop(game.init);
 	return (free_matrix(game.map), 0);
 }

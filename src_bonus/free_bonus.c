@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/28 01:50:32 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 12:29:53 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-void error_handler(t_data *data, char *msg)
+void	error_handler(t_data *data, char *msg)
 {
 	if (msg)
 	{
@@ -37,9 +37,9 @@ void error_handler(t_data *data, char *msg)
 	exit(EXIT_FAILURE);
 }
 
-void free_textures(t_texture *textures, void *mlx_ptr)
+void	free_textures(t_texture *textures, void *mlx_ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 4)

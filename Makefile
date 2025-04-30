@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/04/26 16:51:05 by marvin           ###   ########.fr        #
+#    Updated: 2025/04/30 12:25:09 by lufiguei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,11 @@ OBJ_DIR = ./objs/
 OBJ_DIR_BONUS = ./objs_bonus/
 SRCS = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/init.c \
-		$(SRC_DIR)/map_read.c \
+		$(SRC_DIR)/raycaster_utils.c \
 		$(SRC_DIR)parsing/parsing.c \
+		$(SRC_DIR)parsing/parsing_utils.c \
 		$(SRC_DIR)parsing/texture.c \
+		$(SRC_DIR)parsing/texture_utils.c \
 		$(SRC_DIR)parsing/map_utils.c \
 		$(SRC_DIR)free.c \
 		$(SRC_DIR)/raycaster.c
@@ -41,8 +43,11 @@ SRC_BONUS = $(SRC_DIR_BONUS)/main_bonus.c \
 		$(SRC_DIR_BONUS)parsing_bonus/parsing_bonus.c \
 		$(SRC_DIR_BONUS)parsing_bonus/texture_bonus.c \
 		$(SRC_DIR_BONUS)parsing_bonus/map_utils_bonus.c \
+		$(SRC_DIR_BONUS)parsing_bonus/parsing_utils_bonus.c \
+		$(SRC_DIR_BONUS)parsing_bonus/texture_utils_bonus.c \
 		$(SRC_DIR_BONUS)free_bonus.c \
 		$(SRC_DIR_BONUS)minimap_bonus.c \
+		$(SRC_DIR_BONUS)raycaster_utils_bonus.c \
 		$(SRC_DIR_BONUS)/raycaster_bonus.c
 OBJ = $(SRCS:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
