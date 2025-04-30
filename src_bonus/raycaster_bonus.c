@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/27 15:35:56 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 11:30:09 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,9 @@ void    perform_dda(t_data *game, double ray_angle)
 }
 
 /*
- * Determines the wall color based on the ray's hit orientation.
+ * Determines the wall texture based on the ray's hit orientation.
  * Description:
- *  - Assigns a specific color to each wall slice based on which side of the wall
+ *  - Assigns a specific texture to each wall slice based on which side of the wall
  *    the ray hit, relative to the player's view.
  *  - The `hit` flag identifies the type of wall hit:
  *      - `hit == 1` → horizontal wall (facing North or South).
@@ -147,22 +147,59 @@ void    perform_dda(t_data *game, double ray_angle)
  *          - `step_x > 0` → Ray hit a **West-facing** wall 
  *          - `step_x < 0` → Ray hit an **East-facing** wall
  */
-static void	get_wall_color(t_data *game)
+static t_image	*get_wall_texture(t_data *game)
 {
 	if (game->ray.hit == 1)
 	{
 		if (game->ray.step_y > 0)
-			game->minimap.wall_color = 0x00FF00; // SO
+			return (&game->textures.images[2]); // SO
 		else
-			game->minimap.wall_color = 0xFF00FF; // NO
+			return (&game->textures.images[0]); // NO
 	}
 	else if (game->ray.hit == 0)
 	{
 		if (game->ray.step_x > 0)
-			game->minimap.wall_color = 0xFFaa00; // EA
+			return (&game->textures.images[1]); // EA
 		else
-			game->minimap.wall_color = 0x00CCFF; // WE
+			return (&game->textures.images[3]); // WE
 	}
+	return (NULL);
+}
+
+static int	flip_textures(t_image *texture, t_data *game)
+{
+	int		tex_x;
+	double	wall_x;
+
+	if (game->ray.hit == 0)
+		wall_x = game->py + game->ray.perp_dist * game->ray.y;
+	else
+		wall_x = game->px + game->ray.perp_dist * game->ray.x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * (double)texture->width);
+	if (game->ray.hit == 0)
+	{
+		if (game->ray.x < 0)
+			tex_x = texture->width - tex_x - 1;
+	}
+	else if (game->ray.hit == 1)
+	{
+		if (game->ray.y > 0)
+			tex_x = texture->width - tex_x - 1;
+	}
+	return (tex_x);
+}
+
+static void	draw_ceiling_floor(t_data *game, int draw_start, int draw_end, int x)
+{
+	int	y;
+
+	y = -1;
+	while (++y < draw_start)
+		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.c_hex;
+	y = draw_end - 1;
+	while (++y < HEIGHT)
+		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.f_hex;
 }
 
 /*
@@ -175,22 +212,33 @@ static void	get_wall_color(t_data *game)
  *  - Fills pixels from `draw_start` to `draw_end` with the appropriate wall color.
  *  - Fills pixels from `draw_end` to bottom of the screen with floor color (gray).
  */
-static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
+static void draw_wall(t_data *game, int draw_start, int draw_end, int x)
 {
-	int	y;
-	int screen_width;
+	t_image	*texture;
+	char	*pixel;
+	int		y;
+	double	step;
+	double	tex_pos;
 
-	get_wall_color(game);
-	screen_width = game->minimap.size_line / 4;
 	y = -1;
-	while (++y < draw_start)
-		game->ray.img_data[y * screen_width + x] = game->colors.c_hex;
+	texture = get_wall_texture(game);
+	texture->tex_x = flip_textures(texture, game);
+	step = 1.0 * texture->height / (draw_end - draw_start);
+	tex_pos = (draw_start - HEIGHT / 2 + (draw_end - draw_start) / 2) * step;
+	draw_ceiling_floor(game, draw_start, draw_end, x);
 	y = draw_start - 1;
 	while (++y < draw_end)
-		game->ray.img_data[y * (screen_width) + x] = game->minimap.wall_color;
-	y = draw_end - 1;
-	while (++y < HEIGHT)
-		game->ray.img_data[y * screen_width + x] = game->colors.f_hex;
+	{
+		texture->tex_y = (int)tex_pos;
+		if (texture->tex_y < 0)
+			texture->tex_y = 0;
+		if (texture->tex_y >= texture->height)
+			texture->tex_y = texture->height - 1;
+		tex_pos += step;
+		pixel = texture->addr + (texture->tex_y * texture->line_len + texture->tex_x * (texture->bits_per_pixel / 8));
+		texture->color = *(unsigned int *)pixel;
+		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = texture->color;
+	}
 }
 
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/28 02:16:59 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 11:11:34 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ typedef struct s_image
 	int		endian;
 	int		width;
 	int		height;
+	int		tex_y;
+	int		tex_x;
+	int		color;
 }	t_image;
 
 // Texture struct
@@ -144,7 +147,7 @@ char			*get_info(char *file, int flag);
 void			duplicate_texture_or_color(t_data *data);
 void			is_valid_textures(t_data *data);
 void			is_valid_colors(t_data *data);
-// void			init_images(t_data *game);
+void			init_images(t_data *game);
 
 /********************* MAP HANDLING *********************/
 int				flood_fill(t_data *game, int y, int x);
