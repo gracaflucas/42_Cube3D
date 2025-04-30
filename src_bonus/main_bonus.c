@@ -83,6 +83,7 @@ int	main(int argc, char **argv)
 	init_struct_game(&game);
 	if (valid_map(argv[1], &game))
 		return (free_matrix(game.map), 1);
+	// init_images(&game);
 	game.init = mlx_init();
 	if (!game.init)
 		return (printf("Error\nInitialization failed.\n"), 1);

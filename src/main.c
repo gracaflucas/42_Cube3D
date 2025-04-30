@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/26 16:26:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/28 02:16:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	main(int argc, char **argv)
 	init_struct_game(&game);
 	if (valid_map(argv[1], &game))
 		return (free_matrix(game.map), 1);
+	// init_images(&game);
 	game.init = mlx_init();
 	if (!game.init)
 		return (printf("Error\nInitialization failed.\n"), 1);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/27 15:35:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/28 02:12:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,26 @@ static void	get_wall_color(t_data *game)
 			game->minimap.wall_color = 0x00CCFF; // WE
 	}
 }
+
+// static void	get_wall_texture(t_data *game)
+// {
+// 	t_image	*texture;
+
+// 	if (game->ray.hit == 1)
+// 	{
+// 		if (game->ray.step_y > 0)
+// 			texture = game->textures.images[1].img; // SO
+// 		else
+// 			texture = game->textures.images[0].img; // NO
+// 	}
+// 	else if (game->ray.hit == 0)
+// 	{
+// 		if (game->ray.step_x > 0)
+// 			texture = game->textures.images[2].img; // EA
+// 		else
+// 			texture = game->textures.images[3].img; // WE
+// 	}
+// }
 
 /*
  * Draws a vertical wall slice on the screen at a given column.

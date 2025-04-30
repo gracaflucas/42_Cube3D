@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/26 16:30:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/28 02:16:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	init_struct_game(t_data *game)
 // 			game->textures.files[i], &game->textures.images[i].width,
 // 			&game->textures.images[i].height);
 // 		if (!game->textures.images[i].img)
-// 			return (printf("Error\nFailed to load textures.\n"), NULL);
+// 			error_handler(game, "Error\nFailed to load textures.");
 // 		game->textures.images[i].addr = mlx_get_data_addr(game->textures.images[i].img,
 // 			&game->textures.images[i].bits_per_pixel, &game->textures.images[i].line_len,
 // 			&game->textures.images[i].endian);
