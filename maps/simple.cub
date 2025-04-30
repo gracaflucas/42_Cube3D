@@ -1,7 +1,7 @@
-NO ./textures/dummy.xpm
-SO ./textures/dummy.xpm
-WE ./textures/dummy.xpm
-EA ./textures/dummy.xpm
+NO ./textures/lucas.xpm
+SO ./textures/ana.xpm
+WE ./textures/white42.xpm
+EA ./textures/cyan42.xpm
 F 119,119,119
 C 0,0,255
 

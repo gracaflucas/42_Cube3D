@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/28 02:16:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 09:41:57 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,20 @@ void	init_struct_game(t_data *game)
 	init_sub_structs(game);
 }
 
-// void	init_images(t_data *game)
-// {
-// 	int	i;
+void	init_images(t_data *game)
+{
+	int	i;
 
-// 	i = -1;
-// 	while (++i < 4)
-// 	{
-// 		game->textures.images[i].img = mlx_xpm_file_to_image(game->init,
-// 			game->textures.files[i], &game->textures.images[i].width,
-// 			&game->textures.images[i].height);
-// 		if (!game->textures.images[i].img)
-// 			error_handler(game, "Error\nFailed to load textures.");
-// 		game->textures.images[i].addr = mlx_get_data_addr(game->textures.images[i].img,
-// 			&game->textures.images[i].bits_per_pixel, &game->textures.images[i].line_len,
-// 			&game->textures.images[i].endian);
-// 	}
-// }
+	i = -1;
+	while (++i < 4)
+	{
+		game->textures.images[i].img = mlx_xpm_file_to_image(game->init,
+			game->textures.files[i], &game->textures.images[i].width,
+			&game->textures.images[i].height);
+		if (!game->textures.images[i].img)
+			error_handler(game, "Error\nFailed to load textures.");
+		game->textures.images[i].addr = mlx_get_data_addr(game->textures.images[i].img,
+			&game->textures.images[i].bits_per_pixel, &game->textures.images[i].line_len,
+			&game->textures.images[i].endian);
+	}
+}

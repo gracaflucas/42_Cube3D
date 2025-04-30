@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/28 01:52:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 09:37:17 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*get_info(char *file, int flag)
 	return (result);
 }
 
-//GET BACK TO THIS ONCE WE HAVE THE TEXTURES
  int	init_texture_color_names(t_data *data)
 {
 	int		i = -1;
@@ -65,28 +64,6 @@ int file_exists(char *filename)
 	}
 	return (0);
 }
-
-// int	init_texture_color_names(t_data *data)
-// {
-// 	if (data->textures.files[0] && !file_exists(data->textures.files[0]))
-// 	{
-// 		printf("Warning: North texture file not found, using default.\n");
-// 		data->textures.files[0] = NULL;
-// 	}
-// 	if (data->textures.files[1] && !file_exists(data->textures.files[1])) {
-// 		printf("Warning: South texture file not found, using default.\n");
-// 		data->textures.files[1] = NULL;
-// 	}
-// 	if (data->textures.files[2] && !file_exists(data->textures.files[2])) {
-// 		printf("Warning: East texture file not found, using default.\n");
-// 		data->textures.files[2] = NULL;
-// 	}
-// 	if (data->textures.files[3] && !file_exists(data->textures.files[3])) {
-// 		printf("Warning: West texture file not found, using default.\n");
-// 		data->textures.files[3] = NULL;
-// 	}
-// 	return (1);
-// }
 
 void	duplicate_texture_or_color(t_data *data)
 {

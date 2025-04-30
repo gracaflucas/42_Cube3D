@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/28 02:16:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 09:38:09 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int	main(int argc, char **argv)
 	init_struct_game(&game);
 	if (valid_map(argv[1], &game))
 		return (free_matrix(game.map), 1);
-	// init_images(&game);
 	game.init = mlx_init();
 	if (!game.init)
 		return (printf("Error\nInitialization failed.\n"), 1);
+	init_images(&game);
 	game.window = mlx_new_window(game.init, 1920, 1080, "cub3D");
 	if (!game.window)
 		return (mlx_destroy_display(game.init), free(game.init),
