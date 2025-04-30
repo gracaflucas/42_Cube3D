@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 11:00:52 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:11:34 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ typedef struct s_image
 	int		endian;
 	int		width;
 	int		height;
+	int		tex_y;
+	int		tex_x;
+	int		color;
 }	t_image;
 
 // Texture struct

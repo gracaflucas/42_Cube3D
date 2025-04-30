@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/30 11:00:20 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:25:52 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,17 +177,29 @@ static int	flip_textures(t_image *texture, t_data *game)
 		wall_x = game->px + game->ray.perp_dist * game->ray.x;
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * (double)texture->width);
-	if (game->ray.hit == 0) // vertical wall
+	if (game->ray.hit == 0)
 	{
-		if (game->ray.x < 0) // If ray is going to the left (west)
-			tex_x = texture->width - tex_x - 1; // Flip the texture horizontally
+		if (game->ray.x < 0)
+			tex_x = texture->width - tex_x - 1;
 	}
-	else if (game->ray.hit == 1) // horizontal wall
+	else if (game->ray.hit == 1)
 	{
-		if (game->ray.y > 0) // If ray is going downwards (south)
-			tex_x = texture->width - tex_x - 1; // Flip the texture horizontally
+		if (game->ray.y > 0)
+			tex_x = texture->width - tex_x - 1;
 	}
 	return (tex_x);
+}
+
+static void	draw_ceiling_floor(t_data *game, int draw_start, int draw_end, int x)
+{
+	int	y;
+
+	y = -1;
+	while (++y < draw_start)
+		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.c_hex;
+	y = draw_end - 1;
+	while (++y < HEIGHT)
+		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.f_hex;
 }
 
 /*
@@ -205,31 +217,28 @@ static void draw_wall(t_data *game, int draw_start, int draw_end, int x)
 	t_image	*texture;
 	char	*pixel;
 	int		y;
-	int		tex_y;
-	int		tex_x;
-	int		color;
 	double	step;
 	double	tex_pos;
 
 	y = -1;
 	texture = get_wall_texture(game);
-	tex_x = flip_textures(texture, game);
+	texture->tex_x = flip_textures(texture, game);
 	step = 1.0 * texture->height / (draw_end - draw_start);
-	tex_pos = (draw_start - HEIGHT / 2 + (draw_end - draw_start) / 2) * step;	
-	while (++y < draw_start)
-		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.c_hex;
+	tex_pos = (draw_start - HEIGHT / 2 + (draw_end - draw_start) / 2) * step;
+	draw_ceiling_floor(game, draw_start, draw_end, x);
 	y = draw_start - 1;
 	while (++y < draw_end)
 	{
-		tex_y = (int)tex_pos;
+		texture->tex_y = (int)tex_pos;
+		if (texture->tex_y < 0)
+			texture->tex_y = 0;
+		if (texture->tex_y >= texture->height)
+			texture->tex_y = texture->height - 1;
 		tex_pos += step;
-		pixel = texture->addr + (tex_y * texture->line_len + tex_x * (texture->bits_per_pixel / 8));
-		color = *(unsigned int *)pixel;
-		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = color;
+		pixel = texture->addr + (texture->tex_y * texture->line_len + texture->tex_x * (texture->bits_per_pixel / 8));
+		texture->color = *(unsigned int *)pixel;
+		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = texture->color;
 	}
-	y = draw_end - 1;
-	while (++y < HEIGHT)
-		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = game->colors.f_hex;
 }
 
 /*

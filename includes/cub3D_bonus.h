@@ -68,6 +68,9 @@ typedef struct s_image
 	int		endian;
 	int		width;
 	int		height;
+	int		tex_y;
+	int		tex_x;
+	int		color;
 }	t_image;
 
 // Texture struct
