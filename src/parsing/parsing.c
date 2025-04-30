@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/28 01:50:50 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 12:12:37 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	extention(char *str)
 	return (0);
 }
 
-static void get_player_angle(t_data *game, char c)
+static void	get_player_angle(t_data *game, char c)
 {
 	if (c == 'N')
 		game->player_angle = -PI_2;
@@ -104,36 +104,6 @@ static int	char_cmp(t_data *game)
 	return (0);
 }
 
-// reads a file line by line into a matrix (array of strings)
-char	**read_file_to_matrix(char *file)
-{
-	int		fd;
-	int		i;
-	int		lines;
-	char	**matrix;
-	char	*line;
-
-	lines = count_file_lines(file);
-	if (lines <= 0)
-		return (NULL);
-	matrix = malloc(sizeof(char *) * (lines + 1));
-	if (!matrix)
-		return (NULL);
-	fd = open(file, O_RDONLY);
-	i = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		matrix[i] = ft_strdup(line);
-		free(line);
-		i++;
-		line = get_next_line(fd);
-	}
-	matrix[i] = NULL;
-	close(fd);
-	return (matrix);
-}
-
 int	valid_map(char *str, t_data *game)
 {
 	char	**file;
@@ -163,61 +133,6 @@ int	valid_map(char *str, t_data *game)
 	return (0);
 }
 
-int	count_file_lines(char *file)
-{
-	int		counter;
-	int		fd;
-	char	*line;
-
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		return (-1);
-	line = NULL;
-	counter = 0;
-	while (42)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		counter++;
-		free (line);
-	}
-	free (line);
-	close (fd);
-	return (counter);
-}
-
-void	fill_recursive(char **map, int y, int x)
-{
-	if (!map || y < 0 || x < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
-		return ;
-	if (map[y][x] == '1' || map[y][x] == 'F' || map[y][x] == ' ')
-		return ;
-	map[y][x] = 'F';
-	fill_recursive(map, y + 1, x);
-	fill_recursive(map, y - 1, x);
-	fill_recursive(map, y, x + 1);
-	fill_recursive(map, y, x - 1);
-}
-
-char	**duplicate_map(char **src, int height)
-{
-	char	**copy;
-	int		i;
-
-	copy = ft_calloc(height + 1, sizeof(char *));
-	if (!copy)
-	return (NULL);
-	i = -1;
-	while (++i < height)
-	{
-		copy[i] = ft_strdup(src[i]);
-		if (!copy[i])
-			return (free_matrix(copy), NULL);
-	}
-	return (copy);
-}
-
 int	flood_fill(t_data *game, int y, int x)
 {
 	char	**copy;
@@ -231,7 +146,7 @@ int	flood_fill(t_data *game, int y, int x)
 	while (++i < game->height)
 	{
 		if (ft_strchr(copy[i], '0') || ft_strchr(copy[i], 'N')
-			|| ft_strchr(copy[i], 'S') || ft_strchr(copy[i], 'E')	
+			|| ft_strchr(copy[i], 'S') || ft_strchr(copy[i], 'E')
 			|| ft_strchr(copy[i], 'W'))
 			return (free_matrix(copy), 0);
 	}

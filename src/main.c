@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 09:38:09 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:01:38 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	is_valid_move(t_data *game, double x, double y)
 {
-	int mx;
-	int my;
+	int	mx;
+	int	my;
 
 	mx = (int)x;
 	my = (int)y;
@@ -28,8 +28,8 @@ static int	is_valid_move(t_data *game, double x, double y)
 
 static int	key_hook(int keysym, t_data *game)
 {
-	double new_px;
-	double new_py;
+	double	new_px;
+	double	new_py;
 
 	if (keysym == XK_Escape)
 		close_window(game);

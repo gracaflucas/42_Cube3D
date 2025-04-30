@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 11:11:34 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:17:08 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,9 @@ void			duplicate_texture_or_color(t_data *data);
 void			is_valid_textures(t_data *data);
 void			is_valid_colors(t_data *data);
 void			init_images(t_data *game);
+void			draw_ceiling_floor(t_data *game, int draw_start,
+					int draw_end, int x);
+int				flip_textures(t_image *texture, t_data *game);
 
 /********************* MAP HANDLING *********************/
 int				flood_fill(t_data *game, int y, int x);
@@ -160,6 +163,10 @@ int				map_size_valid_char(char **file, int start_y);
 char			*get_map_line(char *file_line, int size);
 int				count_file_lines(char *file);
 void			perform_dda(t_data *game, double ray_angle);
+char			**read_file_to_matrix(char *file);
+void			fill_recursive(char **map, int y, int x);
+char			**duplicate_map(char **src, int height);
+int				is_in_bounds(t_data *g, int x, int y);
 
 /********************* MEMORY HANDLING *********************/
 void			free_matrix(char **matrix);
