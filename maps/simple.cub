@@ -1,9 +1,10 @@
-NO ./textures/lucas.xpm
-SO ./textures/ana.xpm
-WE ./textures/white42.xpm
-EA ./textures/cyan42.xpm
-F 119,119,119
-C 0,0,255
+NO ./textures/torch/torch1_wall_4.xpm
+SO ./textures/torch/torch1_wall_2.xpm
+WE ./textures/torch/torch1_wall_1.xpm
+EA ./textures/torch/torch2_wall_3.xpm
+
+F 184,113,39
+C 51,198,227
 
 11111111111111
 10000100000001

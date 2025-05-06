@@ -1,0 +1,17 @@
+NO      ./textures/directions/north_tex.xpm
+
+SO 		./textures/directions/south_tex.xpm
+WE 		./textures/directions/west_tex.xpm
+
+EA     ./textures/directions/east_tex.xpm
+
+
+F       0,0,0
+
+C 		0,0,153
+
+
+1111111111111111111111
+1000000000000000000001
+1000000100000000N11111
+111111111111111111
