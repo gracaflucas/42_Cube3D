@@ -115,20 +115,21 @@ typedef struct s_ray
 // Main data struct
 typedef struct s_data
 {
-	void		*window;
-	void		*init;
-	char		**map;
-	char		**file;
-	double		px;
-	double		py;
-	int			player;
-	double		player_angle;
-	int			height;
-	int			width;
-	t_map		minimap;
-	t_ray		ray;
-	t_texture	textures;
-	t_color		colors;
+	void			*window;
+	void			*init;
+	char			**map;
+	char			**file;
+	double			px;
+	double			py;
+	int				player;
+	double			player_angle;
+	t_coordinate	player_pos;
+	int				height;
+	int				width;
+	t_map			minimap;
+	t_ray			ray;
+	t_texture		textures;
+	t_color			colors;
 }	t_data;
 
 /********************* INIT *********************/
@@ -172,5 +173,14 @@ int				is_in_bounds(t_data *g, int x, int y);
 /********************* MEMORY HANDLING *********************/
 void			free_matrix(char **matrix);
 void			free_textures(t_texture *textures, void *mlx_ptr);
+
+
+/********************* PLAYER MOVEMENT *********************/
+int				check_quadrant(double player_angle);
+void			move_player(int keysym, t_data *game);
+void			move_player_up(t_data *game, int quad);
+void			move_player_down(t_data *game, int quad);
+void			move_player_left(t_data *game, int quad);
+void			move_player_right(t_data *game, int quad);
 
 #endif

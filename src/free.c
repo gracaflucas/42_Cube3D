@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 12:00:02 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:47:39 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	error_handler(t_data *data, char *msg)
 		write(STDERR_FILENO, msg, ft_strlen(msg));
 		write(STDERR_FILENO, "\n", 1);
 	}
-	if (data->map)
-		free_matrix(data->map);
+	if (data->map_array)
+		free_matrix(data->map_array);
 	free_textures(&data->textures, data->init);
 	if (data->minimap.minimap)
 		mlx_destroy_image(data->init, data->minimap.minimap);
@@ -88,7 +88,7 @@ int	close_window(t_data *game)
 		free_matrix(game->file);
 	mlx_destroy_window(game->init, game->window);
 	mlx_destroy_display(game->init);
-	free_matrix(game->map);
+	free_matrix(game->map_array);
 	free(game->init);
 	game->init = NULL;
 	exit(0);

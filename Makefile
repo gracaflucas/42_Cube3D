@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+         #
+#    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/04/30 12:25:09 by lufiguei         ###   ########.fr        #
+#    Updated: 2025/05/23 13:48:43 by ana-lda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ OBJ_DIR = ./objs/
 OBJ_DIR_BONUS = ./objs_bonus/
 SRCS = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/init.c \
+		$(SRC_DIR)/moves.c \
 		$(SRC_DIR)/raycaster_utils.c \
 		$(SRC_DIR)parsing/parsing.c \
 		$(SRC_DIR)parsing/parsing_utils.c \
