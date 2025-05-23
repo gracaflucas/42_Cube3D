@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/23 13:55:12 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:48:57 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,13 +182,13 @@ void			free_matrix(char **matrix);
 void			free_textures(t_texture *textures, void *mlx_ptr);
 
 /********************* PLAYER MOVEMENT *********************/
-int				check_quad(double player_angle);
-void			move_player(int keysym, t_data *game);
-void			move_up(t_data *game, int quad);
-void			move_down(t_data *game, int quad);
-void			move_left(t_data *game, int quad);
-void			move_right(t_data *game, int quad);
-void			change_player_position(t_coordinate *new_pos, t_data *game);
-void			walk_move(t_data *game);
+// int				check_quad(double player_angle);
+// void			move_player(int keysym, t_data *game);
+// void			move_up(t_data *game, int quad);
+// void			move_down(t_data *game, int quad);
+// void			move_left(t_data *game, int quad);
+// void			move_right(t_data *game, int quad);
+// void			change_player_position(t_coordinate *new_pos, t_data *game);
+// void			walk_move(t_data *game);
 
 #endif
