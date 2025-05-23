@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/30 12:05:29 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:48:04 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	perform_dda(t_data *game, double ray_angle)
 			game->ray.map_y += game->ray.step_y;
 			game->ray.hit = 1;
 		}
-		if (game->map[game->ray.map_y][game->ray.map_x] == '1')
+		if (game->map_array[game->ray.map_y][game->ray.map_x] == '1')
 			break ;
 	}
 	if (game->ray.hit == 0)

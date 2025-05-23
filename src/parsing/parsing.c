@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/05/23 11:18:12 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:46:49 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,17 @@ static int	has_player(t_data *game)
 	int	j;
 
 	i = -1;
-	while (game->map[++i])
+	while (game->map_array[++i])
 	{
 		j = -1;
-		while (game->map[i][++j])
+		while (game->map_array[i][++j])
 		{
-			if (game->map[i][j] == 'W' || game->map[i][j] == 'S'
-				|| game->map[i][j] == 'E' || game->map[i][j] == 'N')
+			if (game->map_array[i][j] == 'W' || game->map_array[i][j] == 'S'
+				|| game->map_array[i][j] == 'E' || game->map_array[i][j] == 'N')
 			{
 				game->px = j + 0.5;
 				game->py = i + 0.5;
-				get_player_angle(game, game->map[i][j]);
+				get_player_angle(game, game->map_array[i][j]);
 				game->player += 1;
 			}
 		}
@@ -88,16 +88,16 @@ static int	char_cmp(t_data *game)
 	int		j;
 
 	i = -1;
-	while (game->map[++i])
+	while (game->map_array[++i])
 	{
 		j = -1;
-		while (game->map[i][++j])
+		while (game->map_array[i][++j])
 		{
-			if (game->map[i][j] == '\n' || game->map[i][j] == ' ')
+			if (game->map_array[i][j] == '\n' || game->map_array[i][j] == ' ')
 				continue ;
-			if (game->map[i][j] != 'W' && game->map[i][j] != 'E'
-				&& game->map[i][j] != 'N' && game->map[i][j] != '0'
-				&& game->map[i][j] != '1' && game->map[i][j] != 'S')
+			if (game->map_array[i][j] != 'W' && game->map_array[i][j] != 'E'
+				&& game->map_array[i][j] != 'N' && game->map_array[i][j] != '0'
+				&& game->map_array[i][j] != '1' && game->map_array[i][j] != 'S')
 				return (2);
 		}
 	}
@@ -121,8 +121,8 @@ int	valid_map(char *str, t_data *game)
 	duplicate_texture_or_color(game);
 	is_valid_textures(game);
 	is_valid_colors(game);
-	game->map = extract_map(game, file, start_y);
-	if (!game->map)
+	game->map_array = extract_map(game, file, start_y);
+	if (!game->map_array)
 		return (error_handler(game, "invalid map layout."), 1);
 	if (has_player(game) == 2)
 		return (error_handler(game, "missing or duplicate player."), 1);
@@ -138,7 +138,7 @@ int	flood_fill(t_data *game, int y, int x)
 	char	**copy;
 	int		i;
 
-	copy = duplicate_map(game->map, game->height);
+	copy = duplicate_map(game->map_array, game->height);
 	if (!copy)
 		return (0);
 	fill_recursive(copy, y, x);

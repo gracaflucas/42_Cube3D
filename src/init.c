@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/30 12:01:13 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:44:11 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_struct_game(t_data *game)
 		return ;
 	game->window = NULL;
 	game->init = NULL;
-	game->map = NULL;
+	game->map_array = NULL;
 	game->px = 0;
 	game->py = 0;
 	game->player = 0;

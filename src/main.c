@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/23 11:35:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:43:37 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 // The AWSD keys are suppoused to move the player, the up|down|left|right keys are suppoused to turn left and right thru the map
 #include "cub3D.h"
 
-static int	is_valid_move(t_data *game, double x, double y)
+/* static int	is_valid_move(t_data *game, double x, double y)
 {
 	int	mx;
 	int	my;
@@ -26,35 +26,21 @@ static int	is_valid_move(t_data *game, double x, double y)
 	game->px = x;
 	game->py = y;
 	return (1);
-}
+} */
 
 static int	key_hook(int keysym, t_data *game)
 {
-	double	new_px;
-	double	new_py;
-
 	if (keysym == XK_Escape)
 		close_window(game);
 	if (keysym == XK_Left)
 		game->player_angle -= ROT_SPEED;
 	if (keysym == XK_Right)
 		game->player_angle += ROT_SPEED;
-	if (keysym == XK_W || keysym == XK_w)
-	{
-		new_px = game->px + cos(game->player_angle) * MOVE_SPEED;
-		new_py = game->py + sin(game->player_angle) * MOVE_SPEED;
-		is_valid_move(game, new_px, new_py);
-	}
-	if (keysym == XK_S || keysym == XK_s)
-	{
-		new_px = game->px - cos(game->player_angle) * MOVE_SPEED;
-		new_py = game->py - sin(game->player_angle) * MOVE_SPEED;
-		is_valid_move(game, new_px, new_py);
-	}
+	if (keysym == KEY_W || keysym == KEY_S || keysym == KEY_A || keysym == KEY_D)
+		move_player(keysym, game);
 	return (render_map(game), 0);
 }
-// if (keysym == XK_A || keysym == XK_a || keysym == XK_Left)
-// if (keysym == XK_D || keysym == XK_d || (keysym == XK_Right)
+
 int	main(int argc, char **argv)
 {
 	t_data	game;
@@ -63,7 +49,7 @@ int	main(int argc, char **argv)
 		return (printf("Usage: ./cub3d <map.cub>\n"));
 	init_struct_game(&game);
 	if (valid_map(argv[1], &game))
-		return (free_matrix(game.map), 1);
+		return (free_matrix(game.map_array), 1);
 	game.init = mlx_init();
 	if (!game.init)
 		return (printf("Error\nInitialization failed.\n"), 1);
@@ -76,5 +62,5 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.window, &key_hook, &game);
 	mlx_hook(game.window, DestroyNotify, 0, close_window, &game);
 	mlx_loop(game.init);
-	return (free_matrix(game.map), 0);
+	return (free_matrix(game.map_array), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/06 10:40:19 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:52:00 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // Define constants for game configuration
 # define MOVE_SPEED 0.2 //How fast the player moves.
 # define ROT_SPEED 0.1 //How fast the player rotates.
-# define FOV (M_PI / 2) // Field of view, set to 90 degrees (π/2).
+# define FOV (PI / 2) // Field of view, set to 90 degrees (π/2).
 # define WIDTH 1920 //1240 -Resolution of the window.
 # define HEIGHT 1080 //840 -Resolution of the window.
 
@@ -34,6 +34,12 @@
 # define FLOOR '0'
 # define O_DOOR 'd'
 # define C_DOOR 'D'
+
+// KEY DEFINES
+# define KEY_W XK_w
+# define KEY_A XK_a
+# define KEY_S XK_s
+# define KEY_D XK_d
 
 // Pi constants for angle calculations
 # define PI 3.14159265358979323846
@@ -115,20 +121,23 @@ typedef struct s_ray
 // Main data struct
 typedef struct s_data
 {
-	void		*window;//Pointer to the window and MLX initialization.
-	void		*init;//Pointer to the window and MLX initialization.
-	char		**map;//A 2D array representing the game map (e.g., walls, floors).
-	char		**file;// A 2D array holding data related to the file
-	double		px;//player's position on the map.
-	double		py;//player's position on the map.
-	int			player;//integer flag or identifier for the player.
-	double		player_angle;//player's view direction in radians.
-	int			height;//Dimensions of the window.
-	int			width;//Dimensions of the window.
-	t_map		minimap;//minimap data.
-	t_ray		ray;//Raycasting data.
-	t_texture	textures;//Textures for the walls.
-	t_color		colors;//Floor and ceiling colors.
+	void			*window;//Pointer to the window and MLX initialization.
+	void			*init;//Pointer to the window and MLX initialization.
+	char			**map_array;//A 2D array representing the game map (e.g., walls, floors).
+	char			**file;// A 2D array holding data related to the file
+	double			px;//player's position on the map.
+	double			py;//player's position on the map.
+	int				player;//integer flag or identifier for the player.
+	double			player_angle;//player's view direction in radians.
+	int				height;//Dimensions of the window.
+	int				movement;
+	int				width;//Dimensions of the window.
+	t_map			minimap;//minimap data.
+	t_map			map;// main map data
+	t_ray			ray;//Raycasting data.
+	t_texture		textures;//Textures for the walls.
+	t_coordinate	player_pos;
+	t_color			colors;//Floor and ceiling colors.
 }	t_data;
 
 /********************* INIT *********************/
@@ -171,5 +180,15 @@ int				is_in_bounds(t_data *g, int x, int y);
 /********************* MEMORY HANDLING *********************/
 void			free_matrix(char **matrix);
 void			free_textures(t_texture *textures, void *mlx_ptr);
+
+/********************* PLAYER MOVEMENT *********************/
+int				check_quad(double player_angle);
+void			move_player(int keysym, t_data *game);
+void			move_up(t_data *game, int quad);
+void			move_down(t_data *game, int quad);
+void			move_left(t_data *game, int quad);
+void			move_right(t_data *game, int quad);
+void			change_player_position(t_coordinate *new_pos, t_data *game);
+void			walk_move(t_data *game);
 
 #endif
