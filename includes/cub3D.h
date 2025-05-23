@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/23 13:52:00 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:55:12 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // Define constants for game configuration
 # define MOVE_SPEED 0.2 //How fast the player moves.
 # define ROT_SPEED 0.1 //How fast the player rotates.
-# define FOV (PI / 2) // Field of view, set to 90 degrees (π/2).
+# define FOV (M_PI / 3) // Field of view, set to 90 degrees (π/2).
 # define WIDTH 1920 //1240 -Resolution of the window.
 # define HEIGHT 1080 //840 -Resolution of the window.
 
