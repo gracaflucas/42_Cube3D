@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 12:01:38 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:35:49 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// NOTES
+// The AWSD keys are suppoused to move the player, the up|down|left|right keys are suppoused to turn left and right thru the map
 #include "cub3D.h"
 
 static int	is_valid_move(t_data *game, double x, double y)
@@ -33,17 +35,17 @@ static int	key_hook(int keysym, t_data *game)
 
 	if (keysym == XK_Escape)
 		close_window(game);
-	if (keysym == XK_A || keysym == XK_a || keysym == XK_Left)
+	if (keysym == XK_Left)
 		game->player_angle -= ROT_SPEED;
-	if (keysym == XK_D || keysym == XK_d || keysym == XK_Right)
+	if (keysym == XK_Right)
 		game->player_angle += ROT_SPEED;
-	if (keysym == XK_W || keysym == XK_w || keysym == XK_Up)
+	if (keysym == XK_W || keysym == XK_w)
 	{
 		new_px = game->px + cos(game->player_angle) * MOVE_SPEED;
 		new_py = game->py + sin(game->player_angle) * MOVE_SPEED;
 		is_valid_move(game, new_px, new_py);
 	}
-	if (keysym == XK_S || keysym == XK_s || keysym == XK_Down)
+	if (keysym == XK_S || keysym == XK_s)
 	{
 		new_px = game->px - cos(game->player_angle) * MOVE_SPEED;
 		new_py = game->py - sin(game->player_angle) * MOVE_SPEED;
@@ -51,7 +53,8 @@ static int	key_hook(int keysym, t_data *game)
 	}
 	return (render_map(game), 0);
 }
-
+// if (keysym == XK_A || keysym == XK_a || keysym == XK_Left)
+// if (keysym == XK_D || keysym == XK_d || (keysym == XK_Right)
 int	main(int argc, char **argv)
 {
 	t_data	game;
