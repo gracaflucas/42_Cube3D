@@ -6,12 +6,16 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/30 10:16:11 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:55:12 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // NOTES
-// The AWSD keys are suppoused to move the player, the up|down|left|right keys are suppoused to turn left and right thru the map
+// Ignore the moves.c file, it is not working, I'll keep it just in case
+// movement is working and its not crossing walls, but zooming in and out of walls still
+//looks funny, sometimes it slips the walls like corners, and we always lose quality.
+// The AWSD keys are suppoused to move the player, the left|right keys are suppoused 
+//to rotate left and right thru the map
 #include "cub3D.h"
 
 static int	is_valid_move(t_data *game, double new_x, double new_y)
@@ -85,19 +89,6 @@ static int	key_hook(int keysym, t_data *game)
 		move_left(game);
 	return (render_map(game), 0);
 }
-
-// static int	key_hook(int keysym, t_data *game)
-// {
-	// 	if (keysym == XK_Escape)
-	// 		close_window(game);
-	// 	if (keysym == XK_Left)
-	// 		game->player_angle -= ROT_SPEED;
-	// 	if (keysym == XK_Right)
-	// 		game->player_angle += ROT_SPEED;
-	// 	if (keysym == KEY_W || keysym == KEY_S || keysym == KEY_A || keysym == KEY_D)
-	// 		move_player(keysym, game);
-	// 	return (render_map(game), 0);
-	// }
 
 int	main(int argc, char **argv)
 {
