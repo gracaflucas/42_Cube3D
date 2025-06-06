@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moves.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 12:03:28 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/23 16:28:44 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:54:58 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,3 +218,16 @@
 		new_py = game->py + sin(PI / 2 - game->player_angle) * MOVE_SPEED;
 		is_valid_move(game, new_px, new_py);
 	} */
+
+    // static int	key_hook(int keysym, t_data *game)
+// {
+	// 	if (keysym == XK_Escape)
+	// 		close_window(game);
+	// 	if (keysym == XK_Left)
+	// 		game->player_angle -= ROT_SPEED;
+	// 	if (keysym == XK_Right)
+	// 		game->player_angle += ROT_SPEED;
+	// 	if (keysym == KEY_W || keysym == KEY_S || keysym == KEY_A || keysym == KEY_D)
+	// 		move_player(keysym, game);
+	// 	return (render_map(game), 0);
+	// }
