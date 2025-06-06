@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/23 16:48:57 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:37:59 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct s_data
 	int				player;//integer flag or identifier for the player.
 	double			player_angle;//player's view direction in radians.
 	int				height;//Dimensions of the window.
+	int				line_height;
 	int				movement;
 	int				width;//Dimensions of the window.
 	t_map			minimap;//minimap data.

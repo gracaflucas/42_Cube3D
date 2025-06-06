@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/05/23 16:47:46 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:38:16 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,34 @@ static t_image	*get_wall_texture(t_data *game)
  *  - Fills pixels from `draw_end` to bottom of the screen with 
  *    floor color (gray).
  */
+// static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
+// {
+// 	t_image	*texture;
+// 	char	*pixel;
+// 	int		y;
+// 	double	step;
+// 	double	tex_pos;
+
+// 	y = -1;
+// 	texture = get_wall_texture(game);
+// 	texture->tex_x = flip_textures(texture, game);
+// 	step = 1.0 * texture->height / (draw_end - draw_start);
+// 	tex_pos = (draw_start - HEIGHT / 2 + (draw_end - draw_start) / 2) * step;
+// 	draw_ceiling_floor(game, draw_start, draw_end, x);
+// 	y = draw_start - 1;
+// 	while (++y < draw_end)
+// 	{
+// 		texture->tex_y = (int)tex_pos;
+// 		if (texture->tex_y < 0)
+// 			texture->tex_y = 0;
+// 		if (texture->tex_y >= texture->height)
+// 			texture->tex_y = texture->height - 1;
+// 		tex_pos += step;
+// 		pixel = texture->addr + (texture->tex_y * texture->line_len + texture->tex_x * (texture->bits_per_pixel / 8));
+// 		texture->color = *(unsigned int *)pixel;
+// 		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = texture->color;
+// 	}
+// }
 static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 {
 	t_image	*texture;
@@ -187,12 +215,16 @@ static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 	int		y;
 	double	step;
 	double	tex_pos;
-
-	y = -1;
+	int		unclipped_start;
+	// Reconstruct line_height and unclipped_start from draw_start, draw_end
+	// line_height = unclipped_end - unclipped_start, but unclipped_end may be unknown
+	// So recalc line_height from perp_dist:
+	game->line_height = (int)(HEIGHT / game->ray.perp_dist);
+	unclipped_start = -game->line_height / 2 + HEIGHT / 2;
 	texture = get_wall_texture(game);
 	texture->tex_x = flip_textures(texture, game);
-	step = 1.0 * texture->height / (draw_end - draw_start);
-	tex_pos = (draw_start - HEIGHT / 2 + (draw_end - draw_start) / 2) * step;
+	step = 1.0 * texture->height / game->line_height;
+	tex_pos = (draw_start - unclipped_start) * step; // adjust so texture scroll aligns
 	draw_ceiling_floor(game, draw_start, draw_end, x);
 	y = draw_start - 1;
 	while (++y < draw_end)
