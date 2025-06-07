@@ -6,44 +6,11 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/06 15:38:16 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/07 12:20:20 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-/* 
- * time for each frame? so it fixes the movement independent of machine
- * raycasting is a for loop on the X, so it doesnt calc every pixel
- * for (int x = 0; x < w; x++)
- * double cameraX = 2 * x / double(w) - 1;
- * double rayDirX = dirX + planeX * cameraX;
- * double rayDirY = dirY + planeY * cameraX;
- * sideDistX and sideDistY is the distance between player and the first wall
- * deltaDistX and deltaDistY is the distance between first wall and second
- * deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
- * deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
- * or can also use the deltaDistX = abs(1 / rayDirX) && deltaDistY = abs(1 / RayDirY)
- *
- * after raycasting is done looping, get time of current and previous frame 
- * oldTime = time;
- * time = getTicks()??
- * double frameTime = (time - oldTime) / 1000
- * double moveSpeed = frameTime * 5;
- * double rotSpeed = frameTime * 3;
- * 
- * now to rotate
- * if (key arrow right)
- * 	double oldDirX = dirX;
- * 	dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed)
- * 	dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed)  
- * 	double oldPlaneX = planeX
- * 	planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed)
- *	planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
- *
- * for arrow left, its the same, but instead use positive rot speed.
- * 
- * */
 
 /*
  * Initializes the DDA algorithm by setting up ray direction, step, and initial distances.
@@ -122,8 +89,9 @@ void	perform_dda(t_data *game, double ray_angle)
 			game->ray.map_y += game->ray.step_y;
 			game->ray.hit = 1;
 		}
-		if (game->map_array[game->ray.map_y][game->ray.map_x] == '1')
-			break ;
+		if (game->ray.map_y >= game->height || game->ray.map_x >= game->width
+			|| game->map_array[game->ray.map_y][game->ray.map_x] == '1')
+			break;
 	}
 	if (game->ray.hit == 0)
 		game->ray.perp_dist = (game->ray.side_dist_x - game->ray.delta_x) * cos(game->ray.angle - game->player_angle);
@@ -215,16 +183,13 @@ static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 	int		y;
 	double	step;
 	double	tex_pos;
-	int		unclipped_start;
-	// Reconstruct line_height and unclipped_start from draw_start, draw_end
-	// line_height = unclipped_end - unclipped_start, but unclipped_end may be unknown
-	// So recalc line_height from perp_dist:
+
 	game->line_height = (int)(HEIGHT / game->ray.perp_dist);
-	unclipped_start = -game->line_height / 2 + HEIGHT / 2;
+	game->unclipped_start = -game->line_height / 2 + HEIGHT / 2;
 	texture = get_wall_texture(game);
 	texture->tex_x = flip_textures(texture, game);
 	step = 1.0 * texture->height / game->line_height;
-	tex_pos = (draw_start - unclipped_start) * step; // adjust so texture scroll aligns
+	tex_pos = (draw_start - game->unclipped_start) * step;
 	draw_ceiling_floor(game, draw_start, draw_end, x);
 	y = draw_start - 1;
 	while (++y < draw_end)
