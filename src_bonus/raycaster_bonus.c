@@ -6,95 +6,68 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/30 12:33:21 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:30:22 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-/* 
- * time for each frame? so it fixes the movement independent of machine
- * raycasting is a for loop on the X, so it doesnt calc every pixel
- * for (int x = 0; x < w; x++)
- * double cameraX = 2 * x / double(w) - 1;
- * double rayDirX = dirX + planeX * cameraX;
- * double rayDirY = dirY + planeY * cameraX;
- * sideDistX and sideDistY is the distance between player and the first wall
- * deltaDistX and deltaDistY is the distance between first wall and second
- * deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
- * deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
- * or can also use the deltaDistX = abs(1 / rayDirX) && deltaDistY = abs(1 / RayDirY)
- *
- * after raycasting is done looping, get time of current and previous frame 
- * oldTime = time;
- * time = getTicks()??
- * double frameTime = (time - oldTime) / 1000
- * double moveSpeed = frameTime * 5;
- * double rotSpeed = frameTime * 3;
- * 
- * now to rotate
- * if (key arrow right)
- * 	double oldDirX = dirX;
- * 	dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed)
- * 	dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed)  
- * 	double oldPlaneX = planeX
- * 	planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed)
- *	planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
- *
- * for arrow left, its the same, but instead use positive rot speed.
- * 
- * */
-
 /*
- * Initializes the DDA algorithm by setting up ray direction, step, and initial distances.
+ * Initializes the DDA algorithm by setting up ray direction, 
+ step, and initial distances.
  * Description:
  *  This function prepares values needed for the DDA loop:
- *  - Computes ray direction components from the input angle using cosine and sine.
- *  - Calculates `delta_x` and `delta_y`, which represent the distance the ray must travel 
+ *  - Computes ray direction components from the input angle
+ * 		using cosine and sine.
+ *  - Calculates `dx` and `dy`, which represent the distance the 
+ * 		ray must travel 
  *    along X or Y to cross into the next map cell.
  *  - Determines the `step_x` and `step_y` directions (either -1 or +1),
  *    based on whether the ray is pointing left/right or up/down.
- *  - Computes `side_dist_x` and `side_dist_y`, the initial distances to the first 
+ *  - Computes `sx` and `sy`, the initial distances
+ * 		to the first 
  *    x-side and y-side grid intersection.
  *
  * Notes:
- *  These values are reused by `perform_dda()` to incrementally traverse the grid.
+ *  These values are reused by `perform_dda()` to incrementally
+ * 	traverse the grid.
  */
 static void	prepare_dda(t_data *game, double ray_angle)
 {
 	game->ray.x = cos(ray_angle);
 	game->ray.y = sin(ray_angle);
-	game->ray.delta_x = fabs(1 / game->ray.x);
-	game->ray.delta_y = fabs(1 / game->ray.y);
+	game->ray.dx = fabs(1 / game->ray.x);
+	game->ray.dy = fabs(1 / game->ray.y);
 	if (game->ray.x < 0)
 	{
 		game->ray.step_x = -1;
-		game->ray.side_dist_x = (game->px - game->ray.map_x) * game->ray.delta_x;
+		game->ray.sx = (game->px - game->ray.mx) * game->ray.dx;
 	}
 	else
 	{
 		game->ray.step_x = 1;
-		game->ray.side_dist_x = (game->ray.map_x + 1.0 - game->px) * game->ray.delta_x;
+		game->ray.sx = (game->ray.mx + 1.0 - game->px) * game->ray.dx;
 	}
 	if (game->ray.y < 0)
 	{
 		game->ray.step_y = -1;
-		game->ray.side_dist_y = (game->py - game->ray.map_y) * game->ray.delta_y;
+		game->ray.sy = (game->py - game->ray.my) * game->ray.dy;
 	}
 	else
 	{
 		game->ray.step_y = 1;
-		game->ray.side_dist_y = (game->ray.map_y + 1.0 - game->py) * game->ray.delta_y;
+		game->ray.sy = (game->ray.my + 1.0 - game->py) * game->ray.dy;
 	}
 }
 
 /*
- * Performs DDA (Digital Differential Analyzer) algorithm to detect wall collisions.
+ * Performs DDA (Digital Differential Analyzer) algorithm 
+ 	to detect wall collisions.
  * Description:
  *  - Initializes the map grid position from the player's coordinates.
  *  - Calls `prepare_dda()` to set ray direction, step, and initial distances.
  *  - Iteratively steps through the grid by comparing side distances:
- *    - If `side_dist_x < side_dist_y`, the ray steps in X direction.
+ *    - If `sx < sy`, the ray steps in X direction.
  *    - Otherwise, it steps in Y direction.
  *  - Stops when a wall ('1') is hit on the map.
  *  - Calculates the perpendicular distance from the player to the wall,
@@ -103,32 +76,33 @@ static void	prepare_dda(t_data *game, double ray_angle)
  * Notes:
  *  The result of this function is used to determine wall height on screen.
  */
-void	perform_dda(t_data *game, double ray_angle)
+void	perform_dda(t_data *g, double ray_angle)
 {
-	game->ray.map_x = (int)game->px;
-	game->ray.map_y = (int)game->py;
-	prepare_dda(game, ray_angle);
+	g->ray.mx = (int)g->px;
+	g->ray.my = (int)g->py;
+	prepare_dda(g, ray_angle);
 	while (1)
 	{
-		if (game->ray.side_dist_x < game->ray.side_dist_y)
+		if (g->ray.sx < g->ray.sy)
 		{
-			game->ray.side_dist_x += game->ray.delta_x;
-			game->ray.map_x += game->ray.step_x;
-			game->ray.hit = 0;
+			g->ray.sx += g->ray.dx;
+			g->ray.mx += g->ray.step_x;
+			g->ray.hit = 0;
 		}
 		else
 		{
-			game->ray.side_dist_y += game->ray.delta_y;
-			game->ray.map_y += game->ray.step_y;
-			game->ray.hit = 1;
+			g->ray.sy += g->ray.dy;
+			g->ray.my += g->ray.step_y;
+			g->ray.hit = 1;
 		}
-		if (game->map[game->ray.map_y][game->ray.map_x] == '1')
+		if (g->ray.my >= g->height || g->ray.mx >= g->width || g->ray.mx < 0
+			|| g->ray.my < 0 || g->map_array[g->ray.my][g->ray.mx] == '1')
 			break ;
 	}
-	if (game->ray.hit == 0)
-		game->ray.perp_dist = (game->ray.side_dist_x - game->ray.delta_x) * cos(game->ray.angle - game->player_angle);
+	if (g->ray.hit == 0)
+		g->ray.pd = (g->ray.sx - g->ray.dx) * cos(g->ray.angle - g->pa);
 	else
-		game->ray.perp_dist = (game->ray.side_dist_y - game->ray.delta_y) * cos(game->ray.angle - game->player_angle);
+		g->ray.pd = (g->ray.sy - g->ray.dy) * cos(g->ray.angle - g->pa);
 }
 
 /*
@@ -182,30 +156,30 @@ static t_image	*get_wall_texture(t_data *game)
  */
 static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 {
-	t_image	*texture;
-	char	*pixel;
+	t_image	*t;
+	char	*pxl;
 	int		y;
 	double	step;
 	double	tex_pos;
 
-	y = -1;
-	texture = get_wall_texture(game);
-	texture->tex_x = flip_textures(texture, game);
-	step = 1.0 * texture->height / (draw_end - draw_start);
-	tex_pos = (draw_start - HEIGHT / 2 + (draw_end - draw_start) / 2) * step;
+	calc_lines(game);
+	t = get_wall_texture(game);
+	t->tex_x = flip_textures(t, game);
+	step = 1.0 * t->height / game->line_height;
+	tex_pos = (draw_start - game->unclipped_start) * step;
 	draw_ceiling_floor(game, draw_start, draw_end, x);
 	y = draw_start - 1;
 	while (++y < draw_end)
 	{
-		texture->tex_y = (int)tex_pos;
-		if (texture->tex_y < 0)
-			texture->tex_y = 0;
-		if (texture->tex_y >= texture->height)
-			texture->tex_y = texture->height - 1;
+		t->tex_y = (int)tex_pos;
+		if (t->tex_y < 0)
+			t->tex_y = 0;
+		if (t->tex_y >= t->height)
+			t->tex_y = t->height - 1;
 		tex_pos += step;
-		pixel = texture->addr + (texture->tex_y * texture->line_len + texture->tex_x * (texture->bits_per_pixel / 8));
-		texture->color = *(unsigned int *)pixel;
-		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = texture->color;
+		pxl = t->addr + (t->tex_y * t->llen + t->tex_x * (t->bpp / 8));
+		t->color = *(unsigned int *)pxl;
+		game->ray.img_data[y * (game->minimap.size_line / 4) + x] = t->color;
 	}
 }
 
@@ -243,9 +217,9 @@ void	render_map(t_data *game)
 	x = -1;
 	while (++x < WIDTH)
 	{
-		game->ray.angle = game->player_angle - (FOV / 2) + x * (FOV / WIDTH);
+		game->ray.angle = game->pa - (FOV / 2) + x * (FOV / WIDTH);
 		perform_dda(game, game->ray.angle);
-		line_height = (int)(HEIGHT / game->ray.perp_dist);
+		line_height = (int)(HEIGHT / game->ray.pd);
 		draw_start = -line_height / 2 + HEIGHT / 2;
 		if (draw_start < 0)
 			draw_start = 0;

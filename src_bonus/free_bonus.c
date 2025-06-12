@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 12:29:53 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:03:28 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	error_handler(t_data *data, char *msg)
 		write(STDERR_FILENO, msg, ft_strlen(msg));
 		write(STDERR_FILENO, "\n", 1);
 	}
-	if (data->map)
-		free_matrix(data->map);
+	if (data->map_array)
+		free_matrix(data->map_array);
 	free_textures(&data->textures, data->init);
 	if (data->minimap.minimap)
 		mlx_destroy_image(data->init, data->minimap.minimap);
@@ -88,7 +88,7 @@ int	close_window(t_data *game)
 		free_matrix(game->file);
 	mlx_destroy_window(game->init, game->window);
 	mlx_destroy_display(game->init);
-	free_matrix(game->map);
+	free_matrix(game->map_array);
 	free(game->init);
 	game->init = NULL;
 	exit(0);
