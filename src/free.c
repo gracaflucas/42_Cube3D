@@ -6,15 +6,16 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 11:59:47 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:28:32 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 /** @brief Handles fatal errors by cleaning up resources and exiting.
- * Displays an error message (if provided), frees allocated resources such as
- * the map array, textures, images, window, and MLX context, then exits the program.
+ * Displays an error message (if provided), frees allocated resources
+ * such as the map array, textures, images, window, and MLX context, 
+ * then exits the program.
  * @param data Pointer to the main game data structure.
  * @param msg Optional error message to print to standard error.*/
 void	error_handler(t_data *data, char *msg)
@@ -44,7 +45,8 @@ void	error_handler(t_data *data, char *msg)
 
 /** @brief Frees memory and graphical resources used by texture images.
  * Destroys loaded images and frees associated texture file paths.
- * @param textures Pointer to the texture structure containing file paths and images.
+ * @param textures Pointer to the texture structure containing file
+ *  paths and images.
  * @param mlx_ptr Pointer to the MLX context used for destroying images.*/
 void	free_textures(t_texture *textures, void *mlx_ptr)
 {
@@ -68,7 +70,8 @@ void	free_textures(t_texture *textures, void *mlx_ptr)
 }
 
 /** @brief Frees a NULL-terminated matrix of strings.
- * Iterates through each row in the matrix and frees it, then frees the matrix itself.
+ * Iterates through each row in the matrix and frees it, then 
+ * frees the matrix itself.
  * @param matrix Pointer to a NULL-terminated array of string pointers*/
 void	free_matrix(char **matrix)
 {

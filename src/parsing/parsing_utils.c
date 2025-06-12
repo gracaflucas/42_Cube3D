@@ -6,14 +6,16 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 12:08:14 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:32:23 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-/** @brief Recursively checks if the map is enclosed using a flood-fill approach.
- * Marks visited tiles with 'X'. Only walkable tiles ('0', player start) are explored.
+/** @brief Recursively checks if the map is enclosed using a
+ *  flood-fill approach.
+ * Marks visited tiles with 'X'. Only walkable tiles ('0', player start)
+ *  are explored.
  * If any path leads outside bounds or to a space, the map is invalid.
  * @param map The 2D map array (char matrix).
  * @param g Pointer to the game data (for map bounds).

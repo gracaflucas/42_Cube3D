@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 11:58:12 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:30:03 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	init_struct_game(t_data *game)
 	game->colors.floor = NULL;
 	init_sub_structs(game);
 }
-
 
 /** @brief Loads and initializes texture images for the game.
  * Uses MiniLibX to load XPM texture files specified in the `textures.files`

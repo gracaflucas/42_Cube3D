@@ -6,15 +6,18 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 10:55:41 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:06:28 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:32:49 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-/** @brief Performs a flood fill from the player's position to validate map closure.
- * Duplicates the current map and recursively replaces walkable tiles from
- * the player's position. If any '0' or player-directional character (N, S, E, W)
+/** @brief Performs a flood fill from the player's position to
+ *  validate map closure.
+ * Duplicates the current map and recursively replaces walkable
+ *  tiles from
+ * the player's position. If any '0' or player-directional 
+ * character (N, S, E, W)
  * remains after the fill, the map is not properly enclosed.
  * @param game Pointer to the game state.
  * @param y The player's initial Y coordinate.

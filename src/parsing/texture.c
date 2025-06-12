@@ -6,17 +6,17 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 12:01:03 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:35:47 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-
 /** @brief Validates and processes ceiling and floor color definitions.
- * This function checks whether the ceiling and floor color strings exist and are 
- * correctly formatted as RGB values. It parses them, validates that each component 
- * is within the 0–255 range, and then converts them to hexadecimal format.
+ * This function checks whether the ceiling and floor color strings
+ * exist and are correctly formatted as RGB values. It parses them,
+ * validates that each component is within the 0–255 range, and then 
+ * converts them to hexadecimal format.
  * @param data Pointer to the main game data structure. */
 void	is_valid_colors(t_data *data)
 {
@@ -36,10 +36,10 @@ void	is_valid_colors(t_data *data)
 	data->colors.c_hex = rgb_to_hex(data->colors.c_rgb);
 }
 
-/** @brief Checks if a string contains exactly three valid numeric components separated by commas.
- * Parses a color string to confirm that it contains three numeric values 
- * separated by exactly two commas, and only contains valid characters 
- * (digits, commas, spaces).
+/** @brief Checks if a string contains exactly three valid numeric
+*components separated by commas. Parses a color string to confirm
+that it contains three numeric values separated by exactly two
+commas, and only contains valid characters (digits, commas, spaces).
  * @param str The input string representing an RGB color (e.g., "255,200,100").
  * @return 1 if the string is valid, 0 otherwise.*/
 int	has_three_numbers(char *str)
@@ -71,9 +71,10 @@ int	has_three_numbers(char *str)
 	return (free(trimmed), comma_count == 2 && num_count == 3);
 }
 
-/** @brief Parses and stores RGB values for floor and ceiling from string format.
- * Splits the floor and ceiling color strings by comma and converts each part
- * to integers, storing them in the `f_rgb` and `c_rgb` arrays in `t_colors`.
+/** @brief Parses and stores RGB values for floor and ceiling from 
+ * string format. Splits the floor and ceiling color strings by 
+ * comma and converts each part to integers, storing them in the
+ * `f_rgb` and `c_rgb` arrays in `t_colors`.
  * @param data Pointer to the main game data structure.*/
 void	save_rgb(t_data *data)
 {

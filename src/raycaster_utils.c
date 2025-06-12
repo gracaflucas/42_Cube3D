@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:26:54 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:10:32 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:32:10 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ int	flip_textures(t_image *texture, t_data *game)
 	return (tex_x);
 }
 
-/** @brief Draws the ceiling and floor colors for a vertical stripe on the screen.
+/** @brief Draws the ceiling and floor colors for a vertical 
+ * stripe on the screen.
  * Fills pixels above draw_start with the ceiling color,
  * and pixels below draw_end with the floor color.
- * @param game Pointer to the game data struct containing image buffer and colors.
+ * @param game Pointer to the game data struct containing image
+ * buffer and colors.
  * @param draw_start The starting Y coordinate of the wall slice.
  * @param draw_end The ending Y coordinate of the wall slice.
  * @param x The current vertical stripe (column) being drawn*/

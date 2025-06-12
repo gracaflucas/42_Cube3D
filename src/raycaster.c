@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:14:00 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:33:53 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 /** @brief Initializes the DDA algorithm by setting up ray direction,
  *  step, and initial distances.
  * This function prepares the values needed for the DDA loop:
- * - Computes ray direction components from the input angle using cosine and sine.
- * - Calculates `dx` and `dy`, which represent the distance the ray must travel
+ * - Computes ray direction components from the input angle using
+ *  cosine and sine.
+ * - Calculates `dx` and `dy`, which represent the distance the ray
+ *  must travel
  *   along X or Y to cross into the next map cell.
  * - Determines the `step_x` and `step_y` directions (either -1 or +1),
  *   based on the ray direction.
@@ -53,7 +55,8 @@ static void	prepare_dda(t_data *game, double ray_angle)
 	}
 }
 
-/** @brief Performs the DDA (Digital Differential Analyzer) algorithm to detect wall collisions.
+/** @brief Performs the DDA (Digital Differential Analyzer)
+ *  algorithm to detect wall collisions.
  * - Initializes the grid position from the player's coordinates.
  * - Calls `prepare_dda()` to set ray direction, step, and initial
  *  distances.
@@ -83,9 +86,9 @@ void	perform_dda(t_data *g, double ray_angle)
 			g->ray.map_y += g->ray.step_y;
 			g->ray.hit = 1;
 		}
-		if (g->ray.map_y >= g->height || g->ray.map_x >= g->width || g->ray.map_x < 0 
-		|| g->ray.map_y < 0 || g->map_array[g->ray.map_y][g->ray.map_x] == '1')
-			break;
+		if (g->ray.map_y >= g->height || g->ray.map_x >= g->width
+			|| g->ray.map_x < 0 || g->ray.map_y < 0 || g->map_array[g->ray.map_y][g->ray.map_x] == '1')
+			break ;
 	}
 	if (g->ray.hit == 0)
 		g->ray.pd = (g->ray.sx - g->ray.dx) * cos(g->ray.angle - g->pa);
@@ -93,7 +96,8 @@ void	perform_dda(t_data *g, double ray_angle)
 		g->ray.pd = (g->ray.sy - g->ray.dy) * cos(g->ray.angle - g->pa);
 }
 
-/** @brief Determines which wall texture to use based on the ray's hit orientation.
+/** @brief Determines which wall texture to use based on the ray's 
+ * hit orientation.
  *
  * Uses the `hit` flag and ray step directions to assign textures:
  * - Horizontal hits (hit == 1):

@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:10:21 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:03:13 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:32:41 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
  * Skips initial whitespace and a number of characters defined by `flag` 
  * to retrieve a cleaned string (e.g., texture path or color definition).
  * @param file The raw input line from the configuration file.
- * @param flag The number of extra characters to skip (e.g., 2 for "NO ", 1 for "F ").
+ * @param flag The number of extra characters to skip 
+ * (e.g., 2 for "NO ", 1 for "F ").
  * @return A newly allocated trimmed string with the extracted information.*/
 char	*get_info(char *file, int flag)
 {
@@ -31,8 +32,10 @@ char	*get_info(char *file, int flag)
 	return (result);
 }
 
-/** @brief Initializes texture file paths and color values from map file lines.
- * Parses each line in the map file to find texture and color definitions (NO, SO, WE, EA, F, C).
+/** @brief Initializes texture file paths and color values
+ *  from map file lines.
+ * Parses each line in the map file to find texture and colo
+ *  definitions (NO, SO, WE, EA, F, C).
  * Stops early once all six required definitions are found.
  * @param data Pointer to the main game data structure.
  * @return Index of the next unprocessed line, or 0 if incomplete.*/
