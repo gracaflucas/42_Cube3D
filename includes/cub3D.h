@@ -6,7 +6,11 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/12 12:40:20 by lufiguei         ###   ########.fr       */
+=======
+/*   Updated: 2025/06/12 12:40:36 by ana-lda-         ###   ########.fr       */
+>>>>>>> 49564db4cd96a9d8f52cf54f857a914b53ded037
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +33,7 @@
 // Define constants for game configuration
 # define MOVE_SPEED 0.2 //How fast the player moves.
 # define ROT_SPEED 0.1 //How fast the player rotates.
-# define FOV (PI / 3) // Field of view, set to 90 degrees (π/2).
+# define FOV 1.0471975512 // Approximate value of PI/3
 # define WIDTH 1920 //1240 -Resolution of the window.
 # define HEIGHT 1080 //840 -Resolution of the window.
 
