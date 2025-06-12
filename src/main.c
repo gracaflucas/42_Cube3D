@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 11:03:23 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:57:07 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// NOTES
-// Ignore the moves.c file, it is not working, I'll keep it just in case
-// movement is working and its not crossing walls, but zooming in and out of 
-// walls still looks funny, sometimes it slips the walls like corners,
-// and we always lose quality. The AWSD keys are suppoused to move the player,
-// the left|right keys are suppoused 
-//to rotate left and right thru the map
 #include "cub3D.h"
 
+/** @brief Checks whether the player can move to a new position on the map.
+ * This function verifies if the destination coordinates (new_x, new_y)
+ * are within walkable tiles ('1' indicates a wall) in the map. If movement 
+ * is allowed, it updates the player's position accordingly.
+ * @param game Pointer to the game state structure.
+ * @param new_x Proposed new x-coordinate for the player.
+ * @param new_y Proposed new y-coordinate for the player.
+ * @return Always returns 1.*/
 int	is_valid_move(t_data *game, double new_x, double new_y)
 {
 	int	map_x;
@@ -37,6 +38,13 @@ int	is_valid_move(t_data *game, double new_x, double new_y)
 	return (1);
 }
 
+/** @brief Entry point for the cub3D application.
+ * Initializes the game state, validates the map file, sets up graphics using
+ * the MiniLibX library, and enters the main render and event loop.
+ * @param argc Argument count.
+ * @param argv Argument vector. Expects the second argument to be a map file.
+ * @return 0 on success, 1 on failure (invalid arguments, map error, 
+ * or init failure).*/
 int	main(int argc, char **argv)
 {
 	t_data	game;

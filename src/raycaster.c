@@ -6,32 +6,25 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 11:27:10 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:14:00 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-/*
- * Initializes the DDA algorithm by setting up ray direction, 
- step, and initial distances.
- * Description:
- *  This function prepares values needed for the DDA loop:
- *  - Computes ray direction components from the input angle
- * 		using cosine and sine.
- *  - Calculates `dx` and `dy`, which represent the distance the 
- * 		ray must travel 
- *    along X or Y to cross into the next map cell.
- *  - Determines the `step_x` and `step_y` directions (either -1 or +1),
- *    based on whether the ray is pointing left/right or up/down.
- *  - Computes `sx` and `sy`, the initial distances
- * 		to the first 
- *    x-side and y-side grid intersection.
- *
- * Notes:
- *  These values are reused by `perform_dda()` to incrementally
- * 	traverse the grid.
- */
+/** @brief Initializes the DDA algorithm by setting up ray direction,
+ *  step, and initial distances.
+ * This function prepares the values needed for the DDA loop:
+ * - Computes ray direction components from the input angle using cosine and sine.
+ * - Calculates `dx` and `dy`, which represent the distance the ray must travel
+ *   along X or Y to cross into the next map cell.
+ * - Determines the `step_x` and `step_y` directions (either -1 or +1),
+ *   based on the ray direction.
+ * - Computes `sx` and `sy`, the initial distances to the first
+ *  x-side and y-side grid intersections.
+ * These values are used by `perform_dda()` to traverse the grid.
+ * @param game Pointer to the main game struct.
+ * @param ray_angle The angle at which the ray is cast.*/
 static void	prepare_dda(t_data *game, double ray_angle)
 {
 	game->ray.x = cos(ray_angle);
@@ -60,22 +53,17 @@ static void	prepare_dda(t_data *game, double ray_angle)
 	}
 }
 
-/*
- * Performs DDA (Digital Differential Analyzer) algorithm 
- 	to detect wall collisions.
- * Description:
- *  - Initializes the map grid position from the player's coordinates.
- *  - Calls `prepare_dda()` to set ray direction, step, and initial distances.
- *  - Iteratively steps through the grid by comparing side distances:
- *    - If `sx < sy`, the ray steps in X direction.
- *    - Otherwise, it steps in Y direction.
- *  - Stops when a wall ('1') is hit on the map.
- *  - Calculates the perpendicular distance from the player to the wall,
- *    used for perspective correction in the rendering step.
- *
- * Notes:
- *  The result of this function is used to determine wall height on screen.
- */
+/** @brief Performs the DDA (Digital Differential Analyzer) algorithm to detect wall collisions.
+ * - Initializes the grid position from the player's coordinates.
+ * - Calls `prepare_dda()` to set ray direction, step, and initial
+ *  distances.
+ * - Steps through the grid, advancing along the axis with the smaller
+ *  next side distance.
+ * - Stops when a wall ('1') is hit.
+ * - Calculates the perpendicular distance from the player to the
+ *  wall for perspective correction.
+ * @param g Pointer to the main game struct.
+ * @param ray_angle The angle at which the ray is cast.*/
 void	perform_dda(t_data *g, double ray_angle)
 {
 	g->ray.map_x = (int)g->px;
@@ -95,9 +83,8 @@ void	perform_dda(t_data *g, double ray_angle)
 			g->ray.map_y += g->ray.step_y;
 			g->ray.hit = 1;
 		}
-		if (g->ray.map_y >= g->height || g->ray.map_x >= g->width
-		|| g->ray.map_x < 0 || g->ray.map_y < 0
-		|| g->map_array[game->ray.map_y][game->ray.map_x] == '1')
+		if (g->ray.map_y >= g->height || g->ray.map_x >= g->width || g->ray.map_x < 0 
+		|| g->ray.map_y < 0 || g->map_array[g->ray.map_y][g->ray.map_x] == '1')
 			break;
 	}
 	if (g->ray.hit == 0)
@@ -106,23 +93,17 @@ void	perform_dda(t_data *g, double ray_angle)
 		g->ray.pd = (g->ray.sy - g->ray.dy) * cos(g->ray.angle - g->pa);
 }
 
-/*
- * Determines the wall texture based on the ray's hit orientation.
- * Description:
- *  - Assigns a specific texture to each wall slice based on which 
- *    side of the wall
- *    the ray hit, relative to the player's view.
- *  - The `hit` flag identifies the type of wall hit:
- *      - `hit == 1` → horizontal wall (facing North or South).
- *      - `hit == 0` → vertical wall (facing East or West).
- *  - The direction the ray came from is inferred via `step_x` and `step_y`:
- *      - Horizontal hits:
- *          - `step_y > 0` → Ray hit a **North-facing** wall
- *          - `step_y < 0` → Ray hit a **South-facing** wall
- *      - Vertical hits:
- *          - `step_x > 0` → Ray hit a **West-facing** wall 
- *          - `step_x < 0` → Ray hit an **East-facing** wall
- */
+/** @brief Determines which wall texture to use based on the ray's hit orientation.
+ *
+ * Uses the `hit` flag and ray step directions to assign textures:
+ * - Horizontal hits (hit == 1):
+ *   - step_y > 0: North-facing wall texture
+ *   - step_y < 0: South-facing wall texture
+ * - Vertical hits (hit == 0):
+ *   - step_x > 0: West-facing wall texture
+ *   - step_x < 0: East-facing wall texture
+ * @param game Pointer to the main game struct.
+ * @return Pointer to the selected texture image.*/
 static t_image	*get_wall_texture(t_data *game)
 {
 	if (game->ray.hit == 1)
@@ -142,19 +123,15 @@ static t_image	*get_wall_texture(t_data *game)
 	return (NULL);
 }
 
-/*
- * Draws a vertical wall slice on the screen at a given column.
- * Description:
- *  - This function fills one vertical column (`x`) of the screen image buffer
- *    with ceiling, wall, and floor colors, based on the calculated wall height
- *  - Calls `get_wall_color()` to determine the wall color based on 
- *    the ray's hit direction.
- *  - Fills pixels from top to `draw_start` with ceiling color (blue).
- *  - Fills pixels from `draw_start` to `draw_end` with the appropriate 
- *    wall color.
- *  - Fills pixels from `draw_end` to bottom of the screen with 
- *    floor color (gray).
- */
+/** @brief Draws a vertical wall slice on the screen at column `x`.
+ * - Calculates texture coordinates and steps.
+ * - Fills pixels above the wall slice with the ceiling color.
+ * - Fills the wall slice using texture sampling.
+ * - Fills pixels below the wall slice with the floor color.
+ * @param game Pointer to the main game struct.
+ * @param draw_start Y coordinate to start drawing the wall.
+ * @param draw_end Y coordinate to end drawing the wall.
+ * @param x Current screen column being drawn.*/
 static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 {
 	t_image	*t;
@@ -184,25 +161,16 @@ static void	draw_wall(t_data *game, int draw_start, int draw_end, int x)
 	}
 }
 
-/*
- * Renders the full 3D view by casting rays and drawing wall columns on screen.
- * Description:
- *  - Destroys the previous frame image to avoid memory leaks.
- *  - Creates a new image buffer for the current frame.
- *  - Loops through each screen column (x = 0 to WIDTH):
- *      - Calculates the angle of the ray corresponding to that column.
- *      - Calls `perform_dda()` to detect the wall and get the perpendicular
- * 		  distance.
- *      - Uses the distance to compute the height of the wall to draw.
- *      - Calculates the vertical range (`draw_start` to `draw_end`) for the 
- *        wall slice.
- *      - Calls `get_wall_color()` to draw the ceiling, wall, and floor.
- *
- * Notes:
- *  - The number of rays is equal to the screen width 
- * 	  (one ray per vertical column).
- *  - The field of view is evenly divided across all rays.
- */
+/** @brief Renders the full 3D view by casting rays and 
+ * drawing vertical slices.
+ * - Destroys previous frame image and creates a new one.
+ * - For each vertical column on screen:
+ *   - Calculates the ray angle.
+ *   - Performs DDA to find wall collisions and distance.
+ *   - Calculates wall slice height.
+ *   - Draws ceiling, wall, and floor for that column.
+ * - Puts the rendered image onto the window.
+ * @param game Pointer to the main game struct.*/
 void	render_map(t_data *game)
 {
 	int	line_height;

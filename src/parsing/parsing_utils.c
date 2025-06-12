@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 12:12:00 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:08:14 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+/** @brief Recursively checks if the map is enclosed using a flood-fill approach.
+ * Marks visited tiles with 'X'. Only walkable tiles ('0', player start) are explored.
+ * If any path leads outside bounds or to a space, the map is invalid.
+ * @param map The 2D map array (char matrix).
+ * @param g Pointer to the game data (for map bounds).
+ * @param x Current X coordinate.
+ * @param y Current Y coordinate.
+ * @return 1 if map is enclosed at this path, 0 if a leak is found.*/
 int	is_flood_valid(char **map, t_data *g, int x, int y)
 {
 	if (!is_in_bounds(g, x, y))
@@ -27,7 +35,11 @@ int	is_flood_valid(char **map, t_data *g, int x, int y)
 		&& is_flood_valid(map, g, x, y - 1));
 }
 
-// reads a file line by line into a matrix (array of strings)
+/** @brief Reads a text file into a NULL-terminated array of strings.
+ * Each line from the file becomes one element in the array.
+ *  The caller must free the matrix.
+ * @param file Path to the file.
+ * @return A NULL-terminated array of strings (matrix), or NULL on failure.*/
 char	**read_file_to_matrix(char *file)
 {
 	int		fd;
@@ -57,6 +69,10 @@ char	**read_file_to_matrix(char *file)
 	return (matrix);
 }
 
+/** @brief Counts the number of lines in a file.
+ * Opens the file and reads line by line to count how many lines it has.
+ * @param file The file path to count lines from.
+ * @return Number of lines, or -1 on error. */
 int	count_file_lines(char *file)
 {
 	int		counter;
@@ -81,6 +97,13 @@ int	count_file_lines(char *file)
 	return (counter);
 }
 
+/** @brief Recursively fills reachable spaces on the map starting at (x, y).
+ * Used to determine if the player is surrounded by closed
+ *  walls. Fills walkable
+ * tiles with 'F' and stops on walls, already filled, or empty space.
+ * @param map The 2D map array.
+ * @param y Y-coordinate to start flood fill.
+ * @param x X-coordinate to start flood fill.*/
 void	fill_recursive(char **map, int y, int x)
 {
 	if (!map || y < 0 || x < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
@@ -94,6 +117,11 @@ void	fill_recursive(char **map, int y, int x)
 	fill_recursive(map, y, x - 1);
 }
 
+/** @brief Duplicates a map matrix into a new memory space.
+ * Creates a deep copy of a 2D char array (up to given height).
+ * @param src The source map matrix.
+ * @param height Number of rows in the map.
+ * @return A new duplicated matrix, or NULL on allocation failure.*/
 char	**duplicate_map(char **src, int height)
 {
 	char	**copy;

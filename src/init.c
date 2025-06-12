@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 11:21:33 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:58:12 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+/** @brief Initializes substructures within the game data.
+ * This function sets default values for the `minimap` and `ray` 
+ * substructures inside the main `t_data` structure.
+ * @param game Pointer to the game state structure.*/
 static void	init_sub_structs(t_data *game)
 {
 	game->minimap.map = NULL;
@@ -36,6 +40,11 @@ static void	init_sub_structs(t_data *game)
 	game->ray.pixel_y = 0;
 }
 
+/** @brief Initializes the main game data structure.
+ * This function sets initial values for the main `t_data` structure used in 
+ * the game, including player position, textures, map, and color data. It 
+ * also initializes substructures via `init_sub_structs()`.
+ * @param game Pointer to the game state structure to initialize.*/
 void	init_struct_game(t_data *game)
 {
 	int	i;
@@ -64,6 +73,12 @@ void	init_struct_game(t_data *game)
 	init_sub_structs(game);
 }
 
+
+/** @brief Loads and initializes texture images for the game.
+ * Uses MiniLibX to load XPM texture files specified in the `textures.files`
+ * array, storing the image pointers and related metadata in `textures.images`.
+ * On failure, it calls `error_handler()`.
+ * @param game Pointer to the initialized game structure.*/
 void	init_images(t_data *game)
 {
 	int	i;

@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:26:54 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 11:21:38 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:10:32 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+/** @brief Calculates the correct texture X coordinate for wall rendering,
+ * taking into account the ray hit direction and flipping texture accordingly.
+ * Uses the player's position and ray distance to find the exact wall hit point,
+ * then calculates the texture coordinate along the wall.
+ * @param texture Pointer to the texture image struct containing width info.
+ * @param game Pointer to the game data struct containing ray info.
+ * @return The X coordinate in the texture to sample from.*/
 int	flip_textures(t_image *texture, t_data *game)
 {
 	int		tex_x;
@@ -36,6 +43,13 @@ int	flip_textures(t_image *texture, t_data *game)
 	return (tex_x);
 }
 
+/** @brief Draws the ceiling and floor colors for a vertical stripe on the screen.
+ * Fills pixels above draw_start with the ceiling color,
+ * and pixels below draw_end with the floor color.
+ * @param game Pointer to the game data struct containing image buffer and colors.
+ * @param draw_start The starting Y coordinate of the wall slice.
+ * @param draw_end The ending Y coordinate of the wall slice.
+ * @param x The current vertical stripe (column) being drawn*/
 void	draw_ceiling_floor(t_data *game, int draw_start, int draw_end, int x)
 {
 	int	y;

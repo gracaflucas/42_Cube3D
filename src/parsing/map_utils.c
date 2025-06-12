@@ -6,15 +6,20 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/06 10:16:53 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:09:40 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-// 	Takes the map part and normalizes it (copy + pad)
-// Add this to your header or top of file if needed
-
+/** @brief Extracts and prepares the map from the file starting at start_y line.
+ * Validates map characters, calculates map dimensions, 
+ * pads lines to equal length,
+ * and returns a newly allocated 2D char array representing the map.
+ * @param game Pointer to the game structure (to store map dimensions).
+ * @param file The array of strings read from the file.
+ * @param start_y The line index where the map starts in the file.
+ * @return Newly allocated map matrix, or NULL on failure or invalid map. */
 char	**extract_map(t_data *game, char **file, int start_y)
 {
 	char	**map;
@@ -42,7 +47,10 @@ char	**extract_map(t_data *game, char **file, int start_y)
 	return (map);
 }
 
-// 	Finds the widest line to pad other lines
+/** @brief Finds the length of the longest line in the map.
+ * Used to pad shorter lines to ensure rectangular map shape.
+ * @param file The map lines starting from map start.
+ * @return The length of the longest line (excluding newline).*/
 int	find_biggest_line(char **file)
 {
 	int	i;
@@ -63,7 +71,12 @@ int	find_biggest_line(char **file)
 	return (max_len);
 }
 
-// Counts how many valid map lines exist
+/** @brief Counts valid map lines starting at start_y.
+ * Checks that each character in these lines is valid for the map.
+ * Valid characters: ' ', '0', '1', 'N', 'S', 'E', 'W', '\t', '\n', 'D'.
+ * @param file The entire file as an array of strings.
+ * @param start_y The index in file where the map starts.
+ * @return Number of valid map lines, or 0 if invalid character found.*/
 int	map_size_valid_char(char **file, int start_y)
 {
 	int	i;
@@ -91,7 +104,11 @@ int	map_size_valid_char(char **file, int start_y)
 	return (lines);
 }
 
-// Copies each line and pads with spaces
+/** @brief Copies and pads a single map line to a specified size.
+ * Pads shorter lines with spaces to ensure consistent map width.
+ * @param file_line The source map line string.
+ * @param size Desired length of the line after padding.
+ * @return Newly allocated padded line string, or NULL on allocation failure.*/
 char	*get_map_line(char *file_line, int size)
 {
 	char	*line;
@@ -111,6 +128,11 @@ char	*get_map_line(char *file_line, int size)
 	return (line);
 }
 
+/** @brief Checks if the given coordinates are within the bounds of the map.
+ * @param g Pointer to the game structure containing map dimensions.
+ * @param x X-coordinate.
+ * @param y Y-coordinate.
+ * @return 1 if (x,y) is inside the map bounds, 0 otherwise.*/
 int	is_in_bounds(t_data *g, int x, int y)
 {
 	return (x >= 0 && y >= 0 && y < g->height && x < g->width);
