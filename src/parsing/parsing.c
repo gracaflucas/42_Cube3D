@@ -3,27 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 11:20:15 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:05:30 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-// What We Need to Adapt:
-
-//     Load the .cub file line by line and store it in a matrix (2D char**).
-
-//     Validate the extension .cub before doing anything.
-
-//     Treat irregular maps (not strictly rectangles) without crashing.
-
-//     Ensure the map is properly closed (walls check).
-
-//     Extract and validate the player position (just one allowed).
-
+/** @brief Validates the file extension of the map file.
+ * Checks whether the filename ends with ".cub". Returns 0 if valid,
+ * otherwise returns 1 for an invalid extension.
+ * @param str The map filename.
+ * @return 0 if extension is ".cub", 1 otherwise.*/
 static int	extention(char *str)
 {
 	int	len;
@@ -44,6 +37,12 @@ static int	extention(char *str)
 	return (0);
 }
 
+/** @brief Sets the player's initial angle based on direction.
+ * Updates the `game->pa` (player angle) based on the character
+ * indicating the direction in the map.
+ * @param game Pointer to game state.
+ * @param c Character representing the player's facing direction 
+ * (N, S, E, W).*/
 static void	get_pa(t_data *game, char c)
 {
 	if (c == 'N')
@@ -56,6 +55,11 @@ static void	get_pa(t_data *game, char c)
 		game->pa = PI;
 }
 
+/** @brief Checks for player existence and sets position and direction.
+ * Searches the map array for the player start character (N, S, E, W),
+ * and sets the player's position and direction accordingly.
+ * @param game Pointer to game state.
+ * @return 0 if one player is found, 2 if none or more than one.*/
 static int	has_player(t_data *game)
 {
 	int	i;
@@ -82,6 +86,11 @@ static int	has_player(t_data *game)
 	return (0);
 }
 
+/** @brief Validates that all characters in the map are allowed.
+ * Allowed characters are: '0', '1', 'N', 'S', 'E', 'W', space, 
+ * and newline.
+ * @param game Pointer to game state.
+ * @return 0 if valid, 2 if invalid characters are found.*/
 static int	char_cmp(t_data *game)
 {
 	int		i;
@@ -104,6 +113,21 @@ static int	char_cmp(t_data *game)
 	return (0);
 }
 
+/** @brief Performs full validation of the map file and its contents.
+ * This includes:
+ * - File extension check
+ * - Reading the file into memory
+ * - Texture and color parsing
+ * - Texture/color duplication checks
+ * - RGB value parsing
+ * - Extracting map layout
+ * - Ensuring a single player is present
+ * - Validating allowed characters
+ * - Running flood fill to ensure the map is enclosed
+ * If any step fails, an appropriate error is thrown and the program exits.
+ * @param str Path to the `.cub` map file.
+ * @param game Pointer to game state.
+ * @return 0 if successful, 1 on failure.*/
 int	valid_map(char *str, t_data *game)
 {
 	char	**file;
@@ -129,6 +153,6 @@ int	valid_map(char *str, t_data *game)
 	if (char_cmp(game) == 2)
 		return (error_handler(game, "unknown character inside map."), 1);
 	if (!flood_fill(game, (int)game->py, (int)game->px))
-        return (error_handler(game, "map is not enclosed."), 1);
+		return (error_handler(game, "map is not enclosed."), 1);
 	return (0);
 }
