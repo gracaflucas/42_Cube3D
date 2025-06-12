@@ -3,91 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/05/30 10:55:12 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:03:23 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // NOTES
 // Ignore the moves.c file, it is not working, I'll keep it just in case
-// movement is working and its not crossing walls, but zooming in and out of walls still
-//looks funny, sometimes it slips the walls like corners, and we always lose quality.
-// The AWSD keys are suppoused to move the player, the left|right keys are suppoused 
+// movement is working and its not crossing walls, but zooming in and out of 
+// walls still looks funny, sometimes it slips the walls like corners,
+// and we always lose quality. The AWSD keys are suppoused to move the player,
+// the left|right keys are suppoused 
 //to rotate left and right thru the map
 #include "cub3D.h"
 
-static int	is_valid_move(t_data *game, double new_x, double new_y)
+int	is_valid_move(t_data *game, double new_x, double new_y)
 {
-	int	map_x = (int)new_x;
-	int	map_y = (int)new_y;
-	int	cur_x = (int)game->px;
-	int	cur_y = (int)game->py;
+	int	map_x;
+	int	map_y;
+	int	cur_x;
+	int	cur_y;
 
+	map_x = (int)new_x;
+	map_y = (int)new_y;
+	cur_x = (int)game->px;
+	cur_y = (int)game->py;
 	if (game->map_array[cur_y][map_x] != '1')
 		game->px = new_x;
 	if (game->map_array[map_y][cur_x] != '1')
 		game->py = new_y;
 	return (1);
-}
-
-static void	move_up(t_data *game)
-{
-	double	new_px;
-	double	new_py;
-	
-	new_px = game->px + cos(game->player_angle) * MOVE_SPEED;
-	new_py = game->py + sin(game->player_angle) * MOVE_SPEED;
-	is_valid_move(game, new_px, new_py);
-}
-
-static void	move_down(t_data *game)
-{
-	double	new_px;
-	double	new_py;
-	
-	new_px = game->px - cos(game->player_angle) * MOVE_SPEED;
-	new_py = game->py - sin(game->player_angle) * MOVE_SPEED;
-	is_valid_move(game, new_px, new_py);
-}
-
-static void	move_right(t_data *game)
-{
-	double	new_px;
-	double	new_py;
-	
-	new_px = game->px + cos(game->player_angle + PI / 2) * MOVE_SPEED;
-	new_py = game->py + sin(game->player_angle + PI / 2) * MOVE_SPEED;
-	is_valid_move(game, new_px, new_py);
-}
-static void	move_left(t_data *game)
-{
-	double	new_px;
-	double	new_py;
-	
-	new_px = game->px + cos(game->player_angle - PI / 2) * MOVE_SPEED;
-	new_py = game->py + sin(game->player_angle - PI / 2) * MOVE_SPEED;
-	is_valid_move(game, new_px, new_py);
-}
-
-static int	key_hook(int keysym, t_data *game)
-{
-	if (keysym == XK_Escape)
-		close_window(game);
-	if (keysym == XK_Left)
-		game->player_angle -= ROT_SPEED;
-	if (keysym == XK_Right)
-		game->player_angle += ROT_SPEED;
-	if (keysym == KEY_W)
-		move_up(game);
-	if (keysym == KEY_S)
-		move_down(game);
-	if (keysym == KEY_D)
-		move_right(game);
-	if (keysym == KEY_A)
-		move_left(game);
-	return (render_map(game), 0);
 }
 
 int	main(int argc, char **argv)

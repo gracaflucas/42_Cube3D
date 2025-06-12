@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/05/23 13:46:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:20:15 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ static int	extention(char *str)
 	return (0);
 }
 
-static void	get_player_angle(t_data *game, char c)
+static void	get_pa(t_data *game, char c)
 {
 	if (c == 'N')
-		game->player_angle = -PI_2;
+		game->pa = -PI_2;
 	else if (c == 'S')
-		game->player_angle = PI_2;
+		game->pa = PI_2;
 	else if (c == 'E')
-		game->player_angle = 0;
+		game->pa = 0;
 	else if (c == 'W')
-		game->player_angle = PI;
+		game->pa = PI;
 }
 
 static int	has_player(t_data *game)
@@ -72,7 +72,7 @@ static int	has_player(t_data *game)
 			{
 				game->px = j + 0.5;
 				game->py = i + 0.5;
-				get_player_angle(game, game->map_array[i][j]);
+				get_pa(game, game->map_array[i][j]);
 				game->player += 1;
 			}
 		}
@@ -131,24 +131,4 @@ int	valid_map(char *str, t_data *game)
 	//if (!flood_fill(game, (int)game->px, (int)game->py))
 	//	return (error_handler(game, "map is not enclosed."), 1);
 	return (0);
-}
-
-int	flood_fill(t_data *game, int y, int x)
-{
-	char	**copy;
-	int		i;
-
-	copy = duplicate_map(game->map_array, game->height);
-	if (!copy)
-		return (0);
-	fill_recursive(copy, y, x);
-	i = -1;
-	while (++i < game->height)
-	{
-		if (ft_strchr(copy[i], '0') || ft_strchr(copy[i], 'N')
-			|| ft_strchr(copy[i], 'S') || ft_strchr(copy[i], 'E')
-			|| ft_strchr(copy[i], 'W'))
-			return (free_matrix(copy), 0);
-	}
-	return (free_matrix(copy), 1);
 }

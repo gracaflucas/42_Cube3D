@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/07 12:09:51 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:34:26 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ typedef struct s_image
 {
 	void	*img;//A pointer to the actual image.
 	char	*addr;// pointer to the image's pixel data (used to access and modify the image).
-	int		bits_per_pixel;//Image format information (important for pixel manipulation)
-	int		line_len;//Image format information
+	int		bpp;//Image format information (important for pixel manipulation)
+	int		llen;//Image format information
 	int		endian;//Image format information
 	int		width; //Dimensions of the image.
 	int		height;//Dimensions of the image.
@@ -103,11 +103,11 @@ typedef struct s_ray
 	double	x;//The ray's starting position.
 	double	y;//The ray's starting position.
 	double	angle;//ray's direction/angle.
-	double	side_dist_y;//The distance to the nearest horizontal and vertical grid lines.
-	double	side_dist_x;//The distance to the nearest horizontal and vertical grid lines.
-	double	delta_x;//The distances the ray needs to move to cross a cell in the X or Y direction.
-	double	delta_y;//The distances the ray needs to move to cross a cell in the X or Y direction.
-	double	perp_dist;//The perpendicular distance from the player to the wall (wall height).
+	double	sy;//The distance to the nearest horizontal and vertical grid lines.
+	double	sx;//The distance to the nearest horizontal and vertical grid lines.
+	double	dx;//The distances the ray needs to move to cross a cell in the X or Y direction.
+	double	dy;//The distances the ray needs to move to cross a cell in the X or Y direction.
+	double	pd;//The perpendicular distance from the player to the wall (wall height).
 	int		step_x;//Directional steps to move the ray (either +1 or -1).
 	int		step_y;//Directional steps to move the ray (either +1 or -1).
 	int		map_x;//The current map cell the ray is in.
@@ -128,7 +128,7 @@ typedef struct s_data
 	double			px;//player's position on the map.
 	double			py;//player's position on the map.
 	int				player;//integer flag or identifier for the player.
-	double			player_angle;//player's view direction in radians.
+	double			pa;//player's view direction in radians.
 	int				height;//Dimensions of the window.
 	int				line_height;
 	int				unclipped_start;
@@ -162,6 +162,8 @@ void			init_images(t_data *game);
 void			draw_ceiling_floor(t_data *game, int draw_start,
 					int draw_end, int x);
 int				flip_textures(t_image *texture, t_data *game);
+void			calc_lines(t_data *game);
+int				jump(char *trimmed, int *i);
 
 /********************* MAP HANDLING *********************/
 int				flood_fill(t_data *game, int y, int x);
@@ -173,7 +175,7 @@ int				find_biggest_line(char **file);
 int				map_size_valid_char(char **file, int start_y);
 char			*get_map_line(char *file_line, int size);
 int				count_file_lines(char *file);
-void			perform_dda(t_data *game, double ray_angle);
+void			perform_dda(t_data *g, double ray_angle);
 char			**read_file_to_matrix(char *file);
 void			fill_recursive(char **map, int y, int x);
 char			**duplicate_map(char **src, int height);
@@ -184,13 +186,7 @@ void			free_matrix(char **matrix);
 void			free_textures(t_texture *textures, void *mlx_ptr);
 
 /********************* PLAYER MOVEMENT *********************/
-// int				check_quad(double player_angle);
-// void			move_player(int keysym, t_data *game);
-// void			move_up(t_data *game, int quad);
-// void			move_down(t_data *game, int quad);
-// void			move_left(t_data *game, int quad);
-// void			move_right(t_data *game, int quad);
-// void			change_player_position(t_coordinate *new_pos, t_data *game);
-// void			walk_move(t_data *game);
+int				key_hook(int keysym, t_data *game);
+int				is_valid_move(t_data *game, double new_x, double new_y);
 
 #endif

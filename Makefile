@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
+#    By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/05/23 18:06:50 by ana-lda-         ###   ########.fr        #
+#    Updated: 2025/06/12 10:56:28 by lufiguei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/raycaster_utils.c \
 		$(SRC_DIR)parsing/parsing.c \
 		$(SRC_DIR)parsing/parsing_utils.c \
+		$(SRC_DIR)parsing/parsing_utils2.c \
 		$(SRC_DIR)parsing/texture.c \
 		$(SRC_DIR)parsing/texture_utils.c \
 		$(SRC_DIR)parsing/map_utils.c \

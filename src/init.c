@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/05/23 13:44:11 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:21:33 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static void	init_sub_structs(t_data *game)
 	game->minimap.wall_color = 0;
 	game->ray.angle = 0;
 	game->ray.hit = 2;
-	game->ray.perp_dist = 0;
-	game->ray.side_dist_x = 0;
-	game->ray.side_dist_y = 0;
+	game->ray.pd = 0;
+	game->ray.sx = 0;
+	game->ray.sy = 0;
 	game->ray.x = 0;
 	game->ray.y = 0;
 	game->ray.map_x = 0;
@@ -49,7 +49,7 @@ void	init_struct_game(t_data *game)
 	game->px = 0;
 	game->py = 0;
 	game->player = 0;
-	game->player_angle = 0;
+	game->pa = 0;
 	game->height = 0;
 	game->width = 0;
 	while (++i < 4)
@@ -78,8 +78,8 @@ void	init_images(t_data *game)
 			error_handler(game, "Error\nFailed to load textures.");
 		game->textures.images[i].addr = mlx_get_data_addr
 			(game->textures.images[i].img,
-				&game->textures.images[i].bits_per_pixel,
-				&game->textures.images[i].line_len,
+				&game->textures.images[i].bpp,
+				&game->textures.images[i].llen,
 				&game->textures.images[i].endian);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:26:54 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/04/30 12:02:00 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:21:38 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	flip_textures(t_image *texture, t_data *game)
 	double	wall_x;
 
 	if (game->ray.hit == 0)
-		wall_x = game->py + game->ray.perp_dist * game->ray.y;
+		wall_x = game->py + game->ray.pd * game->ray.y;
 	else
-		wall_x = game->px + game->ray.perp_dist * game->ray.x;
+		wall_x = game->px + game->ray.pd * game->ray.x;
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * (double)texture->width);
 	if (game->ray.hit == 0)
