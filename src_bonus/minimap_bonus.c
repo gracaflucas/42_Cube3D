@@ -34,11 +34,11 @@ static void	draw_tile(t_data *game, int i, int j, int *img_data)
 	int		x;
 	int		y;
 
-	c = game->map[i][j];
+	c = game->map_array[i][j];
 	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
 	{
 		c = '0';
-		game->map[i][j] = '0';
+		game->map_array[i][j] = '0';
 	}
 	if (c == '0')
 		game->minimap.pixel_color = 0x000000;
@@ -118,9 +118,9 @@ static void	cast_ray(t_data *game, double angle)
 	game->ray.angle = angle;
 	while (1)
 	{
-		game->ray.map_x = (int)game->ray.x;
-		game->ray.map_y = (int)game->ray.y;
-		if (game->map[game->ray.map_y][game->ray.map_x] == '1')
+		game->ray.mx = (int)game->ray.x;
+		game->ray.my = (int)game->ray.y;
+		if (game->map_array[game->ray.my][game->ray.mx] == '1')
 			break ;
 		game->ray.pixel_x = game->ray.x * 24;
 		game->ray.pixel_y = game->ray.y * 24;
@@ -156,7 +156,7 @@ static void	cast_fov(t_data *game)
 	double	step;
 	int		i;
 
-	start_angle = game->player_angle - (FOV / 2);
+	start_angle = game->pa - (FOV / 2);
 	step = FOV / 1920;
 	i = -1;
 	while (++i < 1920)
@@ -195,8 +195,8 @@ void	render_minimap(t_data *game)
 	i = -1;
 	if (game->minimap.minimap)
 		mlx_destroy_image(game->init, game->minimap.minimap);
-	game->minimap.minimap = mlx_new_image(game->init, game->width * 24,
-			game->height * 24);
+	game->minimap.minimap = mlx_new_image(game->init,
+			game->width * 24, game->height * 24);
 	img_data = (int *)mlx_get_data_addr(game->minimap.minimap, &j,
 			&game->minimap.size_line, &j);
 	while (++i < game->height)
@@ -207,6 +207,5 @@ void	render_minimap(t_data *game)
 	}
 	draw_player(game, img_data);
 	cast_fov(game);
-	mlx_put_image_to_window(game->init, game->window,
-		game->minimap.minimap, 0, 0);
+	render_minimap(game);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:26:25 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/05/06 11:46:53 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:59:27 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,22 @@ void	duplicate_texture_or_color(t_data *data)
 void	is_valid_textures(t_data *data)
 {
 	int	fd;
+	int	i;
 
-	duplicate_texture_or_color(data);
 	if (!data->textures.files[0] || !data->textures.files[1]
 		|| !data->textures.files[2] || !data->textures.files[3])
-		return (error_handler(data, "No texture found"));
-	fd = open(data->textures.files[0], O_RDONLY);
-	if (fd < 0)
-		return (error_handler(data, "North texture is invalid"));
-	fd = open(data->textures.files[1], O_RDONLY);
-	if (fd < 0)
-		return (error_handler(data, "East texture is invalid"));
-	fd = open(data->textures.files[2], O_RDONLY);
-	if (fd < 0)
-		return (error_handler(data, "South texture is invalid"));
-	fd = open(data->textures.files[3], O_RDONLY);
-	if (fd < 0)
-		return (error_handler(data, "West texture is invalid"));
-	return ;
+	{
+		error_handler(data, "Missing texture");
+	}
+	i = 0;
+	while (i < 4)
+	{
+		fd = open(data->textures.files[i], O_RDONLY);
+		if (fd < 0)
+		{
+			error_handler(data, "Invalid texture file");
+		}
+		close(fd);
+		i++;
+	}
 }
