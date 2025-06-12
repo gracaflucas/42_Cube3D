@@ -126,6 +126,8 @@ typedef struct s_data
 	t_coordinate	player_pos;
 	int				height;
 	int				width;
+	int				line_height;
+	int				unclipped_start;
 	t_map			minimap;
 	t_ray			ray;
 	t_texture		textures;

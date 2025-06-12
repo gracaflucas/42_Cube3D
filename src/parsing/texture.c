@@ -6,7 +6,7 @@
 /*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/04/30 12:23:12 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:33:50 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ int	has_three_numbers(char *str)
 			comma_count++;
 		else if (ft_isdigit(trimmed[i]))
 		{
-			while (ft_isdigit(trimmed[i]))
-				i++;
-			num_count++;
+			num_count += jump(trimmed, &i);
 			continue ;
 		}
 		else if (trimmed[i] == ' ' || trimmed[i] == '\t')
