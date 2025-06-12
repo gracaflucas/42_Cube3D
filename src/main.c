@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:12:02 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 11:57:07 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:40:57 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@
  * @return Always returns 1.*/
 int	is_valid_move(t_data *game, double new_x, double new_y)
 {
-	int	map_x;
-	int	map_y;
+	int	mx;
+	int	my;
 	int	cur_x;
 	int	cur_y;
 
-	map_x = (int)new_x;
-	map_y = (int)new_y;
+	mx = (int)new_x;
+	my = (int)new_y;
 	cur_x = (int)game->px;
 	cur_y = (int)game->py;
-	if (game->map_array[cur_y][map_x] != '1')
+	if (game->map_array[cur_y][mx] != '1')
 		game->px = new_x;
-	if (game->map_array[map_y][cur_x] != '1')
+	if (game->map_array[my][cur_x] != '1')
 		game->py = new_y;
 	return (1);
 }
