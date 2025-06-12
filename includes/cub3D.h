@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 12:44:04 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:46:35 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct s_ray
 	int		step_x;//Directional steps to move the ray (either +1 or -1).
 	int		step_y;//Directional steps to move the ray (either +1 or -1).
 	int		mx;//The current map cell the ray is in.
-	int		map_y;//The current map cell the ray is in.
+	int		my;//The current map cell the ray is in.
 	int		hit;//Whether the ray has hit a wall or not.
 	int		pixel_x;//Coord. of pixel in the image buffer where the ray hit.
 	int		pixel_y;//Coord. of pixel in the image buffer where the ray hit.
