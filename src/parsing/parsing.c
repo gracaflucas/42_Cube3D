@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/05/23 13:46:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:19:07 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ int	valid_map(char *str, t_data *game)
 		return (error_handler(game, "missing or duplicate player."), 1);
 	if (char_cmp(game) == 2)
 		return (error_handler(game, "unknown character inside map."), 1);
-	//if (!flood_fill(game, (int)game->px, (int)game->py))
-	//	return (error_handler(game, "map is not enclosed."), 1);
+	if (!flood_fill(game, (int)game->py, (int)game->px))
+        return (error_handler(game, "map is not enclosed."), 1);
 	return (0);
 }
 
