@@ -6,7 +6,7 @@
 #    By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/06/12 10:56:28 by lufiguei         ###   ########.fr        #
+#    Updated: 2025/06/12 12:15:57 by lufiguei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,8 +48,10 @@ SRC_BONUS = $(SRC_DIR_BONUS)/main_bonus.c \
 		$(SRC_DIR_BONUS)parsing_bonus/texture_bonus.c \
 		$(SRC_DIR_BONUS)parsing_bonus/map_utils_bonus.c \
 		$(SRC_DIR_BONUS)parsing_bonus/parsing_utils_bonus.c \
+		$(SRC_DIR_BONUS)parsing_bonus/parsing_utils2_bonus.c \
 		$(SRC_DIR_BONUS)parsing_bonus/texture_utils_bonus.c \
 		$(SRC_DIR_BONUS)free_bonus.c \
+		$(SRC_DIR_BONUS)moves_bonus.c \
 		$(SRC_DIR_BONUS)minimap_bonus.c \
 		$(SRC_DIR_BONUS)raycaster_utils_bonus.c \
 		$(SRC_DIR_BONUS)/raycaster_bonus.c

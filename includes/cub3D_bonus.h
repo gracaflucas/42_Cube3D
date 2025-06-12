@@ -23,17 +23,21 @@
 # include "minilibx-linux/mlx.h"
 
 // Define constants for game configuration
-# define MOVE_SPEED 0.2
-# define ROT_SPEED 0.1
-# define FOV (M_PI / 2)
-# define WIDTH 1920 //1240
-# define HEIGHT 1080 //840
+# define MOVE_SPEED 0.2 //How fast the player moves.
+# define ROT_SPEED 0.1 //How fast the player rotates.
+# define FOV (M_PI / 3) // Field of view, set to 90 degrees (π/2).
+# define WIDTH 1920 //1240 -Resolution of the window.
+# define HEIGHT 1080 //840 -Resolution of the window.
 
 // Map defines
 # define WALL '1'
 # define FLOOR '0'
-# define O_DOOR 'd'
-# define C_DOOR 'D'
+
+// KEY DEFINES
+# define KEY_W XK_w
+# define KEY_A XK_a
+# define KEY_S XK_s
+# define KEY_D XK_d
 
 // Pi constants for angle calculations
 # define PI 3.14159265358979323846
@@ -42,16 +46,16 @@
 // Map-related structs
 typedef struct s_map
 {
-	void	*minimap;
-	void	*map;
-	int		size_line;
-	int		y_offset;
-	int		x_offset;
-	int		pixel_color;
-	int		wall_color;
+	void	*minimap;// A pointer to an image representing the minimap
+	void	*map;//A pointer to the map image.
+	int		size_line;// related to pixel handling and offsets for the minimap display.
+	int		y_offset;// related to pixel handling and offsets for the minimap display.
+	int		x_offset;// related to pixel handling and offsets for the minimap display.
+	int		pixel_color;//Colors for the minimap or map pixels
+	int		wall_color;//Colors for the minimap or map pixels
 }	t_map;
 
-// Coordinates struct
+// Coordinates struct -  used for representing 2D coordinates in the game
 typedef struct s_coordinate
 {
 	double	x;
@@ -61,23 +65,23 @@ typedef struct s_coordinate
 // Image struct
 typedef struct s_image
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_len;
-	int		endian;
-	int		width;
-	int		height;
-	int		tex_y;
-	int		tex_x;
-	int		color;
+	void	*img;//A pointer to the actual image.
+	char	*addr;// pointer to the image's pixel data (used to access and modify the image).
+	int		bpp;//Image format information (important for pixel manipulation)
+	int		llen;//Image format information
+	int		endian;//Image format information
+	int		width; //Dimensions of the image.
+	int		height;//Dimensions of the image.
+	int		tex_y;//Coordinates to access specific pixels of a texture (for wall rendering).
+	int		tex_x;//Coordinates to access specific pixels of a texture
+	int		color;//Holds the current pixel color (used for wall rendering).
 }	t_image;
 
 // Texture struct
 typedef struct s_texture
 {
-	char	*files[4];
-	t_image	images[5];
+	char	*files[4];//Holds file paths for the four textures used for walls (N, S, E, W).
+	t_image	images[5];//Holds the actual loaded textures
 }	t_texture;
 
 // Color struct
@@ -94,44 +98,46 @@ typedef struct s_color
 // Ray struct
 typedef struct s_ray
 {
-	double	x;
-	double	y;
-	double	angle;
-	double	side_dist_y;
-	double	side_dist_x;
-	double	delta_x;
-	double	delta_y;
-	double	perp_dist;
-	int		step_x;
-	int		step_y;
-	int		map_x;
-	int		map_y;
-	int		hit;
-	int		pixel_x;
-	int		pixel_y;
-	int		*img_data;
+	double	x;//The ray's starting position.
+	double	y;//The ray's starting position.
+	double	angle;//ray's direction/angle.
+	double	sy;//The distance to the nearest horizontal and vertical grid lines.
+	double	sx;//The distance to the nearest horizontal and vertical grid lines.
+	double	dx;//The distances the ray needs to move to cross a cell in the X or Y direction.
+	double	dy;//The distances the ray needs to move to cross a cell in the X or Y direction.
+	double	pd;//The perpendicular distance from the player to the wall (wall height).
+	int		step_x;//Directional steps to move the ray (either +1 or -1).
+	int		step_y;//Directional steps to move the ray (either +1 or -1).
+	int		mx;//The current map cell the ray is in.
+	int		my;//The current map cell the ray is in.
+	int		hit;//Whether the ray has hit a wall or not.
+	int		pixel_x;//Coordinates of the pixel in the image buffer where the ray hit.
+	int		pixel_y;//Coordinates of the pixel in the image buffer where the ray hit.
+	int		*img_data;//Pixel data to be rendered for the current ray.
 }	t_ray;
 
 // Main data struct
 typedef struct s_data
 {
-	void			*window;
-	void			*init;
-	char			**map;
-	char			**file;
-	double			px;
-	double			py;
-	int				player;
-	double			player_angle;
-	t_coordinate	player_pos;
-	int				height;
-	int				width;
+	void			*window;//Pointer to the window and MLX initialization.
+	void			*init;//Pointer to the window and MLX initialization.
+	char			**map_array;//A 2D array representing the game map (e.g., walls, floors).
+	char			**file;// A 2D array holding data related to the file
+	double			px;//player's position on the map.
+	double			py;//player's position on the map.
+	int				player;//integer flag or identifier for the player.
+	double			pa;//player's view direction in radians.
+	int				height;//Dimensions of the window.
 	int				line_height;
 	int				unclipped_start;
-	t_map			minimap;
-	t_ray			ray;
-	t_texture		textures;
-	t_color			colors;
+	int				movement;
+	int				width;//Dimensions of the window.
+	t_map			minimap;//minimap data.
+	t_map			map;// main map data
+	t_ray			ray;//Raycasting data.
+	t_texture		textures;//Textures for the walls.
+	t_coordinate	player_pos;
+	t_color			colors;//Floor and ceiling colors.
 }	t_data;
 
 /********************* INIT *********************/
@@ -154,10 +160,11 @@ void			init_images(t_data *game);
 void			draw_ceiling_floor(t_data *game, int draw_start,
 					int draw_end, int x);
 int				flip_textures(t_image *texture, t_data *game);
+void			calc_lines(t_data *game);
+int				jump(char *trimmed, int *i);
 
 /********************* MAP HANDLING *********************/
 int				flood_fill(t_data *game, int y, int x);
-void			render_minimap(t_data *game);
 void			render_map(t_data *game);
 int				valid_map(char *str, t_data *game);
 int				is_flood_valid(char **map, t_data *g, int x, int y);
@@ -166,23 +173,19 @@ int				find_biggest_line(char **file);
 int				map_size_valid_char(char **file, int start_y);
 char			*get_map_line(char *file_line, int size);
 int				count_file_lines(char *file);
-void			perform_dda(t_data *game, double ray_angle);
+void			perform_dda(t_data *g, double ray_angle);
 char			**read_file_to_matrix(char *file);
 void			fill_recursive(char **map, int y, int x);
 char			**duplicate_map(char **src, int height);
 int				is_in_bounds(t_data *g, int x, int y);
+void			render_minimap(t_data *game);
 
 /********************* MEMORY HANDLING *********************/
 void			free_matrix(char **matrix);
 void			free_textures(t_texture *textures, void *mlx_ptr);
 
-
 /********************* PLAYER MOVEMENT *********************/
-int				check_quadrant(double player_angle);
-void			move_player(int keysym, t_data *game);
-void			move_player_up(t_data *game, int quad);
-void			move_player_down(t_data *game, int quad);
-void			move_player_left(t_data *game, int quad);
-void			move_player_right(t_data *game, int quad);
+int				key_hook(int keysym, t_data *game);
+int				is_valid_move(t_data *game, double new_x, double new_y);
 
 #endif
