@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:30:03 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:41:00 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void	init_sub_structs(t_data *game)
 	game->ray.sy = 0;
 	game->ray.x = 0;
 	game->ray.y = 0;
-	game->ray.map_x = 0;
-	game->ray.map_y = 0;
+	game->ray.mx = 0;
+	game->ray.my = 0;
 	game->ray.step_x = 0;
 	game->ray.step_y = 0;
 	game->ray.pixel_x = 0;

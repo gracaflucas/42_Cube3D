@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:33:53 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:41:47 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,22 @@ static void	prepare_dda(t_data *game, double ray_angle)
 	if (game->ray.x < 0)
 	{
 		game->ray.step_x = -1;
-		game->ray.sx = (game->px - game->ray.map_x) * game->ray.dx;
+		game->ray.sx = (game->px - game->ray.mx) * game->ray.dx;
 	}
 	else
 	{
 		game->ray.step_x = 1;
-		game->ray.sx = (game->ray.map_x + 1.0 - game->px) * game->ray.dx;
+		game->ray.sx = (game->ray.mx + 1.0 - game->px) * game->ray.dx;
 	}
 	if (game->ray.y < 0)
 	{
 		game->ray.step_y = -1;
-		game->ray.sy = (game->py - game->ray.map_y) * game->ray.dy;
+		game->ray.sy = (game->py - game->ray.my) * game->ray.dy;
 	}
 	else
 	{
 		game->ray.step_y = 1;
-		game->ray.sy = (game->ray.map_y + 1.0 - game->py) * game->ray.dy;
+		game->ray.sy = (game->ray.my + 1.0 - game->py) * game->ray.dy;
 	}
 }
 
@@ -69,25 +69,25 @@ static void	prepare_dda(t_data *game, double ray_angle)
  * @param ray_angle The angle at which the ray is cast.*/
 void	perform_dda(t_data *g, double ray_angle)
 {
-	g->ray.map_x = (int)g->px;
-	g->ray.map_y = (int)g->py;
+	g->ray.mx = (int)g->px;
+	g->ray.my = (int)g->py;
 	prepare_dda(g, ray_angle);
 	while (1)
 	{
 		if (g->ray.sx < g->ray.sy)
 		{
 			g->ray.sx += g->ray.dx;
-			g->ray.map_x += g->ray.step_x;
+			g->ray.mx += g->ray.step_x;
 			g->ray.hit = 0;
 		}
 		else
 		{
 			g->ray.sy += g->ray.dy;
-			g->ray.map_y += g->ray.step_y;
+			g->ray.my += g->ray.step_y;
 			g->ray.hit = 1;
 		}
-		if (g->ray.map_y >= g->height || g->ray.map_x >= g->width
-			|| g->ray.map_x < 0 || g->ray.map_y < 0 || g->map_array[g->ray.map_y][g->ray.map_x] == '1')
+		if (g->ray.my >= g->height || g->ray.mx >= g->width || g->ray.mx < 0
+			|| g->ray.my < 0 || g->map_array[g->ray.my][g->ray.mx] == '1')
 			break ;
 	}
 	if (g->ray.hit == 0)

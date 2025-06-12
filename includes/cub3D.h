@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 12:27:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:40:20 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct s_ray
 	double	pd;//perpendicular distance from the player to the wall
 	int		step_x;//Directional steps to move the ray (either +1 or -1).
 	int		step_y;//Directional steps to move the ray (either +1 or -1).
-	int		map_x;//The current map cell the ray is in.
+	int		mx;//The current map cell the ray is in.
 	int		map_y;//The current map cell the ray is in.
 	int		hit;//Whether the ray has hit a wall or not.
 	int		pixel_x;//Coord. of pixel in the image buffer where the ray hit.
