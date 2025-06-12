@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+         #
+#    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/06/12 12:38:45 by lufiguei         ###   ########.fr        #
+#    Updated: 2025/06/12 19:43:26 by ana-lda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ OBJ := $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%, $(OBJ))
 
 CC = cc
 C_FLAGS = -Wall -Werror -Wextra -g -Iincludes -Ilib/libft
-NAME = cub3D
+NAME = Cub3D
 
 all : $(NAME)
 

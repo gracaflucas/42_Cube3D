@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 10:55:41 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:32:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:40:05 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,32 @@
  * @param y The player's initial Y coordinate.
  * @param x The player's initial X coordinate.
  * @return 1 if the map is enclosed, 0 if there are leaks.*/
-int	flood_fill(t_data *game, int y, int x)
+int flood_fill(t_data *game, int y, int x)
 {
-	char	**copy;
-	int		i;
+    if (y < 0 || y >= game->height || x < 0 || x >= game->width)
+        return 0; // outside map bounds = fail
 
-	copy = duplicate_map(game->map_array, game->height);
-	if (!copy)
-		return (0);
-	fill_recursive(copy, y, x);
-	i = -1;
-	while (++i < game->height)
-	{
-		if (ft_strchr(copy[i], '0') || ft_strchr(copy[i], 'N')
-			|| ft_strchr(copy[i], 'S') || ft_strchr(copy[i], 'E')
-			|| ft_strchr(copy[i], 'W'))
-			return (free_matrix(copy), 0);
-	}
-	return (free_matrix(copy), 1);
+    char c = game->map_array[y][x];
+    if (c == '1' || c == 'O') // wall or visited
+        return 1;
+
+    if (c == ' ') // space inside map treated as outside = fail
+        return 0;
+
+    // Mark current position visited
+    game->map_array[y][x] = 'O';
+
+    // Recursively fill neighbors
+    if (!flood_fill(game, y + 1, x))
+        return 0;
+    if (!flood_fill(game, y - 1, x))
+        return 0;
+    if (!flood_fill(game, y, x + 1))
+        return 0;
+    if (!flood_fill(game, y, x - 1))
+        return 0;
+
+    return 1;
 }
 
 /** @brief Calculates the height of the wall slice to be drawn for a ray
