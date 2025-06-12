@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:42:07 by lufiguei          #+#    #+#             */
 /*   Updated: 2025/06/12 11:27:10 by lufiguei         ###   ########.fr       */
@@ -96,8 +96,9 @@ void	perform_dda(t_data *g, double ray_angle)
 			g->ray.hit = 1;
 		}
 		if (g->ray.map_y >= g->height || g->ray.map_x >= g->width
-			|| g->map_array[g->ray.map_y][g->ray.map_x] == '1')
-			break ;
+		|| g->ray.map_x < 0 || g->ray.map_y < 0
+		|| g->map_array[game->ray.map_y][game->ray.map_x] == '1')
+			break;
 	}
 	if (g->ray.hit == 0)
 		g->ray.pd = (g->ray.sx - g->ray.dx) * cos(g->ray.angle - g->pa);

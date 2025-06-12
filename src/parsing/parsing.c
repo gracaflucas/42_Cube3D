@@ -128,7 +128,7 @@ int	valid_map(char *str, t_data *game)
 		return (error_handler(game, "missing or duplicate player."), 1);
 	if (char_cmp(game) == 2)
 		return (error_handler(game, "unknown character inside map."), 1);
-	//if (!flood_fill(game, (int)game->px, (int)game->py))
-	//	return (error_handler(game, "map is not enclosed."), 1);
+	if (!flood_fill(game, (int)game->py, (int)game->px))
+        return (error_handler(game, "map is not enclosed."), 1);
 	return (0);
 }
