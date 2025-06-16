@@ -45,7 +45,7 @@ OBJ := $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%, $(OBJ))
 
 CC = cc
 C_FLAGS = -Wall -Werror -Wextra -g -Iincludes -Ilib/libft
-NAME = Cub3D
+NAME = cub3D
 
 all : $(NAME)
 
