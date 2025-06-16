@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 10:55:41 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 19:40:05 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:30:37 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,32 +23,27 @@
  * @param y The player's initial Y coordinate.
  * @param x The player's initial X coordinate.
  * @return 1 if the map is enclosed, 0 if there are leaks.*/
-int flood_fill(t_data *game, int y, int x)
+int	flood_fill(t_data *game, int y, int x)
 {
-    if (y < 0 || y >= game->height || x < 0 || x >= game->width)
-        return 0; // outside map bounds = fail
+	char	c;
 
-    char c = game->map_array[y][x];
-    if (c == '1' || c == 'O') // wall or visited
-        return 1;
-
-    if (c == ' ') // space inside map treated as outside = fail
-        return 0;
-
-    // Mark current position visited
-    game->map_array[y][x] = 'O';
-
-    // Recursively fill neighbors
-    if (!flood_fill(game, y + 1, x))
-        return 0;
-    if (!flood_fill(game, y - 1, x))
-        return 0;
-    if (!flood_fill(game, y, x + 1))
-        return 0;
-    if (!flood_fill(game, y, x - 1))
-        return 0;
-
-    return 1;
+	if (y < 0 || y >= game->height || x < 0 || x >= game->width)
+		return (0);
+	c = game->map_array[y][x];
+	if (c == '1' || c == 'O')
+		return (1);
+	if (c == ' ')
+		return (0);
+	game->map_array[y][x] = 'O';
+	if (!flood_fill(game, y + 1, x))
+		return (0);
+	if (!flood_fill(game, y - 1, x))
+		return (0);
+	if (!flood_fill(game, y, x + 1))
+		return (0);
+	if (!flood_fill(game, y, x - 1))
+		return (0);
+	return (1);
 }
 
 /** @brief Calculates the height of the wall slice to be drawn for a ray

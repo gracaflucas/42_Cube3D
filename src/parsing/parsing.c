@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 19:40:32 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:30:37 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,28 +91,27 @@ static int	has_player(t_data *game)
  * and newline.
  * @param game Pointer to game state.
  * @return 0 if valid, 2 if invalid characters are found.*/
-static int char_cmp(t_data *game)
+static int	char_cmp(t_data *game)
 {
-    int i, j;
+	int	i;
+	int	j;
 
-    i = -1;
-    while (game->map_array[++i])
-    {
-        j = -1;
-        while (game->map_array[i][++j])
-        {
-            // Skip spaces inside the map (allowed) but not unknown chars
-            if (game->map_array[i][j] == ' ')
-                continue;
-            if (game->map_array[i][j] != 'W' && game->map_array[i][j] != 'E'
-                && game->map_array[i][j] != 'N' && game->map_array[i][j] != 'S'
-                && game->map_array[i][j] != '0' && game->map_array[i][j] != '1')
-                return 2; // Unknown character found
-        }
-    }
-    return 0;
+	i = -1;
+	while (game->map_array[++i])
+	{
+		j = -1;
+		while (game->map_array[i][++j])
+		{
+			if (game->map_array[i][j] == ' ')
+				continue ;
+			if (game->map_array[i][j] != 'W' && game->map_array[i][j] != 'E'
+				&& game->map_array[i][j] != 'N' && game->map_array[i][j] != 'S'
+				&& game->map_array[i][j] != '0' && game->map_array[i][j] != '1')
+				return (2);
+		}
+	}
+	return (0);
 }
-
 
 /** @brief Performs full validation of the map file and its contents.
  * This includes:
