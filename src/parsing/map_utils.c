@@ -6,11 +6,12 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 12:09:40 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:25:32 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+// usar error_handler e nao printf
 
 /** @brief Extracts and prepares the map from the file starting at start_y line.
  * Validates map characters, calculates map dimensions, 
