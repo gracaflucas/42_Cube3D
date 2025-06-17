@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/16 10:30:37 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:35:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,21 +138,21 @@ int	valid_map(char *str, t_data *game)
 		return (error_handler(game, "map file could not be read."), 1);
 	game->file = file;
 	if (extention(str) == 2)
-		return (error_handler(game, "not a valid extension."), 1);
+		return (free_matrix(file), error_handler(game, "not a valid extension."), 1);
 	start_y = init_texture_color_names(game);
 	if (!start_y)
-		return (error_handler(game, "missing texture or color."), 1);
+		return (free_matrix(file), error_handler(game, "missing texture or color."), 1);
 	duplicate_texture_or_color(game);
 	is_valid_textures(game);
 	is_valid_colors(game);
 	game->map_array = extract_map(game, file, start_y);
 	if (!game->map_array)
-		return (error_handler(game, "invalid map layout."), 1);
+		return (free_matrix(file), error_handler(game, "invalid map layout."), 1);
 	if (has_player(game) == 2)
-		return (error_handler(game, "missing or duplicate player."), 1);
+		return (free_matrix(file), error_handler(game, "missing or duplicate player."), 1);
 	if (char_cmp(game) == 2)
-		return (error_handler(game, "unknown character inside map."), 1);
+		return (free_matrix(file), error_handler(game, "unknown character inside map."), 1);
 	if (!flood_fill(game, (int)game->py, (int)game->px))
-		return (error_handler(game, "map is not enclosed."), 1);
+		return (free_matrix(file), error_handler(game, "map is not enclosed."), 1);
 	return (0);
 }

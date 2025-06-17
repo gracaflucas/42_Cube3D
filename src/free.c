@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 12:28:32 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:31:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	error_handler(t_data *data, char *msg)
 	if (data->map_array)
 		free_matrix(data->map_array);
 	free_textures(&data->textures, data->init);
+	free(data->colors.ceiling);
+	free(data->colors.floor);
 	if (data->minimap.minimap)
 		mlx_destroy_image(data->init, data->minimap.minimap);
 	if (data->minimap.map)
