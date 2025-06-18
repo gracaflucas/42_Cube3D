@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 10:55:41 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/16 11:15:46 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:43:20 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,24 @@ int	parser(t_data *game, char **file)
 		return (free_matrix(file),
 			error_handler(game, "map is not enclosed."), 1);
 	return (0);
+}
+
+/** @brief Extracts and trims information from a configuration line.
+ * Skips initial whitespace and a number of characters defined by `flag` 
+ * to retrieve a cleaned string (e.g., texture path or color definition).
+ * @param file The raw input line from the configuration file.
+ * @param flag The number of extra characters to skip 
+ * (e.g., 2 for "NO ", 1 for "F ").
+ * @return A newly allocated trimmed string with the extracted information.*/
+char	*get_info(char *file, int flag)
+{
+	int		i;
+	char	*result;
+
+	i = 0;
+	while (file[i] == ' ' || file[i] == '\t')
+		i++;
+	i += flag;
+	result = ft_strtrim(&file[i], " \n\t");
+	return (result);
 }

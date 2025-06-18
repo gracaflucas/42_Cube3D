@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/12 12:35:47 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:43:20 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,23 @@ void	save_rgb(t_data *data)
 unsigned int	rgb_to_hex(int *rgb)
 {
 	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
+}
+
+/** @brief Checks if a file exists and is accessible for reading.
+ * Attempts to open the given file in read-only mode.
+ * @param filename Path to the file.
+ * @return 1 if the file exists, 0 otherwise.*/
+int	file_exists(char *filename)
+{
+	FILE	*file;
+
+	if (!filename)
+		return (0);
+	file = fopen(filename, "r");
+	if (file)
+	{
+		fclose(file);
+		return (1);
+	}
+	return (0);
 }
