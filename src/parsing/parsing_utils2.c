@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 10:55:41 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/18 11:43:20 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:40:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ int	parser(t_data *game, char **file)
 	if (char_cmp(game) == 2)
 		return (free_matrix(file),
 			error_handler(game, "unknown character inside map."), 1);
+	if (!check_border(game->map_array, game->width, game->height))
+		return (free_matrix(file),
+			error_handler(game, "map not enclosed at border."), 1);
 	if (!flood_fill(game, (int)game->py, (int)game->px))
 		return (free_matrix(file),
 			error_handler(game, "map is not enclosed."), 1);

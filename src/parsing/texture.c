@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/18 11:58:23 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:40:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,24 @@ void	save_rgb(t_data *data)
 unsigned int	rgb_to_hex(int *rgb)
 {
 	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
+}
+
+int	check_border(char **map, int width, int height)
+{
+	int x;
+	int y;
+
+	x = -1;
+	y = -1;
+	while (++x < width)
+	{
+		if (ft_strchr("0NSEW", map[0][x]) || ft_strchr("0NSEW", map[height - 1][x]))
+			return (0);
+	}
+	while (++y < height)
+	{
+		if (ft_strchr("0NSEW", map[y][0]) || ft_strchr("0NSEW", map[y][width - 1]))
+			return (0);
+	}
+	return (1);
 }

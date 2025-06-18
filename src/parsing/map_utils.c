@@ -6,12 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/17 13:35:18 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:50:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-// usar error_handler e nao printf
 
 /** @brief Extracts and prepares the map from the file starting at start_y line.
  * Validates map characters, calculates map dimensions, 
@@ -24,24 +23,17 @@
 char	**extract_map(t_data *game, char **file, int start_y)
 {
 	char	**map;
-	int		map_height;
-	int		max_len;
 	int		i;
 
-	map_height = map_size_valid_char(file, start_y);
-	if (map_height <= 0)
-		return (free_matrix(file),
-			error_handler(game, "Invalid character or empty map."), NULL);
-	game->height = map_height;
-	max_len = find_biggest_line(&file[start_y]);
-	game->width = max_len;
-	map = ft_calloc(sizeof(char *), map_height + 1);
+	if (first_map_check(game, file, start_y) != 0)
+		return (NULL);
+	map = ft_calloc(sizeof(char *), game->height + 1);
 	if (!map)
 		return (error_handler(game, "Memory allocation failed for map."), NULL);
 	i = -1;
-	while (++i < map_height)
+	while (++i < game->height)
 	{
-		map[i] = get_map_line(file[start_y + i], max_len);
+		map[i] = get_map_line(file[start_y + i], game->width);
 		if (!map[i])
 			return (free_matrix(map),
 				error_handler(game, "Line allocation failed."), NULL);

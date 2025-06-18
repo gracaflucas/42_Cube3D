@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:55:50 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/18 11:56:54 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:42:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,42 @@ void	is_valid_textures(t_data *data)
 		close(fd);
 		i++;
 	}
+}
+
+static int	is_all_space(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] != ' ' && (line[i] < 9 || line[i] > 13))
+			return (0);
+	}
+	return (1);
+}
+
+int	validate_map_continuity(char **file, int start)
+{
+	int	found_map_line;
+	int	blank_found;
+	
+	found_map_line = 0;
+	blank_found = 0;
+	while (file[start])
+	{
+		if (file[start][0] == '\0' || is_all_space(file[start]))
+		{
+			if (found_map_line)
+				blank_found = 1;
+		}
+		else
+		{
+			if (blank_found)
+				return (0);
+			found_map_line = 1;
+		}
+		start++;
+	}
+	return (1);
 }

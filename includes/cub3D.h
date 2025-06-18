@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/17 13:31:28 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:49:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,9 @@ int				is_in_bounds(t_data *g, int x, int y);
 int				parser(t_data *game, char **file);
 int				char_cmp(t_data *game);
 int				has_player(t_data *game);
+int				validate_map_continuity(char **file, int start);
+int				check_border(char **map, int width, int height);
+int				first_map_check(t_data *game, char **file, int start_y);
 
 /********************* MEMORY HANDLING *********************/
 void			free_matrix(char **matrix);
