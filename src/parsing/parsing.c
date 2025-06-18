@@ -60,7 +60,7 @@ static void	get_pa(t_data *game, char c)
  * and sets the player's position and direction accordingly.
  * @param game Pointer to game state.
  * @return 0 if one player is found, 2 if none or more than one.*/
-static int	has_player(t_data *game)
+int	has_player(t_data *game)
 {
 	int	i;
 	int	j;
@@ -91,7 +91,7 @@ static int	has_player(t_data *game)
  * and newline.
  * @param game Pointer to game state.
  * @return 0 if valid, 2 if invalid characters are found.*/
-static int	char_cmp(t_data *game)
+int	char_cmp(t_data *game)
 {
 	int	i;
 	int	j;
@@ -138,21 +138,17 @@ int	valid_map(char *str, t_data *game)
 		return (error_handler(game, "map file could not be read."), 1);
 	game->file = file;
 	if (extention(str) == 2)
-		return (free_matrix(file), error_handler(game, "not a valid extension."), 1);
+		return (free_matrix(file),
+			error_handler(game, "not a valid extension."), 1);
 	start_y = init_texture_color_names(game);
 	if (!start_y)
-		return (free_matrix(file), error_handler(game, "missing texture or color."), 1);
+		return (free_matrix(file),
+			error_handler(game, "missing texture or color."), 1);
 	duplicate_texture_or_color(game);
 	is_valid_textures(game);
 	is_valid_colors(game);
 	game->map_array = extract_map(game, file, start_y);
-	if (!game->map_array)
-		return (free_matrix(file), error_handler(game, "invalid map layout."), 1);
-	if (has_player(game) == 2)
-		return (free_matrix(file), error_handler(game, "missing or duplicate player."), 1);
-	if (char_cmp(game) == 2)
-		return (free_matrix(file), error_handler(game, "unknown character inside map."), 1);
-	if (!flood_fill(game, (int)game->py, (int)game->px))
-		return (free_matrix(file), error_handler(game, "map is not enclosed."), 1);
+	if (parser(game, file) != 0)
+		return (1);
 	return (0);
 }

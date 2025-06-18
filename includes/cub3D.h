@@ -180,6 +180,9 @@ char			**read_file_to_matrix(char *file);
 void			fill_recursive(char **map, int y, int x);
 char			**duplicate_map(char **src, int height);
 int				is_in_bounds(t_data *g, int x, int y);
+int				parser(t_data *game, char **file);
+int				char_cmp(t_data *game);
+int				has_player(t_data *game);
 
 /********************* MEMORY HANDLING *********************/
 void			free_matrix(char **matrix);
