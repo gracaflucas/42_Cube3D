@@ -30,7 +30,8 @@ char	**extract_map(t_data *game, char **file, int start_y)
 
 	map_height = map_size_valid_char(file, start_y);
 	if (map_height <= 0)
-		return (free_matrix(file), error_handler(game, "Invalid character or empty map."), NULL);
+		return (free_matrix(file),
+			error_handler(game, "Invalid character or empty map."), NULL);
 	game->height = map_height;
 	max_len = find_biggest_line(&file[start_y]);
 	game->width = max_len;

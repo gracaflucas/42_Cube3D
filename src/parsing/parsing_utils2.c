@@ -69,3 +69,20 @@ int	jump(char *trimmed, int *i)
 		(*i)++;
 	return (1);
 }
+
+int	parser(t_data *game, char **file)
+{
+	if (!game->map_array)
+		return (free_matrix(file),
+			error_handler(game, "invalid map layout."), 1);
+	if (has_player(game) == 2)
+		return (free_matrix(file),
+			error_handler(game, "missing or duplicate player."), 1);
+	if (char_cmp(game) == 2)
+		return (free_matrix(file),
+			error_handler(game, "unknown character inside map."), 1);
+	if (!flood_fill(game, (int)game->py, (int)game->px))
+		return (free_matrix(file),
+			error_handler(game, "map is not enclosed."), 1);
+	return (0);
+}
