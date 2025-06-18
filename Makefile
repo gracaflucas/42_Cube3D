@@ -6,7 +6,7 @@
 #    By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 12:15:28 by ana-lda-          #+#    #+#              #
-#    Updated: 2025/06/12 19:43:26 by ana-lda-         ###   ########.fr        #
+#    Updated: 2025/06/18 11:56:54 by ana-lda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = $(SRC_DIR)/main.c \
 		$(SRC_DIR)parsing/parsing_utils2.c \
 		$(SRC_DIR)parsing/texture.c \
 		$(SRC_DIR)parsing/texture_utils.c \
+		$(SRC_DIR)parsing/texture_utils2.c \
 		$(SRC_DIR)parsing/map_utils.c \
 		$(SRC_DIR)free.c \
 		$(SRC_DIR)/raycaster.c
