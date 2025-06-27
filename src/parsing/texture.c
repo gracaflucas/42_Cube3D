@@ -18,20 +18,29 @@
  * validates that each component is within the 0–255 range, and then 
  * converts them to hexadecimal format.
  * @param data Pointer to the main game data structure. */
-void	is_valid_colors(t_data *data)
+void	is_valid_colors(t_data *data, char **file)
 {
 	int	i;
 
 	i = -1;
 	if (!data->colors.ceiling || !data->colors.floor)
+	{
+		free_matrix(file);
 		error_handler(data, "Missing color");
+	}
 	if (!has_three_numbers(data->colors.ceiling)
 		|| !has_three_numbers(data->colors.floor))
+	{
+		free_matrix(file);
 		error_handler(data, "Invalid color format");
+	}
 	save_rgb(data);
 	while (++i < 3)
 		if (data->colors.f_rgb[i] > 255 || data->colors.c_rgb[i] > 255)
+		{
+			free_matrix(file);
 			error_handler(data, "Color component > 255");
+		}
 	data->colors.f_hex = rgb_to_hex(data->colors.f_rgb);
 	data->colors.c_hex = rgb_to_hex(data->colors.c_rgb);
 }

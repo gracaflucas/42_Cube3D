@@ -68,7 +68,7 @@ void	duplicate_texture_or_color(t_data *data)
  * and refer to valid files. If any are missing or unreadable,
  *  triggers an error.
  * @param data Pointer to the main game data structure.*/
-void	is_valid_textures(t_data *data)
+void	is_valid_textures(t_data *data, char **file)
 {
 	int	fd;
 	int	i;
@@ -76,6 +76,7 @@ void	is_valid_textures(t_data *data)
 	if (!data->textures.files[0] || !data->textures.files[1]
 		|| !data->textures.files[2] || !data->textures.files[3])
 	{
+		free_matrix(file);
 		error_handler(data, "Missing texture");
 	}
 	i = 0;
@@ -84,6 +85,7 @@ void	is_valid_textures(t_data *data)
 		fd = open(data->textures.files[i], O_RDONLY);
 		if (fd < 0)
 		{
+			free_matrix(file);
 			error_handler(data, "Invalid texture file");
 		}
 		close(fd);
