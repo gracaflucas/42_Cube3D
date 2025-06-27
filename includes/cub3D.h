@@ -156,8 +156,8 @@ int				has_three_numbers(char *str);
 void			save_rgb(t_data *data);
 char			*get_info(char *file, int flag);
 void			duplicate_texture_or_color(t_data *data);
-void			is_valid_textures(t_data *data);
-void			is_valid_colors(t_data *data);
+void			is_valid_textures(t_data *data, char **file);
+void			is_valid_colors(t_data *data, char **file);
 void			init_images(t_data *game);
 void			draw_ceiling_floor(t_data *game, int draw_start,
 					int draw_end, int x);

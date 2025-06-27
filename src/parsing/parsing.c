@@ -145,8 +145,8 @@ int	valid_map(char *str, t_data *game)
 		return (free_matrix(file),
 			error_handler(game, "missing texture or color."), 1);
 	duplicate_texture_or_color(game);
-	is_valid_textures(game);
-	is_valid_colors(game);
+	is_valid_textures(game, file);
+	is_valid_colors(game, file);
 	game->map_array = extract_map(game, file, start_y);
 	if (parser(game, file) != 0)
 		return (1);
