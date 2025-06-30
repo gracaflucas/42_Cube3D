@@ -110,7 +110,7 @@ int	validate_map_continuity(char **file, int start)
 {
 	int	found_map_line;
 	int	blank_found;
-	
+
 	found_map_line = 0;
 	blank_found = 0;
 	while (file[start])
