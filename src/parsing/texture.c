@@ -36,11 +36,13 @@ void	is_valid_colors(t_data *data, char **file)
 	}
 	save_rgb(data);
 	while (++i < 3)
+	{
 		if (data->colors.f_rgb[i] > 255 || data->colors.c_rgb[i] > 255)
 		{
 			free_matrix(file);
 			error_handler(data, "Color component > 255");
 		}
+	}
 	data->colors.f_hex = rgb_to_hex(data->colors.f_rgb);
 	data->colors.c_hex = rgb_to_hex(data->colors.c_rgb);
 }
@@ -114,19 +116,21 @@ unsigned int	rgb_to_hex(int *rgb)
 
 int	check_border(char **map, int width, int height)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = -1;
 	y = -1;
 	while (++x < width)
 	{
-		if (ft_strchr("0NSEW", map[0][x]) || ft_strchr("0NSEW", map[height - 1][x]))
+		if (ft_strchr("0NSEW", map[0][x])
+			|| ft_strchr("0NSEW", map[height - 1][x]))
 			return (0);
 	}
 	while (++y < height)
 	{
-		if (ft_strchr("0NSEW", map[y][0]) || ft_strchr("0NSEW", map[y][width - 1]))
+		if (ft_strchr("0NSEW", map[y][0])
+			|| ft_strchr("0NSEW", map[y][width - 1]))
 			return (0);
 	}
 	return (1);

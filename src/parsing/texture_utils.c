@@ -81,10 +81,11 @@ int	init_texture_color_names(t_data *data)
 int	first_map_check(t_data *game, char **file, int start_y)
 {
 	int	map_height;
-	int max_len;
+	int	max_len;
 
 	if (!validate_map_continuity(file, start_y))
-		return (free_matrix(file), error_handler(game, "Map has empty lines."), 1);
+		return (free_matrix(file),
+			error_handler(game, "Map has empty lines."), 1);
 	map_height = map_size_valid_char(file, start_y);
 	if (map_height <= 0)
 		return (free_matrix(file),
