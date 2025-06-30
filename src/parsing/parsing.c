@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:18:33 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/18 11:42:57 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:40:08 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,16 +135,14 @@ int	valid_map(char *str, t_data *game)
 
 	file = read_file_to_matrix(str);
 	if (!file)
-		return (error_handler(game, "map file could not be read."), 1);
+		return (error_handler(game, "map file could not be read.", NULL), 1);
 	game->file = file;
 	if (extention(str) == 2)
-		return (free_matrix(file),
-			error_handler(game, "not a valid extension."), 1);
+		return (error_handler(game, "not a valid extension.", file), 1);
 	start_y = init_texture_color_names(game);
 	if (!start_y)
-		return (free_matrix(file),
-			error_handler(game, "missing texture or color."), 1);
-	duplicate_texture_or_color(game);
+		return (error_handler(game, "missing texture or color.", file), 1);
+	duplicate_texture_or_color(game, file);
 	is_valid_textures(game, file);
 	is_valid_colors(game, file);
 	game->map_array = extract_map(game, file, start_y);

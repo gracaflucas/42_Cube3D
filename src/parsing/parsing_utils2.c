@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 10:55:41 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/18 16:40:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:39:34 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,15 @@ int	jump(char *trimmed, int *i)
 int	parser(t_data *game, char **file)
 {
 	if (!game->map_array)
-		return (free_matrix(file),
-			error_handler(game, "invalid map layout."), 1);
+		return (error_handler(game, "invalid map layout.", file), 1);
 	if (has_player(game) == 2)
-		return (free_matrix(file),
-			error_handler(game, "missing or duplicate player."), 1);
+		return (error_handler(game, "missing or duplicate player.", file), 1);
 	if (char_cmp(game) == 2)
-		return (free_matrix(file),
-			error_handler(game, "unknown character inside map."), 1);
+		return (error_handler(game, "unknown character inside map.", file), 1);
 	if (!check_border(game->map_array, game->width, game->height))
-		return (free_matrix(file),
-			error_handler(game, "map not enclosed at border."), 1);
+		return (error_handler(game, "map not enclosed at border.", file), 1);
 	if (!flood_fill(game, (int)game->py, (int)game->px))
-		return (free_matrix(file),
-			error_handler(game, "map is not enclosed."), 1);
+		return (error_handler(game, "map is not enclosed.", file), 1);
 	return (0);
 }
 

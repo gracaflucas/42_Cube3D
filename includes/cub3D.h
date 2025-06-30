@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:21:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:49:28 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:36:50 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void			init_struct_game(t_data *game);
 int				close_window(t_data *game);
 
 /********************* ERROR HANDLING *********************/
-void			error_handler(t_data *data, char *msg);
+void			error_handler(t_data *data, char *msg, char **file);
 
 /********************* TEXTURE AND COLOR *********************/
 int				init_texture_color_names(t_data *data);
@@ -155,7 +155,7 @@ unsigned int	rgb_to_hex(int *rgb);
 int				has_three_numbers(char *str);
 void			save_rgb(t_data *data);
 char			*get_info(char *file, int flag);
-void			duplicate_texture_or_color(t_data *data);
+void			duplicate_texture_or_color(t_data *data, char **file);
 void			is_valid_textures(t_data *data, char **file);
 void			is_valid_colors(t_data *data, char **file);
 void			init_images(t_data *game);

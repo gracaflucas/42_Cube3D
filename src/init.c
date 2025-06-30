@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:55:12 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/12 12:41:00 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:41:26 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	init_images(t_data *game)
 				game->textures.files[i], &game->textures.images[i].width,
 				&game->textures.images[i].height);
 		if (!game->textures.images[i].img)
-			error_handler(game, "Error\nFailed to load textures.");
+			error_handler(game, "Error\nFailed to load textures.", NULL);
 		game->textures.images[i].addr = mlx_get_data_addr
 			(game->textures.images[i].img,
 				&game->textures.images[i].bpp,

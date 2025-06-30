@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:06:18 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:50:14 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:44:12 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ char	**extract_map(t_data *game, char **file, int start_y)
 		return (NULL);
 	map = ft_calloc(sizeof(char *), game->height + 1);
 	if (!map)
-		return (error_handler(game, "Memory allocation failed for map."), NULL);
+		return (error_handler(game, "Memory allocation failed for map.", NULL)
+			, NULL);
 	i = -1;
 	while (++i < game->height)
 	{
 		map[i] = get_map_line(file[start_y + i], game->width);
 		if (!map[i])
 			return (free_matrix(map),
-				error_handler(game, "Line allocation failed."), NULL);
+				error_handler(game, "Line allocation failed.", NULL), NULL);
 	}
 	return (map);
 }
