@@ -137,8 +137,9 @@ int	valid_map(char *str, t_data *game)
 	if (!file)
 		return (error_handler(game, "map file could not be read.", NULL), 1);
 	game->file = file;
-	if (extention(str) == 2)
-		return (error_handler(game, "not a valid extension.", file), 1);
+	if (extention(str))
+		return (free_matrix(file),
+			error_handler(game, "not a valid extension."), 1);
 	start_y = init_texture_color_names(game);
 	if (!start_y)
 		return (error_handler(game, "missing texture or color.", file), 1);
