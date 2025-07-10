@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:34:34 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/17 13:31:22 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:36:38 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * then exits the program.
  * @param data Pointer to the main game data structure.
  * @param msg Optional error message to print to standard error.*/
-void	error_handler(t_data *data, char *msg)
+void	error_handler(t_data *data, char *msg, char **file)
 {
 	if (msg)
 	{
@@ -26,6 +26,8 @@ void	error_handler(t_data *data, char *msg)
 		write(STDERR_FILENO, msg, ft_strlen(msg));
 		write(STDERR_FILENO, "\n", 1);
 	}
+	if (file)
+		free_matrix(file);
 	if (data->map_array)
 		free_matrix(data->map_array);
 	free_textures(&data->textures, data->init);

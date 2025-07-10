@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:51:37 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:40:05 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:41:07 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,15 @@ void	is_valid_colors(t_data *data, char **file)
 
 	i = -1;
 	if (!data->colors.ceiling || !data->colors.floor)
-	{
-		free_matrix(file);
-		error_handler(data, "Missing color");
-	}
+		error_handler(data, "Missing color", file);
 	if (!has_three_numbers(data->colors.ceiling)
 		|| !has_three_numbers(data->colors.floor))
-	{
-		free_matrix(file);
-		error_handler(data, "Invalid color format");
-	}
+		error_handler(data, "Invalid color format", file);
 	save_rgb(data);
 	while (++i < 3)
 	{
 		if (data->colors.f_rgb[i] > 255 || data->colors.c_rgb[i] > 255)
-		{
-			free_matrix(file);
-			error_handler(data, "Color component > 255");
-		}
+			error_handler(data, "Color component > 255", file);
 	}
 	data->colors.f_hex = rgb_to_hex(data->colors.f_rgb);
 	data->colors.c_hex = rgb_to_hex(data->colors.c_rgb);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:10:21 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/06/18 16:46:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:44:40 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,11 @@ int	first_map_check(t_data *game, char **file, int start_y)
 	int	max_len;
 
 	if (!validate_map_continuity(file, start_y))
-		return (free_matrix(file),
-			error_handler(game, "Map has empty lines."), 1);
+		return (error_handler(game, "Map has empty lines.", file), 1);
 	map_height = map_size_valid_char(file, start_y);
 	if (map_height <= 0)
-		return (free_matrix(file),
-			error_handler(game, "Invalid character or empty map."), 1);
+		return (error_handler(game, "Invalid character or empty map.", file)
+			, 1);
 	game->height = map_height;
 	max_len = find_biggest_line(&file[start_y]);
 	game->width = max_len;
